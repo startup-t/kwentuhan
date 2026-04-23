@@ -1,0 +1,20 @@
+{
+  "name": "Kwentuhan",
+  "short_name": "Kwentuhan",
+  "description": "usapang totoo, kasama mo. Card-based social conversation app.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F7FA",
+  "theme_color": "#F7F7FA",
+  "orientation": "portrait",
+  "categories": ["social", "entertainment"],
+  "lang": "en-PH",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Group Mode", "url": "/?mode=group", "description": "Start a group conversation" },
+    { "name": "Solo Mode",  "url": "/?mode=solo",  "description": "Start a solo reflection" }
+  ]
+}
