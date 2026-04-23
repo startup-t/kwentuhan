@@ -1,0 +1,129 @@
+{
+  "barkada": {
+    "label": "Barkada",
+    "emoji": "👯",
+    "mode": "group",
+    "cluster": "social",
+    "tagline": "Lahat sumasagot."
+  },
+  "besties": {
+    "label": "Besties",
+    "emoji": "🫂",
+    "mode": "group",
+    "cluster": "social",
+    "tagline": "For your ride-or-dies."
+  },
+  "family": {
+    "label": "Pamilya",
+    "emoji": "🏠",
+    "mode": "group",
+    "cluster": "social",
+    "tagline": "Pati mga lolo t lola."
+  },
+  "loveLab": {
+    "label": "Couple",
+    "emoji": "💑",
+    "mode": "group",
+    "cluster": "love",
+    "tagline": "Para sa inyong dalawa."
+  },
+  "dating": {
+    "label": "Dating",
+    "emoji": "💌",
+    "mode": "group",
+    "cluster": "love",
+    "tagline": "Talking stage questions."
+  },
+  "work": {
+    "label": "Trabaho",
+    "emoji": "💼",
+    "mode": "group",
+    "cluster": "grind",
+    "tagline": "Office truths only."
+  },
+  "businessOwners": {
+    "label": "Negosyo",
+    "emoji": "🧾",
+    "mode": "group",
+    "cluster": "grind",
+    "tagline": "Totoong negosyo talk."
+  },
+  "startup": {
+    "label": "Startup",
+    "emoji": "🚀",
+    "mode": "group",
+    "cluster": "grind",
+    "tagline": "Founder-level honesty."
+  },
+  "party": {
+    "label": "Party",
+    "emoji": "🎉",
+    "mode": "group",
+    "cluster": "wildcard",
+    "tagline": "18+ na walang filter.",
+    "ageGated": true
+  },
+  "selfCheck": {
+    "label": "Self Check",
+    "emoji": "🪞",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "Pag-usapan ang sarili mo."
+  },
+  "reflect": {
+    "label": "Reflect",
+    "emoji": "🔮",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "Look back at who you have been."
+  },
+  "goals": {
+    "label": "Goals",
+    "emoji": "🎯",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "What you are working toward."
+  },
+  "emotions": {
+    "label": "Emotions",
+    "emoji": "💭",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "How you actually feel."
+  },
+  "memories": {
+    "label": "Memories",
+    "emoji": "📷",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "Moments that shaped you."
+  },
+  "values": {
+    "label": "Values",
+    "emoji": "🌿",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "What matters most to you."
+  },
+  "growth": {
+    "label": "Growth",
+    "emoji": "🌱",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "How you have changed."
+  },
+  "habits": {
+    "label": "Habits",
+    "emoji": "🔄",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "What you do without thinking."
+  },
+  "thoughts": {
+    "label": "Thoughts",
+    "emoji": "🧠",
+    "mode": "solo",
+    "cluster": "solo",
+    "tagline": "What is living in your head."
+  }
+}

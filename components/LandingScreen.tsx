@@ -1,0 +1,224 @@
+"use client";
+
+import Image from "next/image";
+import { useMemo, useState } from "react";
+import type { Mode } from "@/lib/types";
+import { GROUP_CATEGORIES, SOLO_CATEGORIES, CLUSTER_COLOR } from "@/lib/types";
+import categoriesData from "@/data/categories.json";
+import { getQuestionCount } from "@/lib/questions";
+import CategoryChips from "./CategoryChips";
+import PlayModeToggle from "./PlayModeToggle";
+import PrimaryButton from "./PrimaryButton";
+
+interface Props {
+  onModeChosen: (mode: Mode, category?: string | null) => void;
+}
+
+type CatData = Record<string, { label: string; emoji: string; cluster: string }>;
+const cats = categoriesData as CatData;
+
+const ACCENT = "#6C52E3";
+const colorFor = (key: string): string =>
+  key === "random" ? ACCENT : CLUSTER_COLOR[cats[key]?.cluster]?.accent ?? ACCENT;
+
+type Topic = { key: string; emoji: string; label: string; color: string };
+
+const GROUP_TOPICS: Topic[] = [
+  { key: "random", emoji: "🎲", label: "Random", color: ACCENT },
+  ...GROUP_CATEGORIES.map(k => ({
+    key: k,
+    emoji: cats[k]?.emoji ?? "💬",
+    label: cats[k]?.label ?? k,
+    color: colorFor(k),
+  })),
+];
+
+const SOLO_TOPICS: Topic[] = [
+  { key: "random", emoji: "🎲", label: "Random", color: ACCENT },
+  ...SOLO_CATEGORIES.map(k => ({
+    key: k,
+    emoji: cats[k]?.emoji ?? "💭",
+    label: cats[k]?.label ?? k,
+    color: colorFor(k),
+  })),
+];
+
+export default function LandingScreen({ onModeChosen }: Props) {
+  const [mode,  setMode]  = useState<Mode>("group");
+  const [topic, setTopic] = useState<string>("random");
+
+  const topics = mode === "group" ? GROUP_TOPICS : SOLO_TOPICS;
+
+  const questionCount = useMemo(
+    () => getQuestionCount(mode, topic === "random" ? null : topic),
+    [mode, topic],
+  );
+
+  function switchMode(m: Mode) {
+    setMode(m);
+    setTopic("random");
+  }
+
+  function handleCTA() {
+    onModeChosen(mode, topic === "random" ? null : topic);
+  }
+
+  const topicLabel = mode === "group" ? "Category" : "Solo Topic";
+  const modeInfo =
+    mode === "group"
+      ? { title: "Group Mode", desc: "Pass the phone. Everyone answers.", icon: "👥" }
+      : { title: "Solo Mode",  desc: "Para sa sariling reflection + sharing.", icon: "👤" };
+
+  const selectedTopicLabel =
+    topic === "random" ? "Random" : cats[topic]?.label ?? topic;
+  const ctaLabel =
+    topic === "random" ? "Start Random" : `Start ${selectedTopicLabel}`;
+
+  return (
+    <div className="kw-bg flex flex-col min-h-dvh safe-top safe-bottom">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 md:px-6 lg:px-8">
+        {/* ── Logo (centered) ── */}
+        <div className="mt-[72px] flex flex-col items-center animate-slide-up md:mt-24">
+          <Image
+            src="/logo.png"
+            alt="Kwentuhan Logo"
+            width={96}
+            height={96}
+            priority
+            className="h-auto w-auto md:h-28 md:w-28"
+          />
+
+          <h1
+            className="mt-5 text-4xl lg:text-5xl"
+            style={{
+              fontFamily: "'Playfair Display',Georgia,serif",
+              fontWeight: 900,
+              color: "#1A1730",
+              lineHeight: 1,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            kwentuhan
+          </h1>
+          <p
+            className="mt-1.5 text-[15px] lg:text-[17px]"
+            style={{
+              fontFamily: "'DM Sans',sans-serif",
+              color: "#9B97BB",
+            }}
+          >
+            usapang totoo, kasama mo.
+          </p>
+        </div>
+
+        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start lg:gap-10">
+          {/* ── Left sidebar (desktop) ── */}
+          <aside className="animate-slide-up lg:sticky lg:top-10 lg:flex lg:w-80 lg:flex-col lg:gap-6" style={{ animationDelay: "0.07s" }}>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "#9B97BB",
+                  marginBottom: 10,
+                }}
+              >
+                Play Mode
+              </p>
+              <PlayModeToggle mode={mode} onChange={switchMode} />
+            </div>
+
+            <div className="mt-1 lg:mt-0">
+              <p
+                className="pl-4 lg:pl-0"
+                style={{
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "#9B97BB",
+                  marginBottom: 10,
+                }}
+              >
+                {topicLabel}
+              </p>
+              <CategoryChips topics={topics} selected={topic} onSelect={setTopic} />
+            </div>
+          </aside>
+
+          {/* ── Main focus area ── */}
+          <main className="animate-slide-up" style={{ animationDelay: "0.12s" }}>
+            <div className="mx-auto flex w-full flex-col gap-3 md:gap-4 lg:max-w-2xl lg:gap-5">
+              <div
+                className="flex items-center justify-center gap-1.5 text-[13px] text-[#B0ABC8] md:text-sm lg:justify-center"
+                style={{ animationDelay: "0.14s" }}
+              >
+                <span style={{ fontSize: 14 }}>📋</span>
+                <span>{questionCount} questions in deck</span>
+              </div>
+
+              <div
+                className="flex items-center gap-3 rounded-[18px] border border-[rgba(200,195,230,0.6)] bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 md:gap-4 md:p-5 lg:p-6 lg:hover:scale-[1.01] lg:hover:shadow-lg"
+                style={{ animationDelay: "0.16s" }}
+              >
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full md:h-14 md:w-14"
+                  style={{
+                    background: "rgba(108,92,231,0.12)",
+                    fontSize: 22,
+                  }}
+                >
+                  {modeInfo.icon}
+                </div>
+                <div style={{ minWidth: 0 }}>
+                  <p className="text-[15px] font-bold leading-[1.2] text-[#1A1730] md:text-base">
+                    {modeInfo.title}
+                  </p>
+                  <p className="mt-1 text-[13px] leading-[1.4] text-[#8B87A8] md:text-sm">
+                    {modeInfo.desc}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mb-8 pt-1 md:pb-4 lg:mb-0 lg:pt-2" style={{ animationDelay: "0.2s" }}>
+                <PrimaryButton
+                  onClick={handleCTA}
+                  icon={<ShuffleIcon />}
+                  ariaLabel={ctaLabel}
+                  className="mx-auto lg:w-auto lg:min-w-[400px]"
+                >
+                  {ctaLabel}
+                </PrimaryButton>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShuffleIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path
+        d="M2.5 5.5h2.75c1.4 0 2.6 1 3.4 2.3"
+        stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+      />
+      <path
+        d="M11.35 12.2c.8 1.3 2 2.3 3.4 2.3h2.75"
+        stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+      />
+      <path
+        d="M2.5 14.5h2.75c2 0 3.5-2 5-4.5s3-4.5 5-4.5h2.25"
+        stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+      />
+      <path
+        d="M15.5 3.5l2 2-2 2M15.5 12.5l2 2-2 2"
+        stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
