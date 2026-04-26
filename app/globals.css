@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Kalam:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -30,6 +30,8 @@
   --kw-chill-text:  #5B3FD0;
   --kw-success:     #10B981;
   --kw-warn:        #F59E0B;
+  --kw-chat-peach:  #FFEFE6;
+  --kw-note-ink:    #2A1810;
   --kw-r-card:      1.5rem;
   --kw-r-btn:       1.25rem;
 }
