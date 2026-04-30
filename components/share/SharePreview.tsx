@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Question } from "@/lib/types";
 import type { AnswerStyle } from "@/lib/shareAnswer/types";
 import { buildQuestionShareUrl } from "@/lib/qr";
-import { buildAnswerRevealUrl } from "@/lib/shareAnswer/reveal";
+import { createAnswerRevealUrl } from "@/lib/shareAnswer/reveal";
 import { downloadCardFromNode } from "@/lib/shareCard";
 import StoryCard from "./StoryCard";
 import StyleChips from "./StyleChips";
@@ -36,18 +36,38 @@ export default function SharePreview({
   const [toastVisible, setToastVisible] = useState(false);
   const [toastInfo, setToastInfo]       = useState(() => suggestionForLength(answer.length));
   const [saveHint, setSaveHint]         = useState<null | "success" | "error" | "saving">(null);
+  const [teaserUrl, setTeaserUrl]       = useState("");
 
   // QR target swaps based on teaser mode.
   const qrUrl = useMemo(() => (
     teaser
-      ? buildAnswerRevealUrl(question.id, answer)
+      ? teaserUrl
       // TODO: replace with the proper "next question" landing URL once that ticket lands.
       : buildQuestionShareUrl(question.id)
-  ), [teaser, question.id, answer]);
+  ), [teaser, teaserUrl, question.id]);
 
   const qrCacheKey = useMemo(() => (
     `${teaser ? "reveal" : "play"}-${question.id}`
   ), [teaser, question.id]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (!teaser || answer.trim().length === 0) {
+      setTeaserUrl("");
+      return () => { mounted = false; };
+    }
+
+    createAnswerRevealUrl(question.id, question.hook, answer)
+      .then((url) => {
+        if (mounted) setTeaserUrl(url);
+      })
+      .catch(() => {
+        if (mounted) setTeaserUrl("");
+      });
+
+    return () => { mounted = false; };
+  }, [teaser, question.id, question.hook, answer]);
 
   // First entry into preview → consider the smart-default toast (one-shot per session).
   useEffect(() => {
@@ -184,6 +204,11 @@ export default function SharePreview({
 
       {/* Save + secondary share */}
       <div className="px-6 pb-6 flex flex-col gap-3">
+        {teaser && teaserUrl && (
+          <div className="rounded-xl border px-3 py-2 text-[0.75rem]" style={{ borderColor: "var(--kw-border)", color: "var(--kw-subtext)" }}>
+            Reveal link: <a href={teaserUrl} className="underline break-all">{teaserUrl}</a>
+          </div>
+        )}
         <button
           onClick={handleSave}
           disabled={isEmpty || saveHint === "saving"}

@@ -1,29 +1,33 @@
 const DEFAULT_APP_URL = "https://kwentuhan.com";
 
-function originUrl(): string {
-  if (typeof window !== "undefined" && window.location?.origin) {
+function getPublicBaseUrl(): string {
+  const envBase = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+  if (envBase && !envBase.includes("localhost")) {
+    return envBase.replace(/\/$/, "");
+  }
+
+  if (typeof window !== "undefined" && window.location?.origin && !window.location.origin.includes("localhost")) {
     return window.location.origin;
   }
+
   return DEFAULT_APP_URL;
 }
 
-/**
- * Build the teaser-reveal URL. Encodes the {questionId, answer} payload directly
- * into a base64url path segment so the reveal page is self-contained — no backend
- * write required. Reveal page (separate ticket) decodes and renders.
- */
-export function buildAnswerRevealUrl(questionId: number, answer: string): string {
-  const payload = JSON.stringify({ q: questionId, a: answer });
-  const code    = base64UrlEncode(payload);
-  return `${originUrl()}/c/${code}`;
-}
+export async function createAnswerRevealUrl(questionId: number, question: string, answer: string): Promise<string> {
+  const res = await fetch("/api/teaser", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ questionId, question, answer }),
+  });
 
-function base64UrlEncode(s: string): string {
-  const bytes = new TextEncoder().encode(s);
-  let bin = "";
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-  return btoa(bin)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  if (!res.ok) {
+    throw new Error("Failed to create teaser share");
+  }
+
+  const data = (await res.json()) as { shareId?: string };
+  if (!data.shareId) {
+    throw new Error("Missing shareId");
+  }
+
+  return `${getPublicBaseUrl()}/reveal/${data.shareId}`;
 }
