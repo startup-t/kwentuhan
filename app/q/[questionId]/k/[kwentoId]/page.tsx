@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPersistedKwento } from "@/lib/kwento/postgresStore";
 import { getQuestionById } from "@/lib/questions";
@@ -13,18 +12,28 @@ type Props = {
   params: Promise<{ questionId: string; kwentoId: string }>;
 };
 
+// Isolated helper — never throws, always returns null on any DB error.
+async function safeGetKwento(kwentoId: string) {
+  try {
+    return await getPersistedKwento(kwentoId);
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kwentoId } = await params;
-  const kwento = await getPersistedKwento(kwentoId);
-  const preview = kwento?.isTeaser
+  // Must not throw — metadata errors produce a 500 that bypasses error.tsx.
+  const kwento = await safeGetKwento(kwentoId);
+  const description = kwento?.isTeaser
     ? "Someone shared a kwento — tap to reveal."
-    : kwento?.answerText?.slice(0, 80) ?? "Someone shared a kwento.";
+    : kwento?.answerText?.slice(0, 80) ?? "Someone shared a kwento on Kwentuhan.";
   return {
-    title: `Kwento Reveal — Kwentuhan`,
-    description: preview,
+    title: "Kwento Reveal — Kwentuhan",
+    description,
     openGraph: {
       title: "Someone shared their kwento on Kwentuhan",
-      description: preview,
+      description,
       siteName: "Kwentuhan",
     },
   };
@@ -33,20 +42,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ScanToRevealPage({ params }: Props) {
   const { questionId, kwentoId } = await params;
 
-  const [kwento, question] = await Promise.all([
-    getPersistedKwento(kwentoId),
-    Promise.resolve(getQuestionById(Number(questionId))),
-  ]);
+  // Both fetches are safe — DB errors show the question + form, never a crash.
+  const kwento = await safeGetKwento(kwentoId);
+  const question = getQuestionById(Number(questionId));
 
-  if (!kwento) notFound();
-
-  // Prefer the question from the bundled JSON; fall back to stored questionText.
-  const questionText = question?.hook ?? kwento.questionText;
+  const questionText = question?.hook ?? kwento?.questionText ?? "A question worth answering";
   const level = question ? LEVEL_CONFIG[question.level] : LEVEL_CONFIG.light;
   const deepLink = `kwentuhan://q/${questionId}/k/${kwentoId}`;
 
   return (
     <main className="min-h-dvh flex flex-col items-center px-5 py-8 max-w-md mx-auto w-full">
+
       {/* Header */}
       <div className="w-full flex items-center justify-between mb-8">
         <span
@@ -86,12 +92,33 @@ export default async function ScanToRevealPage({ params }: Props) {
         </p>
       </div>
 
-      {/* Reveal card */}
+      {/* Kwento reveal — or graceful fallback when not in DB */}
       <div className="w-full mb-6">
-        <RevealAnswer answerText={kwento.answerText} isTeaser={kwento.isTeaser} />
+        {kwento ? (
+          <RevealAnswer answerText={kwento.answerText} isTeaser={kwento.isTeaser} />
+        ) : (
+          <div
+            className="w-full rounded-[var(--kw-r-card)] p-6 border text-center"
+            style={{
+              background: "var(--kw-surface-alt)",
+              borderColor: "var(--kw-border-solid)",
+            }}
+          >
+            <p className="text-2xl mb-2">🔒</p>
+            <p
+              className="text-sm font-semibold mb-1"
+              style={{ color: "var(--kw-text)" }}
+            >
+              This kwento was shared from the app
+            </p>
+            <p className="text-xs" style={{ color: "var(--kw-subtext)" }}>
+              Open in the Kwentuhan app to see it, or share your own answer below.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Open in app CTA */}
+      {/* Open in app */}
       <div className="w-full mb-3">
         <DeepLinkBridge deepLink={deepLink} />
       </div>
@@ -105,18 +132,18 @@ export default async function ScanToRevealPage({ params }: Props) {
         <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
       </div>
 
-      {/* Kwento form */}
+      {/* Form — always shown so the viral loop always works */}
       <div className="w-full">
-        <KwentoForm questionId={String(kwento.questionId)} questionText={questionText} />
+        <KwentoForm
+          questionId={kwento?.questionId ?? questionId}
+          questionText={questionText}
+        />
       </div>
 
-      {/* Footer */}
-      <p
-        className="mt-10 text-xs text-center"
-        style={{ color: "var(--kw-muted)" }}
-      >
+      <p className="mt-10 text-xs text-center" style={{ color: "var(--kw-muted)" }}>
         Scan QR · share your story · spark a real conversation
       </p>
+
     </main>
   );
 }
