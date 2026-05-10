@@ -28,7 +28,7 @@ export default function RevealPage() {
     if (typeof window !== "undefined" && !window.location.origin.includes("localhost")) {
       return window.location.origin;
     }
-    return "https://kwentuhan.com";
+    return "https://kwentuhan.cards";
   }, []);
 
   const shareUrl = useMemo(() => {

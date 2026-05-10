@@ -8,13 +8,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const questionId = typeof body?.questionId === "string" ? body.questionId.trim() : "";
+    // Accept questionId as string or number (RN sends it as a number).
+    const questionId = String(body?.questionId ?? "").trim();
     const questionText =
       typeof body?.questionText === "string" && body.questionText.trim().length > 0
         ? body.questionText.trim()
         : questionId;
     const answerText = typeof body?.answerText === "string" ? body.answerText.trim() : "";
-    const isTeaser = body?.isTeaser !== false;
+    // Accept both `isTeaser` (web) and `teaser` (RN app field name).
+    const isTeaser = (body?.isTeaser ?? body?.teaser) !== false;
 
     if (!questionId || !answerText) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });

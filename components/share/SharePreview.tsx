@@ -15,7 +15,7 @@ const PREVIEW_W = 270;
 const SCALE     = PREVIEW_W / 1080;
 const PREVIEW_H = 1920 * SCALE;
 
-const SITE_URL = "https://kwentuhan.com";
+const SITE_URL = "https://kwentuhan.cards";
 
 interface Props {
   question:        Question;

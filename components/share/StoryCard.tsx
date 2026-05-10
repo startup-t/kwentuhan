@@ -234,7 +234,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
           fontWeight: 600,
           color:    "var(--kw-subtext)",
         }}>
-          Read on kwentuhan.com
+          Read on kwentuhan.cards
         </div>
       )}
 
@@ -283,7 +283,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         fontWeight: 500,
         color:    "rgba(139,135,168,0.65)",
       }}>
-        kwentuhan.com
+        kwentuhan.cards
       </div>
     </div>
   );
