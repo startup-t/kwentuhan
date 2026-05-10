@@ -21,11 +21,13 @@ interface Props {
   teaser:          boolean;
   qrUrl:           string;
   qrCacheKey:      string;
+  /** When true and qrUrl is empty, shows a "Saving link…" indicator in the QR placeholder. */
+  teaserLoading?:  boolean;
   onEditAnswer?:   () => void;
 }
 
 const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
-  { question, answer, style, teaser, qrUrl, qrCacheKey, onEditAnswer },
+  { question, answer, style, teaser, qrUrl, qrCacheKey, teaserLoading, onEditAnswer },
   forwardedRef,
 ) {
   const level = LEVEL_CONFIG[question.level] ?? LEVEL_CONFIG.light;
@@ -34,6 +36,12 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
 
   useEffect(() => {
+    // Do not attempt QR generation with an empty URL — the QR library will
+    // throw and the card will show a permanent gray box.
+    if (!qrUrl) {
+      setQrDataUrl("");
+      return;
+    }
     let mounted = true;
     getCachedQRCodeDataUrl(qrCacheKey, qrUrl, 420)
       .then((url) => { if (mounted) setQrDataUrl(url); })
@@ -53,7 +61,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         height:   CARD_H,
         background: "linear-gradient(160deg,#F8F6FF 0%,#FFF4F7 100%)",
         overflow: "hidden",
-        fontFamily: "'DM Sans', system-ui, sans-serif",
+        fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
       }}
     >
       {/* Background blobs */}
@@ -93,7 +101,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         <Image src="/logo.png" alt="" width={72} height={72} unoptimized />
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
+            fontFamily: "var(--font-playfair), Georgia, serif",
             fontWeight: 700,
             fontSize:   44,
             color:      "var(--kw-text)",
@@ -167,7 +175,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         }}
       >
         <p style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
+          fontFamily: "var(--font-playfair), Georgia, serif",
           fontWeight: 700,
           fontSize:   58,
           lineHeight: 1.25,
@@ -261,7 +269,22 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
             style={{ display: "block", borderRadius: 8 }}
           />
         ) : (
-          <div style={{ width: 220, height: 220, background: "#F0EFF6", borderRadius: 8 }} />
+          /* qrUrl empty = teaser link still being saved to server;
+             qrUrl set but no dataUrl = QR render in progress */
+          <div style={{
+            width: 220, height: 220,
+            background: "#F0EFF6", borderRadius: 8,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            {teaserLoading && !qrUrl && (
+              <span style={{
+                fontSize: 18, color: "#B0ABC8", textAlign: "center",
+                padding: "0 16px", lineHeight: 1.4,
+              }}>
+                Saving link…
+              </span>
+            )}
+          </div>
         )}
         <p style={{
           marginTop: 10,

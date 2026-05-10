@@ -37,6 +37,8 @@ export default function SharePreview({
   const [toastInfo, setToastInfo]       = useState(() => suggestionForLength(answer.length));
   const [saveHint, setSaveHint]         = useState<null | "success" | "error" | "saving">(null);
   const [teaserUrl, setTeaserUrl]       = useState("");
+  const [teaserLoading, setTeaserLoading] = useState(false);
+  const [teaserError, setTeaserError]   = useState(false);
 
   // QR target swaps based on teaser mode.
   const qrUrl = useMemo(() => (
@@ -55,15 +57,26 @@ export default function SharePreview({
 
     if (!teaser || answer.trim().length === 0) {
       setTeaserUrl("");
+      setTeaserLoading(false);
+      setTeaserError(false);
       return () => { mounted = false; };
     }
 
+    setTeaserLoading(true);
+    setTeaserError(false);
+    setTeaserUrl("");
+
     createAnswerRevealUrl(question.id, question.hook, answer)
       .then((url) => {
-        if (mounted) setTeaserUrl(url);
+        if (!mounted) return;
+        setTeaserUrl(url);
+        setTeaserLoading(false);
       })
       .catch(() => {
-        if (mounted) setTeaserUrl("");
+        if (!mounted) return;
+        setTeaserUrl("");
+        setTeaserLoading(false);
+        setTeaserError(true);
       });
 
     return () => { mounted = false; };
@@ -123,7 +136,11 @@ export default function SharePreview({
     } catch { /* ignore */ }
   }, [question.hook]);
 
-  const isEmpty = answer.trim().length === 0;
+  const isEmpty       = answer.trim().length === 0;
+  // Block Save while teaser link is still being minted — no point capturing a card
+  // with a gray QR placeholder.
+  const saveLocked    = teaser && (teaserLoading || (!teaserUrl && !teaserError));
+  const saveDisabled  = isEmpty || saveHint === "saving" || saveLocked;
 
   return (
     <>
@@ -183,6 +200,7 @@ export default function SharePreview({
               teaser={teaser}
               qrUrl={qrUrl}
               qrCacheKey={qrCacheKey}
+              teaserLoading={teaserLoading}
               onEditAnswer={onEditAnswer}
             />
           </div>
@@ -204,26 +222,79 @@ export default function SharePreview({
 
       {/* Save + secondary share */}
       <div className="px-6 pb-6 flex flex-col gap-3">
+        {/* Teaser link — once minted */}
         {teaser && teaserUrl && (
           <div className="rounded-xl border px-3 py-2 text-[0.75rem]" style={{ borderColor: "var(--kw-border)", color: "var(--kw-subtext)" }}>
             Reveal link: <a href={teaserUrl} className="underline break-all">{teaserUrl}</a>
           </div>
         )}
+
+        {/* Teaser loading indicator */}
+        {teaser && teaserLoading && !teaserUrl && (
+          <div
+            className="rounded-xl border px-3 py-2 flex items-center gap-2 text-[0.75rem]"
+            style={{ borderColor: "var(--kw-border)", color: "var(--kw-subtext)" }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                width: 12, height: 12,
+                borderRadius: "50%",
+                border: "2px solid var(--kw-accent)",
+                borderTopColor: "transparent",
+                animation: "spin 0.7s linear infinite",
+                flexShrink: 0,
+              }}
+            />
+            Generating reveal link…
+          </div>
+        )}
+
+        {/* Teaser error + retry */}
+        {teaser && teaserError && !teaserUrl && (
+          <div
+            className="rounded-xl border px-3 py-2 flex items-center justify-between gap-2 text-[0.75rem]"
+            style={{ borderColor: "rgba(232,82,122,0.35)", backgroundColor: "#FFECE8", color: "#b5294e" }}
+          >
+            <span>Couldn&#39;t generate reveal link.</span>
+            <button
+              onClick={() => {
+                setTeaserError(false);
+                setTeaserLoading(true);
+                setTeaserUrl("");
+                createAnswerRevealUrl(question.id, question.hook, answer)
+                  .then((url) => { setTeaserUrl(url); setTeaserLoading(false); })
+                  .catch(() => { setTeaserLoading(false); setTeaserError(true); });
+              }}
+              className="font-semibold underline shrink-0"
+              style={{ color: "#b5294e" }}
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         <button
           onClick={handleSave}
-          disabled={isEmpty || saveHint === "saving"}
+          disabled={saveDisabled}
           className="btn-primary w-full py-[1.0625rem] text-[0.9375rem] flex items-center justify-center gap-2"
           style={{
-            opacity: isEmpty ? 0.55 : 1,
-            cursor:  isEmpty ? "not-allowed" : "pointer",
+            opacity: saveDisabled ? 0.55 : 1,
+            cursor:  saveDisabled ? "not-allowed" : "pointer",
           }}
-          aria-label={isEmpty ? "Add your answer first" : "Save card"}
+          aria-label={
+            isEmpty       ? "Add your answer first"
+            : saveLocked  ? "Generating reveal link…"
+            : "Save card"
+          }
         >
           {saveHint === "saving"
             ? "Saving…"
             : isEmpty
               ? "Add your answer first"
-              : "Save"}
+              : saveLocked
+                ? "Generating link…"
+                : "Save"}
         </button>
 
         <p
