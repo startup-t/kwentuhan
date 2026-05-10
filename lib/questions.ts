@@ -49,6 +49,10 @@ export function getQuestionCount(mode: Mode, category: string | null): number {
   return getQuestions(mode, category).length;
 }
 
+export function getQuestionById(id: number): Question | undefined {
+  return ALL.find(q => q.id === id);
+}
+
 export function getCategoryMeta(category: string) {
   const q = ALL.find(q => q.category === category);
   if (!q) return null;

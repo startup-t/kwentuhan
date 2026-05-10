@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { saveKwentoShare } from "@/lib/shareAnswer/shareStore";
+import { createPersistedKwento } from "@/lib/kwento/postgresStore";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
@@ -19,14 +20,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    const record = saveKwentoShare({
+    const record = await createPersistedKwento({
       questionId,
       questionText,
       answerText,
       isTeaser,
     });
 
-    const revealUrl = `https://kwentuhan.cards/q/${record.questionId}/k/${record.kwentoId}`;
+    const { origin } = new URL(req.url);
+    const revealUrl = `${origin}/q/${record.questionId}/k/${record.kwentoId}`;
 
     return NextResponse.json({
       kwentoId: record.kwentoId,
@@ -35,7 +37,10 @@ export async function POST(req: Request) {
       isTeaser: record.isTeaser,
       revealUrl,
     });
-  } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+    return NextResponse.json({ error: "Failed to save kwento" }, { status: 500 });
   }
 }
