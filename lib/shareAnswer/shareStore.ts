@@ -22,6 +22,13 @@ export type TeaserShareRecord = {
   createdAt: string;
 };
 
+export type CreateKwentoPayload = {
+  questionId: string;
+  questionText: string;
+  answerText: string;
+  isTeaser: boolean;
+};
+
 type Store = Map<string, TeaserShareRecord>;
 
 const globalForStore = globalThis as typeof globalThis & {
@@ -65,8 +72,16 @@ export function createTeaserShare(answers: TeaserAnswerPayload): TeaserShareReco
   return record;
 }
 
-export function createKwentoShareFromReveal(payload: CreateKwentoFromRevealPayload): TeaserShareRecord {
-  const kwentoId = `k_${randomUUID().replace(/-/g, "").slice(0, 8)}`;
+function generateRevealKwentoId(): string {
+  // Keep retrying if a collision happens so we never overwrite an existing kwento.
+  while (true) {
+    const kwentoId = `k_${randomUUID().replace(/-/g, "").slice(0, 8)}`;
+    if (!teaserStore.has(kwentoId)) return kwentoId;
+  }
+}
+
+export function saveKwentoShare(payload: CreateKwentoPayload): TeaserShareRecord {
+  const kwentoId = generateRevealKwentoId();
   const record = createRecord({
     kwentoId,
     questionId: payload.questionId,
@@ -79,6 +94,14 @@ export function createKwentoShareFromReveal(payload: CreateKwentoFromRevealPaylo
   return record;
 }
 
-export function getTeaserShare(kwentoId: string): TeaserShareRecord | null {
+export function createKwentoShareFromReveal(payload: CreateKwentoFromRevealPayload): TeaserShareRecord {
+  return saveKwentoShare(payload);
+}
+
+export function getKwentoShare(kwentoId: string): TeaserShareRecord | null {
   return teaserStore.get(kwentoId) ?? null;
+}
+
+export function getTeaserShare(kwentoId: string): TeaserShareRecord | null {
+  return getKwentoShare(kwentoId);
 }

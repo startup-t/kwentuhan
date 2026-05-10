@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { getTeaserShare } from "@/lib/shareAnswer/shareStore";
+import { getKwentoShare } from "@/lib/shareAnswer/shareStore";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(_: Request, { params }: { params: Promise<{ kwentoId: string }> }) {
   const { kwentoId } = await params;
@@ -8,7 +10,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ kwentoId: 
     return NextResponse.json({ error: "Invalid kwento ID" }, { status: 404 });
   }
 
-  const kwento = getTeaserShare(kwentoId);
+  const kwento = getKwentoShare(kwentoId);
 
   if (!kwento) {
     return NextResponse.json({ error: "Kwento not found" }, { status: 404 });
@@ -19,6 +21,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ kwentoId: 
   }
 
   return NextResponse.json({
+    kwentoId: kwento.kwentoId,
     questionId: kwento.questionId,
     questionText: kwento.questionText,
     answerText: kwento.answerText,
