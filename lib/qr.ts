@@ -8,10 +8,9 @@ export function buildQuestionShareUrl(questionId: number): string {
     typeof window !== "undefined" && window.location?.origin
       ? window.location.origin
       : DEFAULT_APP_URL;
-  const url = new URL("/", baseUrl);
-  url.searchParams.set("qid", String(questionId));
-  url.searchParams.set("source", "qr");
-  return url.toString();
+  // /q/{id} matches the Expo Router route and the web page route.
+  // The old /?qid=... format is retired.
+  return `${baseUrl.replace(/\/$/, "")}/q/${questionId}`;
 }
 
 export async function getCachedQRCodeDataUrl(
