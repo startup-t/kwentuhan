@@ -21,14 +21,14 @@ export default function CategoryChips({ topics, selected, onSelect }: Props) {
       {/* Edge fade (right) — hints that there's more to scroll */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 lg:hidden"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8"
         style={{
           background:
             "linear-gradient(to left, var(--kw-bg) 0%, rgba(238,234,246,0) 100%)",
         }}
       />
       <div
-        className="no-scrollbar flex gap-2.5 overflow-x-auto px-4 pb-1 md:gap-3 md:px-0 lg:flex-wrap lg:justify-start lg:gap-3 lg:overflow-visible"
+        className="no-scrollbar flex gap-2.5 overflow-x-auto px-4 pb-1 md:gap-3 md:px-0 lg:gap-2 lg:pb-2"
         style={{
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",

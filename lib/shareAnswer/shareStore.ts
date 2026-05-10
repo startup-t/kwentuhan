@@ -7,9 +7,11 @@ export type TeaserAnswerPayload = {
 };
 
 export type TeaserShareRecord = {
-  shareId: string;
-  answers: TeaserAnswerPayload;
-  mode: "teaser";
+  kwentoId: string;
+  questionId: string;
+  questionText: string;
+  answerText: string;
+  isTeaser: boolean;
   createdAt: string;
 };
 
@@ -25,17 +27,20 @@ if (!globalForStore.__kwentuhanTeaserStore__) {
 }
 
 export function createTeaserShare(answers: TeaserAnswerPayload): TeaserShareRecord {
-  const shareId = randomUUID();
+  const kwentoId = randomUUID();
+  const questionId = String(answers.questionId);
   const record: TeaserShareRecord = {
-    shareId,
-    answers,
-    mode: "teaser",
+    kwentoId,
+    questionId,
+    questionText: answers.question,
+    answerText: answers.answer,
+    isTeaser: true,
     createdAt: new Date().toISOString(),
   };
-  teaserStore.set(shareId, record);
+  teaserStore.set(kwentoId, record);
   return record;
 }
 
-export function getTeaserShare(shareId: string): TeaserShareRecord | null {
-  return teaserStore.get(shareId) ?? null;
+export function getTeaserShare(kwentoId: string): TeaserShareRecord | null {
+  return teaserStore.get(kwentoId) ?? null;
 }

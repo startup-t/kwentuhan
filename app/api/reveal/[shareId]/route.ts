@@ -22,5 +22,12 @@ export async function GET(_: Request, { params }: { params: Promise<{ shareId: s
     );
   }
 
-  return NextResponse.json({ answers: record.answers, mode: "teaser" });
+  return NextResponse.json({
+    answers: {
+      questionId: Number(record.questionId),
+      question: record.questionText,
+      answer: record.answerText,
+    },
+    mode: "teaser",
+  });
 }

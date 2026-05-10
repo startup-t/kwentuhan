@@ -5,10 +5,11 @@ import { useMemo, useState } from "react";
 import type { Mode } from "@/lib/types";
 import { GROUP_CATEGORIES, SOLO_CATEGORIES, CLUSTER_COLOR } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
-import { getQuestionCount } from "@/lib/questions";
+import { getQuestionCount, getQuestions } from "@/lib/questions";
 import CategoryChips from "./CategoryChips";
 import PlayModeToggle from "./PlayModeToggle";
 import PrimaryButton from "./PrimaryButton";
+import DesktopQuestionPreview from "./DesktopQuestionPreview";
 
 interface Props {
   onModeChosen: (mode: Mode, category?: string | null) => void;
@@ -54,6 +55,13 @@ export default function LandingScreen({ onModeChosen }: Props) {
     [mode, topic],
   );
 
+  // Desktop-only: pick a stable random preview question that updates when mode/topic changes
+  const previewQuestion = useMemo(() => {
+    const pool = getQuestions(mode, topic === "random" ? null : topic);
+    if (!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }, [mode, topic]);
+
   function switchMode(m: Mode) {
     setMode(m);
     setTopic("random");
@@ -66,17 +74,13 @@ export default function LandingScreen({ onModeChosen }: Props) {
   const topicLabel = mode === "group" ? "Category" : "Solo Topic";
   const modeInfo =
     mode === "group"
-      ? { title: "Group Mode", desc: "Pass the phone. Everyone answers.", icon: "👥" }
+      ? { title: "Group Mode", desc: "Better conversations start with better questions.", icon: "👥" }
       : { title: "Solo Mode",  desc: "Para sa sariling reflection + sharing.", icon: "👤" };
-
-  const selectedTopicLabel =
-    topic === "random" ? "Random" : cats[topic]?.label ?? topic;
-  const ctaLabel =
-    topic === "random" ? "Start Random" : `Start ${selectedTopicLabel}`;
 
   return (
     <div className="kw-bg flex flex-col min-h-dvh safe-top safe-bottom">
       <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 md:px-6 lg:px-8">
+
         {/* ── Logo (centered) ── */}
         <div className="mt-[72px] flex flex-col items-center animate-slide-up md:mt-24">
           <Image
@@ -111,9 +115,15 @@ export default function LandingScreen({ onModeChosen }: Props) {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start lg:gap-10">
-          {/* ── Left sidebar (desktop) ── */}
-          <aside className="animate-slide-up lg:sticky lg:top-10 lg:flex lg:w-80 lg:flex-col lg:gap-6" style={{ animationDelay: "0.07s" }}>
+        {/* ── Desktop 2-col / Mobile single-col ── */}
+        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[22rem_1fr] lg:items-start lg:gap-12">
+
+          {/* ── Left sidebar ── */}
+          <aside
+            className="animate-slide-up lg:sticky lg:top-10 lg:flex lg:flex-col lg:gap-5"
+            style={{ animationDelay: "0.07s" }}
+          >
+            {/* Play Mode */}
             <div>
               <p
                 style={{
@@ -130,6 +140,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
               <PlayModeToggle mode={mode} onChange={switchMode} />
             </div>
 
+            {/* Category */}
             <div className="mt-1 lg:mt-0">
               <p
                 className="pl-4 lg:pl-0"
@@ -146,22 +157,44 @@ export default function LandingScreen({ onModeChosen }: Props) {
               </p>
               <CategoryChips topics={topics} selected={topic} onSelect={setTopic} />
             </div>
+
+            {/* Desktop-only: question count */}
+            <div className="hidden lg:flex items-center gap-1.5 text-[13px] text-[#B0ABC8]">
+              <span style={{ fontSize: 14 }}>📋</span>
+              <span>{questionCount} questions in deck</span>
+            </div>
+
+            {/* Desktop-only: subtext + CTA */}
+            <div className="hidden lg:flex lg:flex-col lg:gap-3 lg:pt-1">
+              <p
+                className="text-center text-[13px]"
+                style={{ fontFamily: "'DM Sans',sans-serif", color: "#9B97BB" }}
+              >
+                Tap below to get your first question
+              </p>
+              <PrimaryButton
+                onClick={handleCTA}
+                icon={<ShuffleIcon />}
+                ariaLabel="Start a Conversation"
+              >
+                Start a Conversation
+              </PrimaryButton>
+            </div>
           </aside>
 
-          {/* ── Main focus area ── */}
+          {/* ── Main / right column ── */}
           <main className="animate-slide-up" style={{ animationDelay: "0.12s" }}>
-            <div className="mx-auto flex w-full flex-col gap-3 md:gap-4 lg:max-w-2xl lg:gap-5">
-              <div
-                className="flex items-center justify-center gap-1.5 text-[13px] text-[#B0ABC8] md:text-sm lg:justify-center"
-                style={{ animationDelay: "0.14s" }}
-              >
+            <div className="mx-auto flex w-full flex-col gap-3 md:gap-4 lg:max-w-none lg:gap-5">
+
+              {/* Mobile-only: question count */}
+              <div className="flex items-center justify-center gap-1.5 text-[13px] text-[#B0ABC8] lg:hidden">
                 <span style={{ fontSize: 14 }}>📋</span>
                 <span>{questionCount} questions in deck</span>
               </div>
 
+              {/* Mobile-only: mode info card */}
               <div
-                className="flex items-center gap-3 rounded-[18px] border border-[rgba(200,195,230,0.6)] bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 md:gap-4 md:p-5 lg:p-6 lg:hover:scale-[1.01] lg:hover:shadow-lg"
-                style={{ animationDelay: "0.16s" }}
+                className="flex items-center gap-3 rounded-[18px] border border-[rgba(200,195,230,0.6)] bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 md:gap-4 md:p-5 lg:hidden"
               >
                 <div
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full md:h-14 md:w-14"
@@ -182,14 +215,24 @@ export default function LandingScreen({ onModeChosen }: Props) {
                 </div>
               </div>
 
-              <div className="mb-8 pt-1 md:pb-4 lg:mb-0 lg:pt-2" style={{ animationDelay: "0.2s" }}>
+              {/* Desktop-only: live question preview */}
+              <DesktopQuestionPreview question={previewQuestion} />
+
+              {/* Mobile-only: CTA */}
+              <div className="mb-8 pt-1 md:pb-4 lg:hidden">
+                <p
+                  className="mb-3 text-center text-[13px]"
+                  style={{ fontFamily: "'DM Sans',sans-serif", color: "#9B97BB" }}
+                >
+                  Tap below to get your first question
+                </p>
                 <PrimaryButton
                   onClick={handleCTA}
                   icon={<ShuffleIcon />}
-                  ariaLabel={ctaLabel}
-                  className="mx-auto lg:w-auto lg:min-w-[400px]"
+                  ariaLabel="Start a Conversation"
+                  className="mx-auto"
                 >
-                  {ctaLabel}
+                  Start a Conversation
                 </PrimaryButton>
               </div>
             </div>

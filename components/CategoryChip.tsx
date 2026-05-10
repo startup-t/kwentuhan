@@ -49,7 +49,7 @@ export default function CategoryChip({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className="inline-flex h-[2.75rem] flex-shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[0.875rem] font-semibold transition-all duration-200 active:scale-95 md:h-12 md:px-5 md:text-[0.9375rem] lg:hover:-translate-y-0.5 lg:hover:shadow-md"
+      className="inline-flex h-[2.75rem] flex-shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[0.875rem] font-semibold transition-all duration-200 active:scale-95 md:h-12 md:px-5 md:text-[0.9375rem] lg:h-9 lg:px-3.5 lg:text-[0.8125rem] lg:hover:-translate-y-0.5 lg:hover:shadow-md"
       style={
         active
           ? {

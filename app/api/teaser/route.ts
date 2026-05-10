@@ -13,7 +13,14 @@ export async function POST(req: Request) {
     }
 
     const record = createTeaserShare({ questionId, question, answer });
-    return NextResponse.json({ shareId: record.shareId, mode: record.mode, createdAt: record.createdAt });
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "https://kwentuhan.cards";
+    const revealUrl = `${baseUrl}/q/${record.questionId}/k/${record.kwentoId}`;
+
+    return NextResponse.json({
+      kwentoId: record.kwentoId,
+      questionId: record.questionId,
+      revealUrl,
+    });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
