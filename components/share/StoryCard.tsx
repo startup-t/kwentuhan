@@ -8,22 +8,22 @@ import type { AnswerStyle } from "@/lib/shareAnswer/types";
 import { getCachedQRCodeDataUrl } from "@/lib/qr";
 import AnswerBlock from "./AnswerBlock";
 
-const CARD_W      = 1080;
-const CARD_H      = 1920;
-const SAFE_TOP    = 250;
+const CARD_W = 1080;
+const CARD_H = 1920;
+const SAFE_TOP = 250;
 const SAFE_BOTTOM = 250;
-const SIDE_PAD    = 80;
+const SIDE_PAD = 80;
 
 interface Props {
-  question:        Question;
-  answer:          string;
-  style:           AnswerStyle;
-  teaser:          boolean;
-  qrUrl:           string;
-  qrCacheKey:      string;
+  question: Question;
+  answer: string;
+  style: AnswerStyle;
+  teaser: boolean;
+  qrUrl: string;
+  qrCacheKey: string;
   /** When true and qrUrl is empty, shows a "Saving link…" indicator in the QR placeholder. */
-  teaserLoading?:  boolean;
-  onEditAnswer?:   () => void;
+  teaserLoading?: boolean;
+  onEditAnswer?: () => void;
 }
 
 const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
@@ -31,7 +31,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
   forwardedRef,
 ) {
   const level = LEVEL_CONFIG[question.level] ?? LEVEL_CONFIG.light;
-  const clr   = CLUSTER_COLOR[question.cluster] ?? CLUSTER_COLOR.other;
+  const clr = CLUSTER_COLOR[question.cluster] ?? CLUSTER_COLOR.other;
 
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
 
@@ -57,8 +57,8 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       ref={forwardedRef}
       style={{
         position: "relative",
-        width:    CARD_W,
-        height:   CARD_H,
+        width: CARD_W,
+        height: CARD_H,
         background: "linear-gradient(160deg,#F8F6FF 0%,#FFF4F7 100%)",
         overflow: "hidden",
         fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
@@ -90,12 +90,12 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       <div
         style={{
           position: "absolute",
-          top:      SAFE_TOP - 130,
-          left:     SIDE_PAD,
-          right:    SIDE_PAD,
-          display:  "flex",
+          top: SAFE_TOP - 130,
+          left: SIDE_PAD,
+          right: SIDE_PAD,
+          display: "flex",
           alignItems: "center",
-          gap:      20,
+          gap: 20,
         }}
       >
         <Image src="/logo.png" alt="" width={72} height={72} unoptimized />
@@ -103,8 +103,8 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
           <span style={{
             fontFamily: "var(--font-playfair), Georgia, serif",
             fontWeight: 700,
-            fontSize:   44,
-            color:      "var(--kw-text)",
+            fontSize: 44,
+            color: "var(--kw-text)",
             lineHeight: 1,
           }}>
             kwentuhan
@@ -123,42 +123,42 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       <div
         style={{
           position: "absolute",
-          top:      SAFE_TOP + 110,
-          left:     SIDE_PAD,
-          display:  "flex",
+          top: SAFE_TOP + 110,
+          left: SIDE_PAD,
+          display: "flex",
           alignItems: "center",
-          gap:      14,
+          gap: 14,
         }}
       >
         <span style={{
-          display:    "inline-flex",
+          display: "inline-flex",
           alignItems: "center",
-          gap:        8,
-          height:     46,
-          padding:    "0 18px",
+          gap: 8,
+          height: 46,
+          padding: "0 18px",
           borderRadius: 100,
-          fontSize:   18,
+          fontSize: 18,
           fontWeight: 700,
           letterSpacing: "0.06em",
           textTransform: "uppercase",
           background: level.bg,
-          color:      level.color,
-          border:     `1.5px solid ${level.border}`,
+          color: level.color,
+          border: `1.5px solid ${level.border}`,
         }}>
           <span style={{ fontSize: 18, lineHeight: 1 }}>{level.emoji}</span>
           <span>{level.label}</span>
         </span>
         <span style={{
-          display:    "inline-flex",
+          display: "inline-flex",
           alignItems: "center",
-          gap:        8,
-          height:     46,
-          padding:    "0 18px",
+          gap: 8,
+          height: 46,
+          padding: "0 18px",
           borderRadius: 100,
-          fontSize:   18,
+          fontSize: 18,
           fontWeight: 600,
           background: clr.bg,
-          color:      clr.accent,
+          color: clr.accent,
         }}>
           <span style={{ fontSize: 18, lineHeight: 1 }}>{question.categoryEmoji}</span>
           <span>{question.categoryLabel}</span>
@@ -169,18 +169,18 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       <div
         style={{
           position: "absolute",
-          top:      SAFE_TOP + 210,
-          left:     SIDE_PAD,
-          right:    SIDE_PAD,
+          top: SAFE_TOP + 210,
+          left: SIDE_PAD,
+          right: SIDE_PAD,
         }}
       >
         <p style={{
           fontFamily: "var(--font-playfair), Georgia, serif",
           fontWeight: 700,
-          fontSize:   58,
+          fontSize: 58,
           lineHeight: 1.25,
-          color:      "var(--kw-text)",
-          margin:     0,
+          color: "var(--kw-text)",
+          margin: 0,
         }}>
           {question.hook}
         </p>
@@ -200,19 +200,19 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         aria-label={onEditAnswer ? "Edit answer" : undefined}
         style={{
           position: "absolute",
-          top:      SAFE_TOP + 560,
-          left:     SIDE_PAD,
-          right:    SIDE_PAD,
+          top: SAFE_TOP + 560,
+          left: SIDE_PAD,
+          right: SIDE_PAD,
           minHeight: 360,
-          display:  "flex",
+          display: "flex",
           alignItems: "flex-start",
-          cursor:   onEditAnswer ? "pointer" : "default",
-          outline:  "none",
+          cursor: onEditAnswer ? "pointer" : "default",
+          outline: "none",
         }}
       >
         <div
           style={{
-            width:  "100%",
+            width: "100%",
             filter: teaser ? "blur(14px)" : "none",
           }}
         >
@@ -221,7 +221,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
           ) : (
             <div style={{
               fontSize: 22,
-              color:    "var(--kw-muted)",
+              color: "var(--kw-muted)",
               fontStyle: "italic",
             }}>
               {/* Empty state — only visible if user lands here without an answer */}
@@ -235,12 +235,12 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       {showQuoteTruncationHint && !teaser && (
         <div style={{
           position: "absolute",
-          left:     SIDE_PAD,
-          right:    SIDE_PAD,
-          top:      CARD_H - SAFE_BOTTOM - 230,
+          left: SIDE_PAD,
+          right: SIDE_PAD,
+          top: CARD_H - SAFE_BOTTOM - 230,
           fontSize: 18,
           fontWeight: 600,
-          color:    "var(--kw-subtext)",
+          color: "var(--kw-subtext)",
         }}>
           Read on kwentuhan.cards
         </div>
@@ -248,20 +248,24 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
 
       {/* QR block — bottom-right, above the bottom safe zone */}
       <div
+        data-qr-role="wrapper"
+        data-qr-value={qrUrl}
         style={{
           position: "absolute",
-          right:    SIDE_PAD,
-          bottom:   SAFE_BOTTOM + 30,
-          padding:  20,
+          right: SIDE_PAD,
+          bottom: SAFE_BOTTOM + 30,
+          padding: 20,
           borderRadius: 24,
           background: "rgba(255,255,255,0.95)",
-          border:   "1px solid rgba(232,230,240,0.95)",
-          boxShadow:"0 8px 24px rgba(26,23,48,0.10)",
+          border: "1px solid rgba(232,230,240,0.95)",
+          boxShadow: "0 8px 24px rgba(26,23,48,0.10)",
         }}
       >
         {qrDataUrl ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
+            data-qr-role="code"
+            data-qr-value={qrUrl}
             src={qrDataUrl}
             alt=""
             width={220}
@@ -286,13 +290,15 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
             )}
           </div>
         )}
-        <p style={{
-          marginTop: 10,
-          textAlign: "center",
-          fontSize: 18,
-          fontWeight: 600,
-          color: "var(--kw-subtext)",
-        }}>
+        <p
+          data-qr-role="label"
+          style={{
+            marginTop: 10,
+            textAlign: "center",
+            fontSize: 18,
+            fontWeight: 600,
+            color: "var(--kw-subtext)",
+          }}>
           {teaser ? "Scan to reveal" : "Scan to play"}
         </p>
       </div>
@@ -300,11 +306,11 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
       {/* Domain watermark — bottom-left, above bottom safe zone */}
       <div style={{
         position: "absolute",
-        left:     SIDE_PAD,
-        bottom:   SAFE_BOTTOM + 30,
+        left: SIDE_PAD,
+        bottom: SAFE_BOTTOM + 30,
         fontSize: 24,
         fontWeight: 500,
-        color:    "rgba(139,135,168,0.65)",
+        color: "rgba(139,135,168,0.65)",
       }}>
         kwentuhan.cards
       </div>

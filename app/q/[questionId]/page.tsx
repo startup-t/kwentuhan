@@ -32,87 +32,90 @@ export default async function ScanToPlayPage({ params }: Props) {
   const deepLink = `kwentuhan://q/${questionId}`;
 
   return (
-    <main className="min-h-dvh flex flex-col items-center px-5 py-8 max-w-md mx-auto w-full">
-      {/* Header */}
-      <div className="w-full flex items-center justify-between mb-8">
-        <span
-          className="font-bold text-xl tracking-tight"
-          style={{ fontFamily: "'Playfair Display', serif", color: "var(--kw-accent)" }}
+    <main className="kw-bg min-h-dvh">
+      <div className="relative z-10 mx-auto w-full max-w-lg px-5 pt-6 pb-10 flex flex-col gap-5">
+
+        {/* ── Brand header ─────────────────────────────────────────── */}
+        <header className="flex items-center justify-between">
+          <span
+            className="font-bold text-xl tracking-tight"
+            style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-accent)" }}
+          >
+            kwentuhan
+          </span>
+          <span
+            className="text-xs font-semibold px-3 py-1 rounded-full"
+            style={{ background: level.bg, color: level.color }}
+          >
+            {level.emoji} {level.label}
+          </span>
+        </header>
+
+        {/* ── 1. Question card ──────────────────────────────────────── */}
+        <section
+          className="kw-card p-6"
+          style={{ borderColor: level.cardBorder, background: level.cardBg }}
         >
-          kwentuhan
-        </span>
-        <span
-          className="text-xs font-semibold px-3 py-1 rounded-full"
-          style={{ background: level.bg, color: level.color }}
+          <p
+            className="text-xs font-semibold uppercase tracking-widest mb-3"
+            style={{ color: "var(--kw-subtext)" }}
+          >
+            {question.categoryEmoji} {question.categoryLabel}
+          </p>
+          <p
+            className="text-[1.3rem] font-bold leading-snug"
+            style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-text)" }}
+          >
+            {question.hook}
+          </p>
+        </section>
+
+        {/* ── 2. Deep dive ──────────────────────────────────────────── */}
+        <section
+          className="rounded-2xl px-5 py-4 border"
+          style={{
+            background: "var(--kw-surface-alt)",
+            borderColor: "var(--kw-border-solid)",
+          }}
         >
-          {level.emoji} {level.label}
-        </span>
-      </div>
+          <p
+            className="text-xs font-semibold uppercase tracking-widest mb-1"
+            style={{ color: "var(--kw-subtext)" }}
+          >
+            Deep dive
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--kw-text)" }}>
+            {question.deepDive}
+          </p>
+        </section>
 
-      {/* Question card */}
-      <div
-        className="w-full rounded-[var(--kw-r-card)] p-6 mb-3 border"
-        style={{
-          background: level.cardBg,
-          borderColor: level.cardBorder,
-        }}
-      >
-        <p
-          className="text-xs font-semibold uppercase tracking-widest mb-3"
-          style={{ color: "var(--kw-subtext)" }}
-        >
-          {question.categoryEmoji} {question.categoryLabel}
-        </p>
-        <p
-          className="text-[1.35rem] font-bold leading-snug"
-          style={{ fontFamily: "'Playfair Display', serif", color: "var(--kw-text)" }}
-        >
-          {question.hook}
-        </p>
-      </div>
+        {/* ── 3. Share prompt ───────────────────────────────────────── */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
+          <span
+            className="text-[0.6875rem] font-semibold uppercase tracking-widest whitespace-nowrap"
+            style={{ color: "var(--kw-muted)" }}
+          >
+            share your kwento
+          </span>
+          <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
+        </div>
 
-      {/* Deep dive teaser */}
-      <div
-        className="w-full rounded-2xl px-5 py-4 mb-6 border"
-        style={{
-          background: "var(--kw-surface-alt)",
-          borderColor: "var(--kw-border-solid)",
-        }}
-      >
-        <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "var(--kw-subtext)" }}>
-          Deep dive
-        </p>
-        <p className="text-sm" style={{ color: "var(--kw-text)" }}>
-          {question.deepDive}
-        </p>
-      </div>
-
-      {/* Open in app CTA */}
-      <div className="w-full mb-3">
-        <DeepLinkBridge deepLink={deepLink} />
-      </div>
-
-      {/* Divider */}
-      <div className="w-full flex items-center gap-3 my-6">
-        <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
-        <span className="text-xs font-medium" style={{ color: "var(--kw-subtext)" }}>
-          or share your kwento from here
-        </span>
-        <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
-      </div>
-
-      {/* Kwento form */}
-      <div className="w-full">
+        {/* ── 4. Write + share form ────────────────────────────────── */}
         <KwentoForm questionId={String(question.id)} questionText={question.hook} />
-      </div>
 
-      {/* Footer */}
-      <p
-        className="mt-10 text-xs text-center"
-        style={{ color: "var(--kw-muted)" }}
-      >
-        Scan QR · share your story · spark a real conversation
-      </p>
+        {/* ── 5. App CTA — subtle, non-blocking footer ─────────────── */}
+        <div
+          className="flex flex-col items-center gap-4 pt-2"
+          style={{ borderTop: "1px solid var(--kw-border-solid)" }}
+        >
+          <DeepLinkBridge deepLink={deepLink} variant="button" />
+          <p className="text-[0.625rem] text-center" style={{ color: "var(--kw-muted)" }}>
+            Scan QR · share your story · spark a real conversation
+          </p>
+        </div>
+
+      </div>
     </main>
   );
 }

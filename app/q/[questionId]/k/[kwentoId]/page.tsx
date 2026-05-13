@@ -4,7 +4,6 @@ import { getQuestionById } from "@/lib/questions";
 import { LEVEL_CONFIG } from "@/lib/types";
 import { KwentoForm } from "./KwentoForm";
 import RevealAnswer from "@/components/RevealAnswer";
-import DeepLinkBridge from "@/components/DeepLinkBridge";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +11,6 @@ type Props = {
   params: Promise<{ questionId: string; kwentoId: string }>;
 };
 
-// Isolated helper — never throws, always returns null on any DB error.
 async function safeGetKwento(kwentoId: string) {
   try {
     return await getPersistedKwento(kwentoId);
@@ -23,7 +21,6 @@ async function safeGetKwento(kwentoId: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kwentoId } = await params;
-  // Must not throw — metadata errors produce a 500 that bypasses error.tsx.
   const kwento = await safeGetKwento(kwentoId);
   const description = kwento?.isTeaser
     ? "Someone shared a kwento — tap to reveal."
@@ -42,108 +39,162 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ScanToRevealPage({ params }: Props) {
   const { questionId, kwentoId } = await params;
 
-  // Both fetches are safe — DB errors show the question + form, never a crash.
   const kwento = await safeGetKwento(kwentoId);
   const question = getQuestionById(Number(questionId));
 
   const questionText = question?.hook ?? kwento?.questionText ?? "A question worth answering";
   const level = question ? LEVEL_CONFIG[question.level] : LEVEL_CONFIG.light;
-  const deepLink = `kwentuhan://q/${questionId}/k/${kwentoId}`;
+  const effectiveQuestionId = kwento?.questionId ?? questionId;
+  const hasKwento = !!kwento;
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ?? "https://kwentuhan.cards"}/reveal/${kwentoId}?teaser=true`;
 
   return (
-    <main className="min-h-dvh flex flex-col items-center px-5 py-8 max-w-md mx-auto w-full">
+    <main className="kw-bg min-h-dvh">
+      <div className="relative z-10 mx-auto w-full max-w-lg px-5 pt-6 pb-10 flex flex-col gap-5">
 
-      {/* Header */}
-      <div className="w-full flex items-center justify-between mb-8">
-        <span
-          className="font-bold text-xl tracking-tight"
-          style={{ fontFamily: "'Playfair Display', serif", color: "var(--kw-accent)" }}
-        >
-          kwentuhan
-        </span>
-        {question && (
+        {/* ── Brand header ─────────────────────────────────────────── */}
+        <header className="kw-fade-in flex items-center justify-between">
           <span
-            className="text-xs font-semibold px-3 py-1 rounded-full"
-            style={{ background: level.bg, color: level.color }}
+            className="font-bold text-xl tracking-tight"
+            style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-accent)" }}
           >
-            {level.emoji} {level.label}
+            kwentuhan
           </span>
-        )}
-      </div>
-
-      {/* Question card */}
-      <div
-        className="w-full rounded-[var(--kw-r-card)] p-6 mb-4 border"
-        style={{ background: level.cardBg, borderColor: level.cardBorder }}
-      >
-        {question && (
-          <p
-            className="text-xs font-semibold uppercase tracking-widest mb-3"
-            style={{ color: "var(--kw-subtext)" }}
-          >
-            {question.categoryEmoji} {question.categoryLabel}
-          </p>
-        )}
-        <p
-          className="text-[1.35rem] font-bold leading-snug"
-          style={{ fontFamily: "'Playfair Display', serif", color: "var(--kw-text)" }}
-        >
-          {questionText}
-        </p>
-      </div>
-
-      {/* Kwento reveal — or graceful fallback when not in DB */}
-      <div className="w-full mb-6">
-        {kwento ? (
-          <RevealAnswer answerText={kwento.answerText} isTeaser={kwento.isTeaser} />
-        ) : (
-          <div
-            className="w-full rounded-[var(--kw-r-card)] p-6 border text-center"
-            style={{
-              background: "var(--kw-surface-alt)",
-              borderColor: "var(--kw-border-solid)",
-            }}
-          >
-            <p className="text-2xl mb-2">🔒</p>
-            <p
-              className="text-sm font-semibold mb-1"
-              style={{ color: "var(--kw-text)" }}
+          {question && (
+            <span
+              className="text-xs font-semibold px-3 py-1 rounded-full"
+              style={{ background: level.bg, color: level.color }}
             >
-              This kwento was shared from the app
+              {level.emoji} {level.label}
+            </span>
+          )}
+        </header>
+
+        {/* ── 1. Question — always visible immediately ──────────────── */}
+        <section
+          className="kw-card kw-slide-up kw-d1 p-6"
+          style={{ borderColor: level.cardBorder, background: level.cardBg }}
+        >
+          {question && (
+            <p
+              className="text-xs font-semibold uppercase tracking-widest mb-3"
+              style={{ color: "var(--kw-subtext)" }}
+            >
+              {question.categoryEmoji} {question.categoryLabel}
             </p>
-            <p className="text-xs" style={{ color: "var(--kw-subtext)" }}>
-              Open in the Kwentuhan app to see it, or share your own answer below.
-            </p>
+          )}
+          <p
+            className="text-[1.3rem] font-bold leading-snug"
+            style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-text)" }}
+          >
+            {questionText}
+          </p>
+        </section>
+
+        {/* ── 2. Reveal — instant, content-first ───────────────────── */}
+        {hasKwento ? (
+          <div className="kw-slide-up kw-d2 flex flex-col gap-4">
+            <div
+              className="kw-card p-4"
+              style={{ borderColor: "var(--kw-border-solid)", background: "var(--kw-surface)" }}
+            >
+              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--kw-accent)" }}>
+                This kwento was revealed just for you
+              </p>
+            </div>
+            <RevealAnswer answerText={kwento.answerText} />
+            <div
+              className="kw-card p-5 flex flex-col gap-3"
+              style={{ borderColor: "var(--kw-border-solid)", background: "var(--kw-surface)" }}
+            >
+              <a
+                href="/create"
+                className="btn-primary w-full py-3 text-sm font-semibold text-center"
+              >
+                Make your own kwento
+              </a>
+              <p className="text-xs text-center" style={{ color: "var(--kw-subtext)" }}>
+                Scan others to unlock more stories.
+              </p>
+              <div className="flex items-center justify-center gap-3 text-xs font-semibold">
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--kw-accent)" }}
+                >
+                  WhatsApp
+                </a>
+                <span style={{ color: "var(--kw-muted)" }}>·</span>
+                <a
+                  href={`https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--kw-accent)" }}
+                >
+                  Messenger
+                </a>
+                <span style={{ color: "var(--kw-muted)" }}>·</span>
+                <a
+                  href={`https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent("This kwento was revealed just for you")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--kw-accent)" }}
+                >
+                  X
+                </a>
+              </div>
+            </div>
           </div>
+        ) : (
+          <NoKwentoNote />
         )}
+
+        {/* ── 3. Form — adapts to context ──────────────────────────── */}
+        <div className="kw-slide-up kw-d3 pt-2">
+          <KwentoForm
+            questionId={effectiveQuestionId}
+            questionText={questionText}
+            heading={hasKwento ? "Your turn" : "Your turn"}
+            subheading={
+              hasKwento
+                ? "Share your own answer and pass the kwento forward."
+                : "Answer the question and we'll spin up a shareable link for you."
+            }
+          />
+        </div>
+        <p className="kw-slide-up kw-d4 text-[0.625rem] text-center pt-2" style={{ color: "var(--kw-muted)" }}>
+          kwentuhan.cards
+        </p>
+
       </div>
-
-      {/* Open in app */}
-      <div className="w-full mb-3">
-        <DeepLinkBridge deepLink={deepLink} />
-      </div>
-
-      {/* Divider */}
-      <div className="w-full flex items-center gap-3 my-6">
-        <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
-        <span className="text-xs font-medium" style={{ color: "var(--kw-subtext)" }}>
-          share your own kwento
-        </span>
-        <div className="flex-1 h-px" style={{ background: "var(--kw-border-solid)" }} />
-      </div>
-
-      {/* Form — always shown so the viral loop always works */}
-      <div className="w-full">
-        <KwentoForm
-          questionId={kwento?.questionId ?? questionId}
-          questionText={questionText}
-        />
-      </div>
-
-      <p className="mt-10 text-xs text-center" style={{ color: "var(--kw-muted)" }}>
-        Scan QR · share your story · spark a real conversation
-      </p>
-
     </main>
+  );
+}
+
+/**
+ * Honest, low-key fallback when the kwento token can't be resolved
+ * (stale link, or a share that didn't make it to the server).
+ * Deliberately small and warm — it acknowledges the gap, then hands
+ * the user straight to the question without making the page feel broken.
+ */
+function NoKwentoNote() {
+  return (
+    <div
+      className="kw-slide-up kw-d2 flex items-start gap-3 px-4 py-3 rounded-2xl"
+      style={{
+        background: "var(--kw-surface-alt)",
+        border: "1px solid var(--kw-border-solid)",
+      }}
+    >
+      <span aria-hidden className="text-base leading-none mt-px">💭</span>
+      <p
+        className="text-[0.8125rem] leading-relaxed"
+        style={{ color: "var(--kw-subtext)" }}
+      >
+        We couldn&apos;t load this particular kwento — but the question above is
+        still wide open. Be the storyteller this time.
+      </p>
+    </div>
   );
 }

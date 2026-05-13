@@ -30,7 +30,9 @@ export async function POST(req: Request) {
     });
 
     const { origin } = new URL(req.url);
-    const revealUrl = `${origin}/q/${record.questionId}/k/${record.kwentoId}`;
+    const revealUrl = isTeaser
+      ? `${origin}/reveal/${record.kwentoId}?teaser=true`
+      : `${origin}/q/${record.questionId}/k/${record.kwentoId}`;
 
     return NextResponse.json({
       kwentoId: record.kwentoId,

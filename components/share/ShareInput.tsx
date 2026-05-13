@@ -97,7 +97,7 @@ export default function ShareInput({
           <p
             className="font-bold leading-snug pr-[5.5rem]"
             style={{
-              fontFamily: "'Playfair Display',Georgia,serif",
+              fontFamily: "var(--font-playfair), Georgia, serif",
               fontSize:   "1rem",
               color:      "var(--kw-text)",
               lineHeight: 1.4,

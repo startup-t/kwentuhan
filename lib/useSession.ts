@@ -7,11 +7,11 @@ import type { Question } from "./types";
 import { buildSession } from "./questions";
 
 export interface SessionState {
-  mode:       Mode;
-  category:   string | null;
-  questions:  Question[];
+  mode: Mode;
+  category: string | null;
+  questions: Question[];
   currentIdx: number;
-  showDeep:   boolean;
+  showDeep: boolean;
   isFinished: boolean;
 }
 
@@ -56,7 +56,7 @@ export function useSession() {
 
   const reset = useCallback(() => setSession(null), []);
 
-  const current  = session ? (session.questions[session.currentIdx] ?? null) : null;
+  const current = session ? (session.questions[session.currentIdx] ?? null) : null;
   const progress = session ? { current: session.currentIdx + 1, total: session.questions.length } : null;
 
   return { session, current, progress, startSession, next, previous, toggleDeep, restart, reset };

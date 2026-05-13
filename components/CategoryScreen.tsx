@@ -64,7 +64,7 @@ function CategoryCard({ catKey, isActive, onClick, compact }: CatCardProps) {
         </span>
         <div>
           <p className={`font-bold leading-tight ${compact ? "text-sm" : "text-xl"}`}
-             style={{ color:"var(--kw-text)", fontFamily:"'Playfair Display',Georgia,serif" }}>
+             style={{ color:"var(--kw-text)", fontFamily:"var(--font-playfair), Georgia, serif" }}>
             {isRandom ? "Random" : meta?.label}
           </p>
           {!compact && (
@@ -146,7 +146,7 @@ function GroupBrowser({ onChosen }: { onChosen: (cat: string | null) => void }) 
 
           <div>
             <h2 className="text-[1.875rem] font-black leading-tight md:text-[2.125rem]"
-                style={{ fontFamily:"'Playfair Display',Georgia,serif", color:"var(--kw-text)" }}>
+                style={{ fontFamily:"var(--font-playfair), Georgia, serif", color:"var(--kw-text)" }}>
               {catKey === null ? "Random" : meta?.label}
             </h2>
             <p className="mt-2 text-[0.9375rem] leading-relaxed md:text-base" style={{ color:"var(--kw-subtext)" }}>
@@ -242,7 +242,7 @@ function SoloBrowser({ onChosen }: { onChosen: (cat: string | null) => void }) {
               <span className="text-5xl leading-none">{meta?.emoji}</span>
               <div>
                 <p className="text-xl font-bold md:text-2xl"
-                   style={{ fontFamily:"'Playfair Display',Georgia,serif", color:"var(--kw-text)" }}>
+                   style={{ fontFamily:"var(--font-playfair), Georgia, serif", color:"var(--kw-text)" }}>
                   {meta?.label}
                 </p>
                 <p className="mt-1 text-sm md:text-[15px]" style={{ color:"var(--kw-subtext)" }}>

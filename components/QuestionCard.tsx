@@ -377,7 +377,7 @@ export default function QuestionCard({
             <p
               className={`mx-auto max-w-2xl text-center ${showDeep ? "text-lg lg:text-xl" : "text-xl lg:text-2xl"}`}
               style={{
-                fontFamily: "'Playfair Display',Georgia,serif",
+                fontFamily: "var(--font-playfair), Georgia, serif",
                 fontWeight: 700,
                 lineHeight: 1.4,
                 color: "#1A1730",

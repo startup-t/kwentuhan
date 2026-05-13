@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { getTeaserShare } from "@/lib/shareAnswer/shareStore";
+import { getPersistedKwento } from "@/lib/kwento/postgresStore";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET(_: Request, { params }: { params: Promise<{ shareId: string }> }) {
   const { shareId } = await params;
@@ -8,16 +11,17 @@ export async function GET(_: Request, { params }: { params: Promise<{ shareId: s
     return NextResponse.json({ error: "Invalid share ID" }, { status: 404 });
   }
 
-  const record = getTeaserShare(shareId);
+  let record = null;
+  try {
+    record = await getPersistedKwento(shareId);
+  } catch (err) {
+    console.error("[/api/reveal] lookup failed:", err);
+    record = null;
+  }
 
   if (!record) {
     return NextResponse.json(
-      {
-        answers: null,
-        mode: "teaser",
-        fallback: true,
-        error: "Share not found",
-      },
+      { answers: null, mode: "teaser", fallback: true, error: "Share not found" },
       { status: 404 }
     );
   }

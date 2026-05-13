@@ -7,7 +7,10 @@
       "Bash(npm install *)",
       "Read(//Users/trishasalubre/kwentuhan-rn/app/**)",
       "Read(//Users/trishasalubre/kwentuhan-rn/lib/share/**)",
-      "Bash(cat /Users/trishasalubre/kwentuhan-rn/.expo/types/router.d.ts 2>/dev/null | head -40 && echo \"===\" && grep -r \"linking\\\\|useDeepLink\\\\|Linking\\\\|initialURL\" /Users/trishasalubre/kwentuhan-rn --include=\"*.ts\" --include=\"*.tsx\" -l 2>/dev/null)"
+      "Bash(cat /Users/trishasalubre/kwentuhan-rn/.expo/types/router.d.ts 2>/dev/null | head -40 && echo \"===\" && grep -r \"linking\\\\|useDeepLink\\\\|Linking\\\\|initialURL\" /Users/trishasalubre/kwentuhan-rn --include=\"*.ts\" --include=\"*.tsx\" -l 2>/dev/null)",
+      "Bash(git push *)",
+      "Bash(/Users/trishasalubre/.npm-global/bin/vercel whoami *)",
+      "Bash(/Users/trishasalubre/.npm-global/bin/vercel env *)"
     ]
   }
 }

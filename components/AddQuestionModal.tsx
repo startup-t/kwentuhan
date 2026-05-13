@@ -95,7 +95,7 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
                   background:  "var(--kw-surface-alt)",
                   border:      "1.5px solid var(--kw-border)",
                   color:       "var(--kw-text)",
-                  fontFamily:  "'DM Sans',sans-serif",
+                  fontFamily:  "var(--font-dm-sans), sans-serif",
                   minHeight:   108,
                 }}
               />

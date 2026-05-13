@@ -1,27 +1,59 @@
 import { NextResponse } from "next/server";
-import { createTeaserShare } from "@/lib/shareAnswer/shareStore";
+import { createPersistedKwento } from "@/lib/kwento/postgresStore";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+/**
+ * POST /api/teaser
+ *
+ * Called by the web SharePreview component via createAnswerRevealUrl().
+ * Persists the answer to PostgreSQL so any device can reveal it via the
+ * returned URL — not just the tab that created the share.
+ *
+ * Body: { questionId: number, question: string, answer: string }
+ * Returns: { kwentoId, questionId, revealUrl }
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const questionId = Number(body?.questionId);
-    const question = typeof body?.question === "string" ? body.question.trim() : "";
-    const answer = typeof body?.answer === "string" ? body.answer.trim() : "";
 
-    if (!Number.isInteger(questionId) || questionId <= 0 || !question || !answer) {
+    // Accept questionId as number or string — both are valid.
+    const questionId = String(Number(body?.questionId ?? 0));
+    const questionText =
+      typeof body?.question === "string" && body.question.trim().length > 0
+        ? body.question.trim()
+        : "";
+    const answerText =
+      typeof body?.answer === "string" && body.answer.trim().length > 0
+        ? body.answer.trim()
+        : "";
+
+    if (!questionId || questionId === "0" || !questionText || !answerText) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
-    const record = createTeaserShare({ questionId, question, answer });
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "https://kwentuhan.cards";
-    const revealUrl = `${baseUrl}/q/${record.questionId}/k/${record.kwentoId}`;
+    const record = await createPersistedKwento({
+      questionId,
+      questionText,
+      answerText,
+      isTeaser: true,
+    });
+
+    const origin = new URL(req.url).origin;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ??
+      (origin.includes("localhost") ? "https://kwentuhan.cards" : origin);
+
+    const revealUrl = `${baseUrl}/reveal/${record.kwentoId}?teaser=true`;
 
     return NextResponse.json({
       kwentoId: record.kwentoId,
       questionId: record.questionId,
       revealUrl,
     });
-  } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  } catch (err) {
+    console.error("[/api/teaser] failed:", err);
+    return NextResponse.json({ error: "Failed to create share" }, { status: 500 });
   }
 }

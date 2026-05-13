@@ -7,12 +7,53 @@ import { toBlob } from "html-to-image";
 
 const CARD_W = 1080;
 const CARD_H = 1920;
+const QR_READY_TIMEOUT_MS = 2500;
+const QR_READY_POLL_MS = 50;
+
+function isVisible(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect();
+  return rect.width > 0 && rect.height > 0;
+}
+
+function hasAllowedQrTarget(value: string): boolean {
+  return value.startsWith("https://kwentuhan.cards/reveal/") ||
+    value.startsWith("https://kwentuhan.cards/q/");
+}
+
+async function waitForQrReady(node: HTMLElement): Promise<void> {
+  const started = Date.now();
+
+  while (Date.now() - started < QR_READY_TIMEOUT_MS) {
+    const qrCode = node.querySelector<HTMLElement>('[data-qr-role="code"]');
+    const qrLabel = node.querySelector<HTMLElement>('[data-qr-role="label"]');
+    const qrWrap = node.querySelector<HTMLElement>('[data-qr-role="wrapper"]');
+    const qrValue = qrCode?.getAttribute("data-qr-value") ?? qrWrap?.getAttribute("data-qr-value") ?? "";
+    const label = (qrLabel?.textContent ?? "").trim().toLowerCase();
+
+    if (
+      qrCode &&
+      qrLabel &&
+      isVisible(qrCode) &&
+      isVisible(qrLabel) &&
+      (label === "scan to play" || label === "scan to reveal") &&
+      hasAllowedQrTarget(qrValue)
+    ) {
+      return;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, QR_READY_POLL_MS));
+  }
+
+  throw new Error("QR not ready for export");
+}
 
 export async function exportCardFromNode(node: HTMLElement): Promise<Blob> {
+  await waitForQrReady(node);
+
   const blob = await toBlob(node, {
     width:      CARD_W,
     height:     CARD_H,
-    pixelRatio: 1,
+    pixelRatio: 2,
     cacheBust:  true,
     // Override any preview-side scale so the snapshot captures the full 1080×1920 layout.
     style: {

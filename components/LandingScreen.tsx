@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { Mode } from "@/lib/types";
 import { GROUP_CATEGORIES, SOLO_CATEGORIES, CLUSTER_COLOR } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
@@ -44,9 +44,21 @@ const SOLO_TOPICS: Topic[] = [
   })),
 ];
 
+// Stable hash function to create deterministic seed from string
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
 export default function LandingScreen({ onModeChosen }: Props) {
   const [mode,  setMode]  = useState<Mode>("group");
   const [topic, setTopic] = useState<string>("random");
+  const [isMounted, setIsMounted] = useState(false);
 
   const topics = mode === "group" ? GROUP_TOPICS : SOLO_TOPICS;
 
@@ -55,12 +67,22 @@ export default function LandingScreen({ onModeChosen }: Props) {
     [mode, topic],
   );
 
-  // Desktop-only: pick a stable random preview question that updates when mode/topic changes
+  // FIX: Only compute preview question after client mount to avoid hydration mismatch
+  // This prevents server/client render differences for the preview
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Desktop-only: pick a stable deterministic preview question that updates when mode/topic changes
+  // Only computed after client mount to avoid hydration mismatch
   const previewQuestion = useMemo(() => {
+    if (!isMounted) return null;
     const pool = getQuestions(mode, topic === "random" ? null : topic);
     if (!pool.length) return null;
-    return pool[Math.floor(Math.random() * pool.length)];
-  }, [mode, topic]);
+    // Create stable seed from mode and topic for consistent but deterministic selection
+    const seed = hashString(`${mode}-${topic}`);
+    return pool[seed % pool.length];
+  }, [mode, topic, isMounted]);
 
   function switchMode(m: Mode) {
     setMode(m);
@@ -95,7 +117,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
           <h1
             className="mt-5 text-4xl lg:text-5xl"
             style={{
-              fontFamily: "'Playfair Display',Georgia,serif",
+              fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 900,
               color: "#1A1730",
               lineHeight: 1,
@@ -107,7 +129,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
           <p
             className="mt-1.5 text-[15px] lg:text-[17px]"
             style={{
-              fontFamily: "'DM Sans',sans-serif",
+              fontFamily: "var(--font-dm-sans), sans-serif",
               color: "#9B97BB",
             }}
           >
@@ -127,7 +149,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
             <div>
               <p
                 style={{
-                  fontFamily: "'DM Sans',sans-serif",
+                  fontFamily: "var(--font-dm-sans), sans-serif",
                   fontSize: 11, fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
@@ -145,7 +167,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
               <p
                 className="pl-4 lg:pl-0"
                 style={{
-                  fontFamily: "'DM Sans',sans-serif",
+                  fontFamily: "var(--font-dm-sans), sans-serif",
                   fontSize: 11, fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
@@ -168,7 +190,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
             <div className="hidden lg:flex lg:flex-col lg:gap-3 lg:pt-1">
               <p
                 className="text-center text-[13px]"
-                style={{ fontFamily: "'DM Sans',sans-serif", color: "#9B97BB" }}
+                style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#9B97BB" }}
               >
                 Tap below to get your first question
               </p>
@@ -222,7 +244,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
               <div className="mb-8 pt-1 md:pb-4 lg:hidden">
                 <p
                   className="mb-3 text-center text-[13px]"
-                  style={{ fontFamily: "'DM Sans',sans-serif", color: "#9B97BB" }}
+                  style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#9B97BB" }}
                 >
                   Tap below to get your first question
                 </p>

@@ -80,7 +80,7 @@ const AnswerInput = forwardRef<AnswerInputHandle, Props>(function AnswerInput(
           rows={1}
           className="block w-full resize-none bg-transparent outline-none placeholder:text-[rgba(42,24,16,0.4)]"
           style={{
-            fontFamily: "'DM Sans', system-ui, sans-serif",
+            fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
             fontSize:   "0.85rem",
             fontWeight: 500,
             lineHeight: 1.4,

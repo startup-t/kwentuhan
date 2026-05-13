@@ -3,19 +3,19 @@
 import { useState } from "react";
 import type { Mode } from "@/lib/types";
 import { useSession } from "@/lib/useSession";
-import LandingScreen  from "@/components/LandingScreen";
+import LandingScreen from "@/components/LandingScreen";
 import CategoryScreen from "@/components/CategoryScreen";
-import SessionScreen  from "@/components/SessionScreen";
-import AgeGateModal   from "@/components/AgeGateModal";
+import SessionScreen from "@/components/SessionScreen";
+import AgeGateModal from "@/components/AgeGateModal";
 
 type AppScreen = "landing" | "category" | "session";
 
 export default function Home() {
-  const [screen,     setScreen]     = useState<AppScreen>("landing");
-  const [mode,       setMode]       = useState<Mode>("group");
-  const [showAge,    setShowAge]    = useState(false);
+  const [screen, setScreen] = useState<AppScreen>("landing");
+  const [mode, setMode] = useState<Mode>("group");
+  const [showAge, setShowAge] = useState(false);
   const [pendingCat, setPendingCat] = useState<string | null>(null);
-  const [ageVerified,setAgeVerified]= useState(false);
+  const [ageVerified, setAgeVerified] = useState(false);
 
   const session = useSession();
 
@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <>
-      {screen === "landing"  && <LandingScreen  onModeChosen={handleModeChosen} />}
+      {screen === "landing" && <LandingScreen onModeChosen={handleModeChosen} />}
       {screen === "category" && (
         <CategoryScreen
           mode={mode}

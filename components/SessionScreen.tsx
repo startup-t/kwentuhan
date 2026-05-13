@@ -47,7 +47,7 @@ export default function SessionScreen({ session, onEnd, onBack }: Props) {
         <div className="text-center animate-slide-up">
           <div className="text-7xl mb-5 animate-float">🎉</div>
           <h2 className="text-3xl font-black mb-3"
-              style={{ fontFamily:"'Playfair Display',Georgia,serif", color:"var(--kw-text)" }}>
+              style={{ fontFamily:"var(--font-playfair), Georgia, serif", color:"var(--kw-text)" }}>
             All Done!
           </h2>
           <p className="text-base" style={{ color:"var(--kw-subtext)" }}>
@@ -114,7 +114,7 @@ export default function SessionScreen({ session, onEnd, onBack }: Props) {
               style={{
                 fontSize: 14, fontWeight: 700,
                 color: "#1A1730",
-                fontFamily: "'DM Sans',sans-serif",
+                fontFamily: "var(--font-dm-sans), sans-serif",
               }}
             >
               {s.mode === "group" ? "Group Mode" : "Solo Mode"}

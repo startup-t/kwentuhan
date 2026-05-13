@@ -57,7 +57,7 @@ function ChatVariant({ text, scale }: { text: string; scale: number }) {
               borderRadius: radius,
               background:  "var(--kw-chat-peach)",
               color:       "var(--kw-note-ink)",
-              fontFamily:  "'DM Sans', system-ui, sans-serif",
+              fontFamily:  "var(--font-dm-sans), system-ui, sans-serif",
               fontSize,
               fontWeight:  500,
               lineHeight:  1.4,
@@ -111,7 +111,7 @@ function QuoteVariant({
           position:    "absolute",
           top:         -glyphFont * 0.18,
           left:        0,
-          fontFamily:  "'Playfair Display', Georgia, serif",
+          fontFamily:  "var(--font-playfair), Georgia, serif",
           fontSize:    glyphFont,
           lineHeight:  0.8,
           opacity:     0.12,
@@ -123,7 +123,7 @@ function QuoteVariant({
       </span>
       <p
         style={{
-          fontFamily:  "'Playfair Display', Georgia, serif",
+          fontFamily:  "var(--font-playfair), Georgia, serif",
           fontSize:    bodyFont,
           fontWeight:  400,
           lineHeight:  1.5,
@@ -138,7 +138,7 @@ function QuoteVariant({
       <p
         style={{
           marginTop:      14 * scale,
-          fontFamily:     "'DM Sans', system-ui, sans-serif",
+          fontFamily:     "var(--font-dm-sans), system-ui, sans-serif",
           fontSize:       attribFont,
           fontWeight:     600,
           letterSpacing:  "0.08em",
@@ -167,7 +167,7 @@ function NoteVariant({ text, scale }: { text: string; scale: number }) {
     <div style={wrapStyle}>
       <p
         style={{
-          fontFamily:  "'Kalam', 'Caveat', 'Marker Felt', cursive",
+          fontFamily:  "var(--font-kalam), cursive",
           fontWeight:  400,
           fontSize:    bodyFont,
           lineHeight:  1.3,

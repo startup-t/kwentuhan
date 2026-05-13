@@ -42,7 +42,7 @@ export default function DesktopQuestionPreview({ question }: Props) {
       {/* Eyebrow label */}
       <p
         style={{
-          fontFamily: "'DM Sans',sans-serif",
+          fontFamily: "var(--font-dm-sans), sans-serif",
           fontSize: 11,
           fontWeight: 700,
           letterSpacing: "0.1em",
@@ -122,7 +122,7 @@ export default function DesktopQuestionPreview({ question }: Props) {
         >
           <p
             style={{
-              fontFamily: "'Playfair Display',Georgia,serif",
+              fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 700,
               fontSize: "1.3rem",
               lineHeight: 1.5,
@@ -141,7 +141,7 @@ export default function DesktopQuestionPreview({ question }: Props) {
             textAlign: "center",
             fontSize: 13,
             color: "#B0ABC8",
-            fontFamily: "'DM Sans',sans-serif",
+            fontFamily: "var(--font-dm-sans), sans-serif",
           }}
         >
           Start a conversation to see your full deck

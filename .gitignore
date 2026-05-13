@@ -144,3 +144,4 @@ vite.config.ts.timestamp-*
 # Deployment/platform
 .vercel
 .claude/
+.env*.local
