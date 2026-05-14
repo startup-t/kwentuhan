@@ -10,7 +10,11 @@ export function buildQuestionShareUrl(questionId: number): string {
       : DEFAULT_APP_URL;
   // /q/{id} matches the Expo Router route and the web page route.
   // The old /?qid=... format is retired.
-  return `${baseUrl.replace(/\/$/, "")}/q/${questionId}`;
+  const url = `${baseUrl.replace(/\/$/, "")}/q/${questionId}`;
+  if (typeof window !== "undefined") {
+    console.debug("[QR] DEFAULT mode URL:", { url, questionId, baseUrl });
+  }
+  return url;
 }
 
 export async function getCachedQRCodeDataUrl(
@@ -20,7 +24,14 @@ export async function getCachedQRCodeDataUrl(
 ): Promise<string> {
   const cacheId = `${cacheKey}:${value}:${size}`;
   const existing = qrPromiseCache.get(cacheId);
-  if (existing) return existing;
+  if (existing) {
+    if (typeof window !== "undefined") {
+      console.debug("[QR] Cache hit:", { cacheKey, value });
+    }
+    return existing;
+  }
+
+  console.debug("[QR] Generating QR:", { cacheKey, value, size });
 
   const pending = QRCode.toDataURL(value, {
     width: size,
@@ -28,6 +39,7 @@ export async function getCachedQRCodeDataUrl(
     errorCorrectionLevel: "M",
     color: { dark: "#161327", light: "#FFFFFF" },
   }).catch((error) => {
+    console.error("[QR] Generation failed:", { cacheKey, value, error: error instanceof Error ? error.message : String(error) });
     qrPromiseCache.delete(cacheId);
     throw error;
   });

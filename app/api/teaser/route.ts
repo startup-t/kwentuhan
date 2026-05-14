@@ -30,9 +30,11 @@ export async function POST(req: Request) {
         : "";
 
     if (!questionId || questionId === "0" || !questionText || !answerText) {
+      console.debug("[/api/teaser] Invalid payload:", { questionId, questionTextLength: questionText.length, answerTextLength: answerText.length });
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
+    console.debug("[/api/teaser] Creating persisted kwento:", { questionId });
     const record = await createPersistedKwento({
       questionId,
       questionText,
@@ -47,6 +49,7 @@ export async function POST(req: Request) {
 
     const revealUrl = `${baseUrl}/reveal/${record.kwentoId}?teaser=true`;
 
+    console.debug("[/api/teaser] Reveal URL generated:", { kwentoId: record.kwentoId, revealUrl, origin, baseUrl });
     return NextResponse.json({
       kwentoId: record.kwentoId,
       questionId: record.questionId,

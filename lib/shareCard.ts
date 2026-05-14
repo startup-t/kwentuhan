@@ -16,8 +16,14 @@ function isVisible(el: HTMLElement): boolean {
 }
 
 function hasAllowedQrTarget(value: string): boolean {
-  return value.startsWith("https://kwentuhan.cards/reveal/") ||
-    value.startsWith("https://kwentuhan.cards/q/");
+  const allowedOrigins = ["https://kwentuhan.cards"];
+  if (typeof window !== "undefined" && window.location?.origin) {
+    allowedOrigins.unshift(window.location.origin);
+  }
+
+  return allowedOrigins.some((origin) =>
+    value.startsWith(`${origin}/reveal/`) || value.startsWith(`${origin}/q/`)
+  );
 }
 
 async function waitForQrReady(node: HTMLElement): Promise<void> {
@@ -30,26 +36,35 @@ async function waitForQrReady(node: HTMLElement): Promise<void> {
     const qrValue = qrCode?.getAttribute("data-qr-value") ?? qrWrap?.getAttribute("data-qr-value") ?? "";
     const label = (qrLabel?.textContent ?? "").trim().toLowerCase();
 
-    if (
-      qrCode &&
-      qrLabel &&
-      isVisible(qrCode) &&
-      isVisible(qrLabel) &&
-      (label === "scan to play" || label === "scan to reveal") &&
-      hasAllowedQrTarget(qrValue)
-    ) {
+    const codeVisible = qrCode && isVisible(qrCode);
+    const labelVisible = qrLabel && isVisible(qrLabel);
+    const labelValid = label === "scan to play" || label === "scan to reveal";
+    const targetValid = hasAllowedQrTarget(qrValue);
+
+    if (codeVisible && labelVisible && labelValid && targetValid) {
+      console.debug("[shareCard] QR ready for export:", { mode: label, qrValue });
       return;
+    }
+
+    if (Date.now() - started < 500 || (Date.now() - started) % 1000 === 0) {
+      console.debug("[shareCard] Waiting for QR readiness:", {
+        codeVisible, labelVisible, labelValid, targetValid,
+        label, qrValue, elapsed: Date.now() - started,
+      });
     }
 
     await new Promise((resolve) => setTimeout(resolve, QR_READY_POLL_MS));
   }
 
+  console.error("[shareCard] QR not ready for export - timeout");
   throw new Error("QR not ready for export");
 }
 
 export async function exportCardFromNode(node: HTMLElement): Promise<Blob> {
+  console.debug("[shareCard] Export starting - waiting for QR readiness...");
   await waitForQrReady(node);
 
+  console.debug("[shareCard] QR ready, capturing blob...");
   const blob = await toBlob(node, {
     width:      CARD_W,
     height:     CARD_H,
@@ -63,7 +78,11 @@ export async function exportCardFromNode(node: HTMLElement): Promise<Blob> {
       height:          `${CARD_H}px`,
     },
   });
-  if (!blob) throw new Error("Failed to render share card");
+  if (!blob) {
+    console.error("[shareCard] toBlob returned null");
+    throw new Error("Failed to render share card");
+  }
+  console.debug("[shareCard] Export completed successfully:", { blobSize: blob.size, blobType: blob.type });
   return blob;
 }
 
@@ -71,27 +90,38 @@ export async function downloadCardFromNode(
   node: HTMLElement,
   filename: string,
 ): Promise<void> {
-  const blob = await exportCardFromNode(node);
+  console.debug("[shareCard] Download starting:", { filename });
+  try {
+    const blob = await exportCardFromNode(node);
 
-  // Prefer native file share when available (mobile saves to camera roll / files).
-  if (typeof navigator !== "undefined" && "share" in navigator) {
-    try {
-      const file = new File([blob], filename, { type: "image/png" });
-      if ("canShare" in navigator && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ title: "Kwentuhan card", files: [file] });
-        return;
+    // Prefer native file share when available (mobile saves to camera roll / files).
+    if (typeof navigator !== "undefined" && "share" in navigator) {
+      try {
+        const file = new File([blob], filename, { type: "image/png" });
+        if ("canShare" in navigator && navigator.canShare?.({ files: [file] })) {
+          console.debug("[shareCard] Using native share API");
+          await navigator.share({ title: "Kwentuhan card", files: [file] });
+          console.debug("[shareCard] Native share completed");
+          return;
+        }
+      } catch (e) {
+        console.debug("[shareCard] Native share failed, falling back to download");
+        // Continue to browser download fallback.
       }
-    } catch {
-      // Continue to browser download fallback.
     }
-  }
 
-  const url = URL.createObjectURL(blob);
-  const a   = document.createElement("a");
-  a.href     = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+    console.debug("[shareCard] Using browser download fallback");
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement("a");
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    console.debug("[shareCard] Download completed");
+  } catch (error) {
+    console.error("[shareCard] Download failed:", error instanceof Error ? error.message : String(error));
+    throw error;
+  }
 }

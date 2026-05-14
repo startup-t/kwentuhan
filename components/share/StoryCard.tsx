@@ -39,15 +39,27 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
     // Do not attempt QR generation with an empty URL — the QR library will
     // throw and the card will show a permanent gray box.
     if (!qrUrl) {
+      console.debug("[StoryCard] QR URL empty, clearing QR data:", { teaser, qrCacheKey });
       setQrDataUrl("");
       return;
     }
     let mounted = true;
+    console.debug("[StoryCard] Generating QR code:", { teaser, qrUrl, qrCacheKey });
     getCachedQRCodeDataUrl(qrCacheKey, qrUrl, 420)
-      .then((url) => { if (mounted) setQrDataUrl(url); })
-      .catch(() => { if (mounted) setQrDataUrl(""); });
+      .then((url) => {
+        if (mounted) {
+          console.debug("[StoryCard] QR rendered successfully:", { teaser, qrCacheKey });
+          setQrDataUrl(url);
+        }
+      })
+      .catch((error) => {
+        if (mounted) {
+          console.error("[StoryCard] QR rendering failed:", { teaser, qrCacheKey, error: error instanceof Error ? error.message : String(error) });
+          setQrDataUrl("");
+        }
+      });
     return () => { mounted = false; };
-  }, [qrCacheKey, qrUrl]);
+  }, [qrCacheKey, qrUrl, teaser]);
 
   // Truncated indicator copy when Quote style cuts at 180 chars
   const showQuoteTruncationHint = style === "quote" && answer.length > 180;

@@ -52,16 +52,28 @@ export default function SharePreview({
     `${teaser ? "reveal" : "play"}-${question.id}`
   ), [teaser, question.id]);
 
+  // Log teaser mode changes
+  useEffect(() => {
+    console.debug("[SharePreview] Teaser mode changed:", { teaser, questionId: question.id });
+  }, [teaser, question.id]);
+
+  // Log QR URL changes
+  useEffect(() => {
+    console.debug("[SharePreview] QR URL updated:", { teaser, qrUrl, questionId: question.id, hasUrl: !!qrUrl });
+  }, [qrUrl, teaser, question.id]);
+
   useEffect(() => {
     let mounted = true;
 
     if (!teaser || answer.trim().length === 0) {
+      console.debug("[SharePreview] Skipping teaser generation:", { teaser, answerLength: answer.trim().length });
       setTeaserUrl("");
       setTeaserLoading(false);
       setTeaserError(false);
       return () => { mounted = false; };
     }
 
+    console.debug("[SharePreview] Starting teaser URL generation...");
     setTeaserLoading(true);
     setTeaserError(false);
     setTeaserUrl("");
@@ -69,11 +81,13 @@ export default function SharePreview({
     createAnswerRevealUrl(question.id, question.hook, answer)
       .then((url) => {
         if (!mounted) return;
+        console.debug("[SharePreview] Teaser URL received:", { url });
         setTeaserUrl(url);
         setTeaserLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
         if (!mounted) return;
+        console.error("[SharePreview] Teaser generation failed:", error instanceof Error ? error.message : String(error));
         setTeaserUrl("");
         setTeaserLoading(false);
         setTeaserError(true);
@@ -111,13 +125,15 @@ export default function SharePreview({
     }
   }, [question.id]);
 
+  const shareTarget = qrUrl || SITE_URL;
+
   const handleFacebook = useCallback(() => {
-    const u = encodeURIComponent(SITE_URL);
+    const u = encodeURIComponent(shareTarget);
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, "_blank", "noopener,noreferrer");
-  }, []);
+  }, [shareTarget]);
 
   const handleMessenger = useCallback(() => {
-    const u    = encodeURIComponent(SITE_URL);
+    const u    = encodeURIComponent(shareTarget);
     const deep = `fb-messenger://share?link=${u}`;
     const win  = window.open(deep, "_blank", "noopener,noreferrer");
     window.setTimeout(() => {
@@ -128,19 +144,28 @@ export default function SharePreview({
         );
       }
     }, 450);
-  }, []);
+  }, [shareTarget]);
 
   const handleInstagram = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(`${question.hook}\n\n— kwentuhan\n${SITE_URL}`);
+      await navigator.clipboard.writeText(`${question.hook}\n\n— kwentuhan\n${shareTarget}`);
     } catch { /* ignore */ }
-  }, [question.hook]);
+  }, [question.hook, shareTarget]);
 
   const isEmpty       = answer.trim().length === 0;
   // Block Save while teaser link is still being minted — no point capturing a card
   // with a gray QR placeholder.
-  const saveLocked    = teaser && (teaserLoading || (!teaserUrl && !teaserError));
+  const saveLocked    = teaser && (teaserLoading || !teaserUrl);
   const saveDisabled  = isEmpty || saveHint === "saving" || saveLocked;
+  const saveLabel     = saveHint === "saving"
+    ? "Saving…"
+    : isEmpty
+      ? "Add your answer first"
+      : teaser && teaserLoading
+        ? "Generating link…"
+        : teaser && !teaserUrl
+          ? "Retry after generating link"
+          : "Save";
 
   return (
     <>
@@ -282,19 +307,9 @@ export default function SharePreview({
             opacity: saveDisabled ? 0.55 : 1,
             cursor:  saveDisabled ? "not-allowed" : "pointer",
           }}
-          aria-label={
-            isEmpty       ? "Add your answer first"
-            : saveLocked  ? "Generating reveal link…"
-            : "Save card"
-          }
+          aria-label={saveLabel}
         >
-          {saveHint === "saving"
-            ? "Saving…"
-            : isEmpty
-              ? "Add your answer first"
-              : saveLocked
-                ? "Generating link…"
-                : "Save"}
+          {saveLabel}
         </button>
 
         <p
