@@ -12,7 +12,8 @@
       "Bash(/Users/trishasalubre/.npm-global/bin/vercel whoami *)",
       "Bash(/Users/trishasalubre/.npm-global/bin/vercel env *)",
       "Bash(node /tmp/apply_fixes.js)",
-      "Bash(xargs -I{} echo {})"
+      "Bash(xargs -I{} echo {})",
+      "Bash(curl -s -w '\\\\nHTTP %{http_code}\\\\n' -X POST http://localhost:3000/api/follow-up -H 'Content-Type: application/json' -d '{\"hook\":\"Who or what is your biggest multo?\",\"mode\":\"group\",\"category\":\"barkada\"}')"
     ]
   }
 }

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Level, Mode } from "@/lib/types";
 import { LEVEL_CONFIG } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
+import FollowUpQuestionCard from "./FollowUpQuestionCard";
 
 interface Props {
   onClose: () => void;
@@ -31,6 +32,14 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   const [username, setUsername] = useState("");
   const [stage, setStage] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // Snapshot of the just-published question so the success state can render
+  // even after the form fields are reset.
+  const [published, setPublished] = useState<{
+    hook: string;
+    mode: Mode;
+    category: string;
+    level: Level;
+  } | null>(null);
 
   // ESC closes
   useEffect(() => {
@@ -107,9 +116,11 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
         }
       } catch { /* private mode — ignore */ }
 
+      // Capture a snapshot for the success state. Don't auto-close —
+      // the follow-up card needs time to render and be read.
+      setPublished({ hook: trimmedHook, mode, category, level });
       onSubmit?.(data?.question?.id ?? "");
       setStage("done");
-      setTimeout(onClose, 1400);
     } catch (err) {
       console.error("[AddQuestionModal] failed:", err);
       setErrorMsg("No internet connection. Try again in a moment.");
@@ -117,7 +128,7 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
     }
   }, [
     tooShort, stage, trimmedHook, trimmedDeep, trimmedUsername,
-    mode, category, level, onSubmit, onClose,
+    mode, category, level, onSubmit,
   ]);
 
   return (
@@ -152,16 +163,11 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
         </div>
 
         {/* Done state */}
-        {stage === "done" ? (
-          <div className="px-6 pb-8 pt-2 text-center">
-            <div className="text-4xl mb-3">🎉</div>
-            <p className="text-[0.9375rem] font-semibold" style={{ color: "var(--kw-text)" }}>
-              Live na ang kwento mo!
-            </p>
-            <p className="text-xs mt-1.5 leading-snug max-w-[20rem] mx-auto" style={{ color: "var(--kw-subtext)" }}>
-              Anyone playing {mode === "solo" ? "Solo" : "Group"} → {CATEGORIES[category]?.label ?? category} can see it next.
-            </p>
-          </div>
+        {stage === "done" && published ? (
+          <PublishedSuccess
+            published={published}
+            onClose={onClose}
+          />
         ) : (
           <div className="px-6 pb-6 flex flex-col gap-4 max-h-[72vh] overflow-y-auto">
             <p className="text-[0.8125rem]" style={{ color: "var(--kw-subtext)" }}>
@@ -323,7 +329,85 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   );
 }
 
-/* ────────── helpers ────────── */
+/* ────────── post-publish success state ────────── */
+
+interface PublishedSuccessProps {
+  published: { hook: string; mode: Mode; category: string; level: Level };
+  onClose: () => void;
+}
+
+function PublishedSuccess({ published, onClose }: PublishedSuccessProps) {
+  const { hook, mode, category, level } = published;
+  const catMeta = CATEGORIES[category];
+  const lvl = LEVEL_CONFIG[level];
+
+  return (
+    <div className="px-6 pb-6 flex flex-col gap-4 max-h-[72vh] overflow-y-auto">
+      {/* Celebration row */}
+      <div className="flex items-center gap-3 pt-1">
+        <span className="text-2xl" aria-hidden>🎉</span>
+        <div className="flex flex-col">
+          <p className="text-[0.9375rem] font-bold" style={{ color: "var(--kw-text)" }}>
+            Live na ang kwento mo!
+          </p>
+          <p className="text-[0.6875rem]" style={{ color: "var(--kw-subtext)" }}>
+            Anyone playing {mode === "solo" ? "Solo" : "Group"} → {catMeta?.label ?? category} can see it next.
+          </p>
+        </div>
+      </div>
+
+      {/* Published question — primary card */}
+      <div
+        className="kw-card kw-slide-up p-4 flex flex-col gap-2"
+        style={{
+          background: lvl?.cardBg ?? "var(--kw-surface)",
+          border: `1px solid ${lvl?.cardBorder ?? "var(--kw-border-solid)"}`,
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[0.625rem] font-bold uppercase tracking-[0.18em] inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+            style={{ background: lvl?.bg, color: lvl?.color }}
+          >
+            <span aria-hidden>{lvl?.emoji}</span>
+            <span>{lvl?.label}</span>
+          </span>
+          {catMeta && (
+            <span
+              className="text-[0.625rem] font-semibold inline-flex items-center gap-1"
+              style={{ color: "var(--kw-subtext)" }}
+            >
+              <span aria-hidden>{catMeta.emoji}</span>
+              <span>{catMeta.label}</span>
+            </span>
+          )}
+        </div>
+        <p
+          className="text-[1rem] font-bold leading-snug"
+          style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-text)" }}
+        >
+          {hook}
+        </p>
+      </div>
+
+      {/* Generated follow-up — secondary, threaded card */}
+      <FollowUpQuestionCard hook={hook} mode={mode} category={category} />
+
+      {/* Done */}
+      <div className="flex flex-col gap-2 pt-1">
+        <button
+          type="button"
+          onClick={onClose}
+          className="btn-primary w-full py-[1.0625rem] text-[0.9375rem] flex items-center justify-center gap-2"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ────────── form helpers ────────── */
 
 function Field({
   label,
