@@ -89,13 +89,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ question });
   } catch (err) {
     console.error("[/api/contribute] failed:", err);
-    // TEMP: surface the error message so we can diagnose the production
-    // failure without relying on log streaming. Revert once root cause is found.
-    const message = err instanceof Error ? err.message : String(err);
-    const code = (err as { code?: string })?.code ?? null;
-    return NextResponse.json(
-      { error: "Failed to submit question", debugMessage: message, debugCode: code },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to submit question" }, { status: 500 });
   }
 }
