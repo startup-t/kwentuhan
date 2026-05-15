@@ -37,11 +37,21 @@ const globalForPostgres = globalThis as typeof globalThis & {
 };
 
 function getConnectionString(): string {
-  const connectionString = process.env.POSTGRES_URL ?? process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("Missing Postgres connection string");
+  // IMPORTANT: use `||` not `??` so empty-string env values (a real failure
+  // mode when an unfinished Supabase integration leaves stale `POSTGRES_URL=""`
+  // entries on Vercel) fall through to the next candidate instead of being
+  // accepted as a connection string. Trimming first guards against accidental
+  // whitespace from pasted secrets.
+  const candidates = [process.env.POSTGRES_URL, process.env.DATABASE_URL]
+    .map((v) => (typeof v === "string" ? v.trim() : ""))
+    .filter((v) => v.length > 0);
+
+  if (candidates.length === 0) {
+    throw new Error(
+      "Missing Postgres connection string — set POSTGRES_URL or DATABASE_URL (non-empty).",
+    );
   }
-  return connectionString;
+  return candidates[0];
 }
 
 function getPool(): Pool {
