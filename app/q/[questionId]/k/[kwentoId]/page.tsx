@@ -166,6 +166,7 @@ export default async function ScanToRevealPage({ params }: Props) {
           <KwentoForm
             questionId={effectiveQuestionId}
             questionText={questionText}
+            question={question ?? undefined}
             heading={hasKwento ? "Your turn" : "Your turn"}
             subheading={
               hasKwento

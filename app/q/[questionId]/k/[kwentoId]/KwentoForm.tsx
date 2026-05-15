@@ -2,11 +2,22 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { getCachedQRCodeDataUrl } from "@/lib/qr";
+import type { Question } from "@/lib/types";
+import KwentoExportPanel from "@/components/share/KwentoExportPanel";
 
 type KwentoFormProps = {
   questionId: string;
   questionText: string;
+  /**
+   * Full question object. Required when present so the post-submit final
+   * screen can render the shared `KwentoExportPanel` (StoryCard + download)
+   * with proper level / category / cluster styling.
+   *
+   * Marked optional so existing call sites that haven't been updated yet
+   * still type-check; if missing, the panel falls back to a minimal Question
+   * synthesized from the text + id.
+   */
+  question?: Question;
   heading?: string;
   subheading?: string;
 };
@@ -18,15 +29,15 @@ const MAX_CHARS = 500;
 export function KwentoForm({
   questionId,
   questionText,
+  question,
   heading = "Your turn",
   subheading = "Write your answer and we'll spin up a shareable link for you.",
 }: KwentoFormProps) {
   const [text, setText] = useState("");
+  const [submittedAnswer, setSubmittedAnswer] = useState("");
   const [stage, setStage] = useState<Stage>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [revealUrl, setRevealUrl] = useState("");
-  const [qrDataUrl, setQrDataUrl] = useState("");
-  const [copied, setCopied] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // When the user lands here via the Answer button on the contribute success
@@ -38,7 +49,6 @@ export function KwentoForm({
     if (!shouldAutoAnswer) return;
     const ta = textareaRef.current;
     if (!ta) return;
-    // Defer one frame so the page layout settles before scrolling.
     const raf = requestAnimationFrame(() => {
       ta.scrollIntoView({ behavior: "smooth", block: "center" });
       ta.focus({ preventScroll: true });
@@ -46,19 +56,6 @@ export function KwentoForm({
     return () => cancelAnimationFrame(raf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Render the QR for the freshly-minted reveal URL once we have it.
-  useEffect(() => {
-    if (!revealUrl) {
-      setQrDataUrl("");
-      return;
-    }
-    let alive = true;
-    getCachedQRCodeDataUrl(`form-success:${revealUrl}`, revealUrl, 320)
-      .then((url) => { if (alive) setQrDataUrl(url); })
-      .catch(() => { if (alive) setQrDataUrl(""); });
-    return () => { alive = false; };
-  }, [revealUrl]);
 
   const charsLeft = MAX_CHARS - text.length;
   const canSubmit = text.trim().length > 0 && stage !== "loading";
@@ -98,6 +95,7 @@ export function KwentoForm({
 
         if (typeof data?.revealUrl === "string" && data.revealUrl.length > 0) {
           setRevealUrl(data.revealUrl);
+          setSubmittedAnswer(trimmed);
           setStage("success");
           return;
         }
@@ -112,157 +110,59 @@ export function KwentoForm({
     [text, stage, questionId, questionText]
   );
 
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(revealUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
-    } catch {
-      /* ignore */
-    }
-  }, [revealUrl]);
-
-  const handleShare = useCallback(async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "My kwento on Kwentuhan",
-          text: "Sumagot ako ng isang tanong sa Kwentuhan — basahin mo ang sagot ko, tapos sagutin mo rin.",
-          url: revealUrl,
-        });
-        return;
-      } catch {
-        /* fall through to copy */
-      }
-    }
-    handleCopy();
-  }, [revealUrl, handleCopy]);
-
   const handleReset = useCallback(() => {
     setStage("idle");
     setErrorMsg("");
     setRevealUrl("");
+    setSubmittedAnswer("");
     setText("");
-    setCopied(false);
     setTimeout(() => textareaRef.current?.focus(), 60);
   }, []);
 
   // ── Success state ──────────────────────────────────────────────────────────
+  //
+  // After a successful submission, User 2 sees the SAME final-state UI as User 1:
+  // the shared `KwentoExportPanel` with the StoryCard preview, style chips,
+  // teaser toggle, PNG download, and social-share row. The previously bespoke
+  // "💫 Your kwento is live" + standalone QR + Copy pill has been retired in
+  // favor of this unified system.
   if (stage === "success") {
+    // Synthesize a minimal Question if the parent didn't pass one through.
+    // The render is still correct — just uses default Chill / generic styling.
+    const effectiveQuestion: Question = question ?? {
+      id: questionId,
+      hook: questionText,
+      deepDive: "",
+      level: "light",
+      levelLabel: "Chill",
+      levelColor: "#6C5CE7",
+      category: "selfCheck",
+      categoryLabel: "",
+      categoryEmoji: "🤔",
+      mode: "solo",
+      cluster: "solo",
+      isPersonal: true,
+      ageGated: false,
+    };
+
     return (
-      <div className="w-full kw-card p-6 flex flex-col gap-5 relative overflow-hidden">
-        {/* Soft gradient accent */}
-        <div
-          aria-hidden
-          className="absolute -top-12 -left-12 w-36 h-36 rounded-full pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(108,92,231,0.20) 0%, transparent 70%)",
-            filter: "blur(8px)",
-          }}
-        />
-
-        {/* Icon + heading */}
-        <div className="flex flex-col items-center text-center gap-1 relative">
-          <span className="text-4xl mb-1">💫</span>
-          <h3
-            className="text-lg font-bold"
-            style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-text)" }}
-          >
-            Your kwento is live
-          </h3>
-          <p className="text-sm max-w-[20rem]" style={{ color: "var(--kw-subtext)" }}>
-            Pass it forward — whoever opens this link will read your story, then have a chance to share theirs.
-          </p>
-        </div>
-
-        {/* QR code — the centerpiece of the chain moment */}
-        <div className="relative flex justify-center">
-          <div
-            className="rounded-2xl p-3 flex flex-col items-center gap-2"
-            style={{
-              background: "var(--kw-surface)",
-              border: "1px solid var(--kw-border-solid)",
-              boxShadow: "0 8px 32px rgba(108,92,231,0.14)",
-            }}
-          >
-            {qrDataUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={qrDataUrl}
-                alt="QR code for your kwento"
-                width={160}
-                height={160}
-                style={{ width: 160, height: 160, display: "block" }}
-              />
-            ) : (
-              <div
-                className="kw-shimmer rounded-md"
-                style={{ width: 160, height: 160 }}
-                aria-label="Loading QR code"
-              />
-            )}
-            <p
-              className="text-[0.625rem] font-semibold uppercase tracking-widest"
-              style={{ color: "var(--kw-muted)" }}
+      <div className="w-full kw-card p-2 sm:p-3">
+        <KwentoExportPanel
+          question={effectiveQuestion}
+          answer={submittedAnswer}
+          initialRevealUrl={revealUrl}
+          initialTeaser={true}
+          footer={
+            <button
+              type="button"
+              onClick={handleReset}
+              className="text-xs font-medium text-center w-full py-1 transition-colors"
+              style={{ color: "var(--kw-subtext)" }}
             >
-              scan to reveal
-            </p>
-          </div>
-        </div>
-
-        {/* Reveal URL pill */}
-        <div
-          className="flex items-center gap-2 rounded-2xl px-4 py-3 border relative"
-          style={{ background: "var(--kw-surface-alt)", borderColor: "var(--kw-border-solid)" }}
-        >
-          <span
-            className="flex-1 text-xs font-medium truncate"
-            style={{ color: "var(--kw-accent)" }}
-            title={revealUrl}
-          >
-            {revealUrl}
-          </span>
-          <button
-            onClick={handleCopy}
-            className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors"
-            style={{
-              background: copied ? "var(--kw-success)" : "var(--kw-accent-soft)",
-              color: copied ? "#fff" : "var(--kw-accent)",
-            }}
-          >
-            {copied ? "Copied ✓" : "Copy"}
-          </button>
-        </div>
-
-        {/* Primary share */}
-        <button
-          onClick={handleShare}
-          className="btn-primary w-full py-4 text-[0.9375rem] flex items-center justify-center gap-2 relative"
-        >
-          <span>📤</span>
-          <span>Share your kwento</span>
-        </button>
-
-        {/* Secondary: preview as the reader will see it */}
-        <a
-          href={revealUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-center text-sm font-medium underline transition-colors relative"
-          style={{ color: "var(--kw-accent)" }}
-        >
-          Preview how others will see it ↗
-        </a>
-
-        {/* Tertiary: write another */}
-        <button
-          onClick={handleReset}
-          className="text-xs font-medium text-center transition-colors relative"
-          style={{ color: "var(--kw-subtext)" }}
-        >
-          Write another kwento →
-        </button>
+              Write another kwento →
+            </button>
+          }
+        />
       </div>
     );
   }

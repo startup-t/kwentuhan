@@ -113,7 +113,11 @@ export default async function ScanToPlayPage({ params }: Props) {
         </div>
 
         {/* ── 4. Write + share form ────────────────────────────────── */}
-        <KwentoForm questionId={String(question.id)} questionText={question.hook} />
+        <KwentoForm
+          questionId={String(question.id)}
+          questionText={question.hook}
+          question={question}
+        />
 
         {/* ── 5. App CTA — subtle, non-blocking footer ─────────────── */}
         <div
