@@ -1,4 +1,4 @@
-export async function createAnswerRevealUrl(questionId: number, question: string, answer: string): Promise<string> {
+export async function createAnswerRevealUrl(questionId: number | string, question: string, answer: string): Promise<string> {
   console.debug("[TEASER] Creating reveal URL:", { questionId, questionLength: question.length, answerLength: answer.length });
   
   const res = await fetch("/api/teaser", {

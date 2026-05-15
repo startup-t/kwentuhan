@@ -2762,7 +2762,7 @@
   {
     "id": 217,
     "hook": "Kung pwede kang mag-undo ng isang desisyon sa nakaraan — hindi message, desisyon — ano yun?",
-    "deepDive": "At kung hindi ka na nagbago ng desisyon — paano mo tinangkilik ang buhay na kasalukuyan mo?",
+    "deepDive": "Pero kung hindi mo siya binago, paano mo tinanggap yung buhay na meron ka ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -3991,7 +3991,7 @@
   },
   {
     "id": 371,
-    "hook": "Kailan ka huling nag-oofer ng sarili mong oras para goal ng iba kahit hindi yun gusto mo?",
+    "hook": "Kailan ka huling nag-sacrifice ng oras mo para sa goal ng iba kahit di mo naman gusto?",
     "deepDive": "Ano ang tingin mo ang magiging epekto nito sa buhay mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4127,7 +4127,7 @@
   {
     "id": 380,
     "hook": "Anong goal ang hindi mo gustong malaman ng pamilya mo dahil takot ka sa reaksyon?",
-    "deepDive": "Totoong gusto mo ba ’to itago, o gusto mong mag-iba ang relasyon niyo para masabi mo na?",
+    "deepDive": "Totoong gusto mo bang itago, or natatakot ka lang sa reaction nila?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4157,7 +4157,7 @@
   {
     "id": 382,
     "hook": "Ano ang pinaka-matagal na “hihintayin ko muna” na goal mo?",
-    "deepDive": "Kailan ang tamang time para sa'yo at paano mo malalaman?",
+    "deepDive": "Kailan mo malalaman na tamang time na?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4426,7 +4426,7 @@
   },
   {
     "id": 400,
-    "hook": "Anong unforgettable moment na parehong nakatawa at nakaiyak kapag naaalala mo?",
+    "hook": "Anong memory mo na nakakatawa pero nakakaiyak rin kapag naaalala mo?",
     "deepDive": "Anong bahagi nito ang nakakaapekto sa'yo nang pinaka-malalim?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4442,7 +4442,7 @@
   {
     "id": 401,
     "hook": "May pressure ka bang laging maging strong kahit gusto mo ring magpahinga?",
-    "deepDive": "Sino naman ang nagmamaalagang malakas para sa'yo?",
+    "deepDive": "Sino yung tao na pwede mong sandalan kapag pagod ka na?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -4517,7 +4517,7 @@
   {
     "id": 406,
     "hook": "Naranasan mo na bang sabay mong mahal at inis ang isang tao?",
-    "deepDive": "Paano mo pinamamahalaan ang dalawang emosyong yon nang magkasabay?",
+    "deepDive": "Paano mo kinakaya na mahalin at ma-inis sila sabay?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4546,8 +4546,8 @@
   },
   {
     "id": 408,
-    "hook": "Naramdaman mo na bang mainggit sa buhay ng iba at di mo alam paano sisihin?",
-    "deepDive": "Anong eksaktong parte ng kanilang buhay ang pinaka-inainggitinan mo?",
+    "hook": "Naramdaman mo na bang mainggit sa buhay ng iba pero di mo malaman kung kanino mo ito isisi?",
+    "deepDive": "Anong eksaktong part ng buhay nila yung pinaka-iniinggitan mo?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4591,8 +4591,8 @@
   },
   {
     "id": 411,
-    "hook": "Anong damdamin ang gustong sa'yo ay mas mabigat pero pinipilit mong ngumiti?",
-    "deepDive": "Anong gagawin mo para handa ka pag dumating na ito?",
+    "hook": "Anong feeling ngayon na mabigat sa'yo pero pinipilit mong ngumiti pa rin?",
+    "deepDive": "Anong gusto mong gawin tungkol sa feeling na yon?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4801,7 +4801,7 @@
   },
   {
     "id": 425,
-    "hook": "Ano ang pagbabago sa pamilya mo noong bata ka na malaki ang badge sa’yo?",
+    "hook": "Ano yung pagbabago sa pamilya niyo noong bata ka na malaki ang bakas sa'yo?",
     "deepDive": "Positibo o negatibo yung epekto nito sa'yo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4846,7 +4846,7 @@
   },
   {
     "id": 428,
-    "hook": "Maynaisip ka bang pagkakamali noon na ngayong napatawad mo na sarili mo?",
+    "hook": "May pagkakamali ka ba dati na ngayon napatawad mo na ang sarili mo?",
     "deepDive": "Ano ang pipiliin mo ngayon kung mayroon kang pagkakataon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4862,7 +4862,7 @@
   {
     "id": 429,
     "hook": "Anong summer o bakasyon noong bata ka ang gustong-gusto mong balik-balikan?",
-    "deepDive": "Ano sa katotohanang yon ang pinaka-napalayo na sa buhay mo ngayon?",
+    "deepDive": "Ano dun yung pinaka-malayo na sa buhay mo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -4952,7 +4952,7 @@
   {
     "id": 435,
     "hook": "Ano ang family secret o kwento na nagbago ng tingin mo sa kanila?",
-    "deepDive": "Paano mo pinamamahalaan ang bagong kaalaman na yon?",
+    "deepDive": "Paano mo dinadala yung bagong alam mo about them?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -4982,7 +4982,7 @@
   {
     "id": 437,
     "hook": "Kung mabubura mo ang isang memory, ano yun at bakit?",
-    "deepDive": "O mas magiging masama pa ba kahit mabura mo ito?",
+    "deepDive": "Sigurado ka bang mas magiging okay ka kung mabubura mo siya?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5027,7 +5027,7 @@
   {
     "id": 440,
     "hook": "Anong memory ang sabay nagpapasaya at nagpapasakit kapag naaalala mo?",
-    "deepDive": "Paano mo pinamamahalaan ang dalawang emosyong yon sa iisang alaala?",
+    "deepDive": "Paano mo kinakaya yung dalawang feelings sa iisang memory na yan?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5192,7 +5192,7 @@
   {
     "id": 451,
     "hook": "Ano ang bagay na sabi mong mahalaga pero hindi naman nakikita sa buhay mo?",
-    "deepDive": "Ano ang kaibihan ng sinasabi at ginagawa mo?",
+    "deepDive": "Ano yung kaibahan ng sinasabi mo at ginagawa mo?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -5267,7 +5267,7 @@
   {
     "id": 456,
     "hook": "Anong relasyon ang iniwan mo dahil hindi na tugma sa kung sino ka ngayon?",
-    "deepDive": "Paano mo pinamamahalaan ang pagtatapos ng relasyong yon?",
+    "deepDive": "Paano mo siya niwakasan, at okay ka na ba ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -5281,7 +5281,7 @@
   },
   {
     "id": 457,
-    "hook": "Anong utang na loob ang nararamdaman mo at paano nito binabago ang choices mo?",
+    "hook": "Anong utang na loob ang pinaka-binubuhat mo ngayon?",
     "deepDive": "Kailan mo mababayaran ito — o pakiramdam mo ay hindi mo ito mababayaran?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5312,7 +5312,7 @@
   {
     "id": 459,
     "hook": "Naranasan mo na bang gumawa ng bagay na salungat sa values mo dahil sa pamilya?",
-    "deepDive": "Paano mo pinamamahalaan ang guilt o pagkalito pagkatapos?",
+    "deepDive": "Paano ka nag-cope sa guilt or gulo sa isip after?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5341,7 +5341,7 @@
   },
   {
     "id": 461,
-    "hook": "Kung malaman ng pamilya mo ang totoong beliefs mo tungkol sa faith, trabaho, o marriage, ano sa tingin mo mangyayari?",
+    "hook": "Kung malaman ng pamilya mo yung totoong paniniwala mo sa isang sensitive topic, anong magiging reaction nila?",
     "deepDive": "Mahalaga ba sa'yo ang kanilang approval — o kaya mo na itong harapin?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5416,7 +5416,7 @@
   },
   {
     "id": 466,
-    "hook": "Ano ang bahagi ng sarili mo na mahirap aminin dahil sumasalungat sa self-image mo?",
+    "hook": "Anong part ng sarili mo na mahirap aminin kasi salungat sa imahe mong gusto mong ipakita?",
     "deepDive": "Kailan mo maaaring harapin ang katotohanang yon nang buong-buo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5567,7 +5567,7 @@
   {
     "id": 476,
     "hook": "Ano ang pinakainconvenient na ginawa mo pero thankful ka na ginawa mo?",
-    "deepDive": "Anong natutukan mo sa karanasang yon?",
+    "deepDive": "Anong natutunan mo dun?",
     "level": "light",
     "levelLabel": "Chill",
     "levelColor": "#6C5CE7",
@@ -5672,7 +5672,7 @@
   {
     "id": 483,
     "hook": "Ano ang pinakamahusay na natutunan mo nung nag-alaga ka ng mahal mo?",
-    "deepDive": "Paano ito nag-shape ng kung sino ka bilang isang tao?",
+    "deepDive": "Paano ka binago ng experience na yon?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -5746,8 +5746,8 @@
   },
   {
     "id": 488,
-    "hook": "Naranasan mo na bang magduda na overdue na ang chance mo mag-grow?",
-    "deepDive": "Maaari mo bang sabihin ito sa kanila — o mas maayos na hindi?",
+    "hook": "Naramdaman mo na bang huli na para sa'yo mag-grow or magbago?",
+    "deepDive": "Kanino mo kinukumpara yung sarili mo na pakiramdam mong huli ka na?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5776,8 +5776,8 @@
   },
   {
     "id": 490,
-    "hook": "Kung may lahat kang kailangan para mag-grow, ano ang unang babaguhin mo sa sarili?",
-    "deepDive": "Kailan mo plano harapin ang cycle na yon?",
+    "hook": "Kung wala kang pumipigil, ano yung unang babaguhin mo sa sarili mo?",
+    "deepDive": "Kailan mo siya plano simulan?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5851,8 +5851,8 @@
   },
   {
     "id": 495,
-    "hook": "Anong pattern ang paulit-ulit na nangyayari dahil hindi mo pa ito fully hinaharap?",
-    "deepDive": "Bakit hindi mo pa ito ginagawa kahit wala pa ang lahat ng bagay na kailangan mo?",
+    "hook": "Anong pareho-parehong nangyayari sa'yo na alam mong dahil din sa'yo?",
+    "deepDive": "Bakit sa tingin mo paulit-ulit pa rin ito?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -5866,8 +5866,8 @@
   },
   {
     "id": 496,
-    "hook": "Ano ang biggest setback mo na ngayon tingin mo may hawak ng growth?",
-    "deepDive": "Paano ka mabubuhay nang mas masaya kung tinanggap ito ng mga mahal mo sa buhay?",
+    "hook": "Anong pinakamalaking setback mo na ngayon, tingin mo ay may natutunan ka pala?",
+    "deepDive": "Paano mo siya tinatanaw ngayon — sumpa pa rin or blessing na?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -6046,7 +6046,7 @@
   },
   {
     "id": 508,
-    "hook": "Ano ang practice na sinimulan mo para ayusin ang isa pero naging problema na?",
+    "hook": "Anong sinimulan mong gawin para ayusin ang isang bagay pero naging problema na rin?",
     "deepDive": "Kailan mo unang napagtanto na naging problema na ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6062,7 +6062,7 @@
   {
     "id": 509,
     "hook": "Ano ang laging sinasabi mong babaguhin mo pero paulit-ulit pa rin?",
-    "deepDive": "Saan mo gustong maging posible ang pagbabagong yon?",
+    "deepDive": "Anong unang maliit na hakbang kayang-kaya mong gawin bukas?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6346,8 +6346,8 @@
   },
   {
     "id": 528,
-    "hook": "Kapag nag-iisa ka sa commute, ano ang palaging tumatagos sa'yo?",
-    "deepDive": "Okay ka ba sa inaaksaya ng utak mo sa mga iniisip na yon?",
+    "hook": "Kapag mag-isa ka sa commute, ano yung lagi mong naiisip?",
+    "deepDive": "Okay ka ba na yon lagi yung iniisip mo, or sayang ang oras?",
     "level": "light",
     "levelLabel": "Chill",
     "levelColor": "#6C5CE7",
@@ -6406,8 +6406,8 @@
   },
   {
     "id": 532,
-    "hook": "Ano ang naisip mo tungkol sa buhay na hindi naman malalim, pero totoo sayo?",
-    "deepDive": "May sinubukan ka na bang hanapin ang sagot sa tanong na yon?",
+    "hook": "Anong simpleng realization mo about life na hindi malalim pero totoo sa'yo?",
+    "deepDive": "Kailan mo siya unang naisip?",
     "level": "light",
     "levelLabel": "Chill",
     "levelColor": "#6C5CE7",
@@ -6436,8 +6436,8 @@
   },
   {
     "id": 534,
-    "hook": "Ano ang pinakakaapekto sa pag-iisip mo ngayon mula sa mundo?",
-    "deepDive": "Paano ito nagbabago ng mga desisyon mo sa araw-araw?",
+    "hook": "Anong nababasa or napapanood mo ngayon na talagang nakakaapekto sa isip mo?",
+    "deepDive": "May nagbago ba siya sa choices mo sa araw-araw?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6466,8 +6466,8 @@
   },
   {
     "id": 536,
-    "hook": "Ano ang tanong na patuloy kang minamasyado kahit di mo pa nasasagot?",
-    "deepDive": "Paano mo hinaharap ang uncertainty ng hindi mawaring sagot?",
+    "hook": "Anong tanong na laging ginugulo sa isip mo kahit di mo pa nasasagot?",
+    "deepDive": "Paano mo kinakaya na walang malinaw na sagot?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6481,8 +6481,8 @@
   },
   {
     "id": 537,
-    "hook": "Kung isipin mo ang resilience mo, ano ang unang pumapasok sa isip mo?",
-    "deepDive": "Saan ka kukuha ng lakas kung mangyari yon?",
+    "hook": "Kapag iniisip mo kung gaano ka katibay, ano yung unang pumapasok sa isip mo?",
+    "deepDive": "Saan ka usually kumukuha ng lakas pag wala ka na?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6496,7 +6496,7 @@
   },
   {
     "id": 538,
-    "hook": "Sa faith o beliefs mo, ginagawa mo ba ito para sa sarili o para sa iba?",
+    "hook": "Yung paniniwala mo, ginagawa mo ba siya para sa sarili mo or para makasunod sa iba?",
     "deepDive": "Kailan mo huling naramdaman ang tunay na koneksyon dun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6511,8 +6511,8 @@
   },
   {
     "id": 539,
-    "hook": "Ano ang naisip mo tungkol sa kamatayan na hindi takot, kundi realism?",
-    "deepDive": "Paano nito nababago ang mga pinipili mo sa buhay?",
+    "hook": "Anong naiisip mo tungkol sa kamatayan na hindi takot, kundi parang acceptance na lang?",
+    "deepDive": "May nagbago ba sa pinipili mo ngayon dahil dun?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6526,8 +6526,8 @@
   },
   {
     "id": 540,
-    "hook": "Paano ka magdesisyon kung saan mo gustong pumunta sa buhay mo?",
-    "deepDive": "Kung maling landas pala ang tinatahak mo, kailan mo malalaman?",
+    "hook": "Paano mo nadedesisyon kung saan ka pupunta next sa buhay mo?",
+    "deepDive": "Anong sign mo na nasa tamang path ka — or na hindi?",
     "level": "deep",
     "levelLabel": "Deep",
     "levelColor": "#3B82F6",
@@ -6586,8 +6586,8 @@
   },
   {
     "id": 544,
-    "hook": "Kapag iniisip mo ang mga mahal mo, laging ba may duda ka pa rin?",
-    "deepDive": "Anong gusto mong gawin sa kakulangan ng kasigurohang yon?",
+    "hook": "Kapag iniisip mo yung mga mahal mo, may part ka ba na nagdududa kung mahal ka rin nila?",
+    "deepDive": "Anong gusto mong gawin para mawala or maipaliwanag yung duda na yon?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -6646,7 +6646,7 @@
   },
   {
     "id": 548,
-    "hook": "Ano ang gustong mahalin ng iba sa’yo pero ayaw mong aminin?",
+    "hook": "Anong part mo na gusto mong mahalin ng iba pero hindi mo masabi nang diretso?",
     "deepDive": "Bakit mas madaling isipin ito sa loob kaysa sabihin ito nang malakas?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6676,8 +6676,8 @@
   },
   {
     "id": 550,
-    "hook": "Anong naiisip mo kapag may conflict sa relasyon mo?",
-    "deepDive": "Anong gagawin mo kung tama pala ikaw?",
+    "hook": "Kapag may away sa relasyon mo, anong unang naiisip mo bago mag-react?",
+    "deepDive": "Mas madalas ka bang nagre-react agad, or naghihintay ka muna mag-cool down?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",
@@ -6691,8 +6691,8 @@
   },
   {
     "id": 551,
-    "hook": "Ano ang boses sa ulo mo na laging pinipigil ang actions mo?",
-    "deepDive": "Saan galing ang boses na yon — at kailan ito nagsimula?",
+    "hook": "Ano yung lagi mong sinasabi sa sarili mo na nakakapigil sa'yo gumawa ng bagay?",
+    "deepDive": "Saan galing yung sinasabi mo sa sarili mo — at kailan ka unang nag-isip nun?",
     "level": "wild",
     "levelLabel": "Wild",
     "levelColor": "#E8527A",

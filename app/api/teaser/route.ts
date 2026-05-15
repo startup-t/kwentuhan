@@ -18,8 +18,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Accept questionId as number or string — both are valid.
-    const questionId = String(Number(body?.questionId ?? 0));
+    // Accept questionId as number, numeric string, or community "q_*" id.
+    // Coerce to string and validate it's non-empty rather than numeric —
+    // community-contributed questions have prefixed string IDs.
+    const rawId = body?.questionId;
+    const questionId = typeof rawId === "string"
+      ? rawId.trim()
+      : typeof rawId === "number" && Number.isFinite(rawId)
+        ? String(rawId)
+        : "";
     const questionText =
       typeof body?.question === "string" && body.question.trim().length > 0
         ? body.question.trim()
@@ -29,7 +36,7 @@ export async function POST(req: Request) {
         ? body.answer.trim()
         : "";
 
-    if (!questionId || questionId === "0" || !questionText || !answerText) {
+    if (!questionId || !questionText || !answerText) {
       console.debug("[/api/teaser] Invalid payload:", { questionId, questionTextLength: questionText.length, answerTextLength: answerText.length });
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }

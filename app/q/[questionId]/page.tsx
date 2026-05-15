@@ -68,6 +68,17 @@ export default async function ScanToPlayPage({ params }: Props) {
           >
             {question.hook}
           </p>
+          {question.contributor && (
+            <p
+              className="text-[0.6875rem] font-medium mt-2.5"
+              style={{ color: "var(--kw-subtext)" }}
+            >
+              Question by{" "}
+              <span style={{ color: "var(--kw-accent)", fontWeight: 600 }}>
+                {question.contributor}
+              </span>
+            </p>
+          )}
         </section>
 
         {/* ── 2. Deep dive ──────────────────────────────────────────── */}
