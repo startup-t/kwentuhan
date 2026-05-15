@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { getCachedQRCodeDataUrl } from "@/lib/qr";
 
 type KwentoFormProps = {
@@ -27,6 +28,24 @@ export function KwentoForm({
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // When the user lands here via the Answer button on the contribute success
+  // screen (?answer=1), scroll the form into view and focus the textarea so
+  // they can start typing immediately. One-shot — only fires on first mount.
+  const searchParams = useSearchParams();
+  const shouldAutoAnswer = searchParams?.get("answer") === "1";
+  useEffect(() => {
+    if (!shouldAutoAnswer) return;
+    const ta = textareaRef.current;
+    if (!ta) return;
+    // Defer one frame so the page layout settles before scrolling.
+    const raf = requestAnimationFrame(() => {
+      ta.scrollIntoView({ behavior: "smooth", block: "center" });
+      ta.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Render the QR for the freshly-minted reveal URL once we have it.
   useEffect(() => {

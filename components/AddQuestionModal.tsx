@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Level, Mode } from "@/lib/types";
 import { LEVEL_CONFIG } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
@@ -35,6 +36,7 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   // Snapshot of the just-published question so the success state can render
   // even after the form fields are reset.
   const [published, setPublished] = useState<{
+    id: string;
     hook: string;
     mode: Mode;
     category: string;
@@ -118,8 +120,9 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
 
       // Capture a snapshot for the success state. Don't auto-close —
       // the follow-up card needs time to render and be read.
-      setPublished({ hook: trimmedHook, mode, category, level });
-      onSubmit?.(data?.question?.id ?? "");
+      const newId = typeof data?.question?.id === "string" ? data.question.id : "";
+      setPublished({ id: newId, hook: trimmedHook, mode, category, level });
+      onSubmit?.(newId);
       setStage("done");
     } catch (err) {
       console.error("[AddQuestionModal] failed:", err);
@@ -332,14 +335,38 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
 /* ────────── post-publish success state ────────── */
 
 interface PublishedSuccessProps {
-  published: { hook: string; mode: Mode; category: string; level: Level };
+  published: { id: string; hook: string; mode: Mode; category: string; level: Level };
   onClose: () => void;
 }
 
 function PublishedSuccess({ published, onClose }: PublishedSuccessProps) {
-  const { hook, mode, category, level } = published;
+  const { id, hook, mode, category, level } = published;
   const catMeta = CATEGORIES[category];
   const lvl = LEVEL_CONFIG[level];
+
+  const router = useRouter();
+  // Single guard prevents double-navigation if the user double-taps or fires
+  // both buttons in quick succession.
+  const navigatedRef = useRef(false);
+  const [navigatingTo, setNavigatingTo] = useState<"view" | "answer" | null>(null);
+  const hasId = id.length > 0;
+
+  const handleView = useCallback(() => {
+    if (!hasId || navigatedRef.current) return;
+    navigatedRef.current = true;
+    setNavigatingTo("view");
+    router.push(`/q/${encodeURIComponent(id)}`);
+    onClose();
+  }, [hasId, id, onClose, router]);
+
+  const handleAnswer = useCallback(() => {
+    if (!hasId || navigatedRef.current) return;
+    navigatedRef.current = true;
+    setNavigatingTo("answer");
+    // ?answer=1 → KwentoForm auto-focuses + scrolls into view on mount.
+    router.push(`/q/${encodeURIComponent(id)}?answer=1`);
+    onClose();
+  }, [hasId, id, onClose, router]);
 
   return (
     <div className="px-6 pb-6 flex flex-col gap-4 max-h-[72vh] overflow-y-auto">
@@ -393,16 +420,50 @@ function PublishedSuccess({ published, onClose }: PublishedSuccessProps) {
       {/* Generated follow-up — secondary, threaded card */}
       <FollowUpQuestionCard hook={hook} mode={mode} category={category} />
 
-      {/* Done */}
-      <div className="flex flex-col gap-2 pt-1">
+      {/* Primary actions: View + Answer — side by side */}
+      <div className="grid grid-cols-2 gap-2 pt-1">
         <button
           type="button"
-          onClick={onClose}
-          className="btn-primary w-full py-[1.0625rem] text-[0.9375rem] flex items-center justify-center gap-2"
+          onClick={handleView}
+          disabled={!hasId || navigatedRef.current}
+          aria-label="View question"
+          className="py-[0.9375rem] text-[0.9375rem] font-semibold rounded-2xl flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            background: "var(--kw-surface)",
+            color: "var(--kw-accent)",
+            border: "1.5px solid var(--kw-accent)",
+          }}
         >
-          Done
+          {navigatingTo === "view" ? <Spinner accent /> : <span aria-hidden>👁️</span>}
+          <span>View</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleAnswer}
+          disabled={!hasId || navigatedRef.current}
+          aria-label="Answer this question"
+          className="btn-primary py-[0.9375rem] text-[0.9375rem] flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {navigatingTo === "answer" ? <Spinner /> : <span aria-hidden>✍️</span>}
+          <span>Answer</span>
         </button>
       </div>
+
+      {!hasId && (
+        <p className="text-[0.6875rem] text-center" style={{ color: "var(--kw-wild-text)" }}>
+          Question saved, but its link couldn&apos;t be loaded. Tap Done and try refreshing.
+        </p>
+      )}
+
+      {/* Done — tertiary, dismiss-only */}
+      <button
+        type="button"
+        onClick={onClose}
+        className="text-sm font-medium text-center transition-colors py-1"
+        style={{ color: "var(--kw-subtext)" }}
+      >
+        Done
+      </button>
     </div>
   );
 }
@@ -456,7 +517,7 @@ function Pill({
   );
 }
 
-function Spinner() {
+function Spinner({ accent = false }: { accent?: boolean } = {}) {
   return (
     <span
       aria-hidden
@@ -465,7 +526,7 @@ function Spinner() {
         width: 16,
         height: 16,
         borderRadius: "50%",
-        border: "2px solid white",
+        border: `2px solid ${accent ? "var(--kw-accent)" : "white"}`,
         borderTopColor: "transparent",
         animation: "spin 0.7s linear infinite",
       }}
