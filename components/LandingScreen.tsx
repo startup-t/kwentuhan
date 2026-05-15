@@ -144,8 +144,12 @@ export default function LandingScreen({ onModeChosen }: Props) {
           </p>
         </div>
 
-        {/* ── Desktop 2-col / Mobile single-col ── */}
-        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[22rem_1fr] lg:items-start lg:gap-12">
+        {/* ── Desktop 2-col / Mobile single-col ──
+         *   - 23rem sidebar leaves room for category chips to wrap 3-per-row
+         *   - 8rem gap (was 12) tightens the central wasted whitespace
+         *   - Right column gets a max width so the preview card doesn't
+         *     stretch edge-to-edge on wide laptops / monitors. */}
+        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[23rem_minmax(0,40rem)] lg:items-start lg:justify-center lg:gap-x-12">
 
           {/* ── Left sidebar ── */}
           <aside
@@ -193,21 +197,9 @@ export default function LandingScreen({ onModeChosen }: Props) {
               <span>{questionCount} questions in deck</span>
             </div>
 
-            {/* Desktop-only: subtext + CTA */}
-            <div className="hidden lg:flex lg:flex-col lg:gap-3 lg:pt-1">
-              <p
-                className="text-center text-[13px]"
-                style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#9B97BB" }}
-              >
-                Tap below to get your first question
-              </p>
-              <PrimaryButton
-                onClick={handleCTA}
-                icon={<ShuffleIcon />}
-                ariaLabel="Start a Conversation"
-              >
-                Start a Conversation
-              </PrimaryButton>
+            {/* Desktop-only: CTA */}
+            <div className="hidden lg:block lg:pt-1">
+              <StartCTA onClick={handleCTA} />
             </div>
           </aside>
 
@@ -248,27 +240,33 @@ export default function LandingScreen({ onModeChosen }: Props) {
               <DesktopQuestionPreview question={previewQuestion} />
 
               {/* Mobile-only: CTA */}
-              <div className="mb-8 pt-1 md:pb-4 lg:hidden">
-                <p
-                  className="mb-3 text-center text-[13px]"
-                  style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#9B97BB" }}
-                >
-                  Tap below to get your first question
-                </p>
-                <PrimaryButton
-                  onClick={handleCTA}
-                  icon={<ShuffleIcon />}
-                  ariaLabel="Start a Conversation"
-                  className="mx-auto"
-                >
-                  Start a Conversation
-                </PrimaryButton>
+              <div className="mb-8 pt-2 md:pb-4 lg:hidden">
+                <StartCTA onClick={handleCTA} className="mx-auto" />
               </div>
             </div>
           </main>
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Single source of truth for the landing-page primary CTA. Rendered twice
+ * (once inside the desktop sidebar, once at the bottom of the mobile column)
+ * but with identical label, icon, aria-label, and click target so the two
+ * sites can't drift.
+ */
+function StartCTA({ onClick, className }: { onClick: () => void; className?: string }) {
+  return (
+    <PrimaryButton
+      onClick={onClick}
+      icon={<ShuffleIcon />}
+      ariaLabel="Start a Conversation"
+      className={className}
+    >
+      Start a Conversation
+    </PrimaryButton>
   );
 }
 

@@ -102,85 +102,123 @@ export default async function ScanToRevealPage({ params }: Props) {
           )}
         </section>
 
-        {/* ── 2. Reveal — instant, content-first ───────────────────── */}
+        {/* ── 2. Reveal — instant, with reactions row baked in ─────── */}
         {hasKwento ? (
-          <div className="kw-slide-up kw-d2 flex flex-col gap-4">
-            <div
-              className="kw-card p-4"
-              style={{ borderColor: "var(--kw-border-solid)", background: "var(--kw-surface)" }}
-            >
-              <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--kw-accent)" }}>
-                This kwento was revealed just for you
-              </p>
-            </div>
-            <RevealAnswer answerText={kwento.answerText} />
-            <div
-              className="kw-card p-5 flex flex-col gap-3"
-              style={{ borderColor: "var(--kw-border-solid)", background: "var(--kw-surface)" }}
-            >
-              <a
-                href="/create"
-                className="btn-primary w-full py-3 text-sm font-semibold text-center"
-              >
-                Make your own kwento
-              </a>
-              <p className="text-xs text-center" style={{ color: "var(--kw-subtext)" }}>
-                Scan others to unlock more stories.
-              </p>
-              <div className="flex items-center justify-center gap-3 text-xs font-semibold">
-                <a
-                  href={`https://wa.me/?text=${encodeURIComponent(shareUrl)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--kw-accent)" }}
-                >
-                  WhatsApp
-                </a>
-                <span style={{ color: "var(--kw-muted)" }}>·</span>
-                <a
-                  href={`https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--kw-accent)" }}
-                >
-                  Messenger
-                </a>
-                <span style={{ color: "var(--kw-muted)" }}>·</span>
-                <a
-                  href={`https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent("This kwento was revealed just for you")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "var(--kw-accent)" }}
-                >
-                  X
-                </a>
-              </div>
-            </div>
+          <div className="kw-slide-up kw-d2">
+            <RevealAnswer
+              answerText={kwento.answerText}
+              questionId={effectiveQuestionId}
+            />
           </div>
         ) : (
           <NoKwentoNote />
         )}
 
-        {/* ── 3. Form — adapts to context ──────────────────────────── */}
-        <div className="kw-slide-up kw-d3 pt-2">
+        {/* ── 3. Your turn — the one primary action ─────────────────── */}
+        <div className="kw-slide-up kw-d3 pt-1">
           <KwentoForm
             questionId={effectiveQuestionId}
             questionText={questionText}
             question={question ?? undefined}
-            heading={hasKwento ? "Your turn" : "Your turn"}
+            heading={hasKwento ? "Sagutin mo rin" : "Your turn"}
             subheading={
               hasKwento
-                ? "Share your own answer and pass the kwento forward."
+                ? "Pass it on. Walang nakakaalam, walang husga."
                 : "Answer the question and we'll spin up a shareable link for you."
             }
           />
         </div>
+
+        {/* ── 4. Tiny share row — only when there's a kwento worth passing ── */}
+        {hasKwento && (
+          <div
+            className="kw-slide-up kw-d4 flex items-center justify-center gap-4 pt-1"
+            aria-label="Share this reveal"
+          >
+            <span className="text-[0.6875rem]" style={{ color: "var(--kw-muted)" }}>
+              or pass along →
+            </span>
+            <ShareLink
+              href={`https://wa.me/?text=${encodeURIComponent(shareUrl)}`}
+              label="WhatsApp"
+              icon={<WhatsAppIcon />}
+            />
+            <ShareLink
+              href={`https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(shareUrl)}`}
+              label="Messenger"
+              icon={<MessengerIcon />}
+            />
+            <ShareLink
+              href={`https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent("This kwento was revealed just for you")}`}
+              label="X"
+              icon={<XIcon />}
+            />
+          </div>
+        )}
+
         <p className="kw-slide-up kw-d4 text-[0.625rem] text-center pt-2" style={{ color: "var(--kw-muted)" }}>
           kwentuhan.cards
         </p>
 
       </div>
     </main>
+  );
+}
+
+/**
+ * Compact icon-only share link. Replaces the previous trio of purple text
+ * links ("WhatsApp · Messenger · X") with a single quiet row of glyphs —
+ * smaller visual weight, fits with party-game tone where sharing is a
+ * secondary action behind "answer it yourself".
+ */
+function ShareLink({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Share via ${label}`}
+      className="w-9 h-9 rounded-full inline-flex items-center justify-center transition-all active:scale-90"
+      style={{
+        background: "var(--kw-surface)",
+        border: "1px solid var(--kw-border)",
+        color: "var(--kw-subtext)",
+      }}
+    >
+      {icon}
+    </a>
+  );
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M20.5 3.5A11 11 0 0 0 3.4 17.2L2 22l4.9-1.3a11 11 0 0 0 5.3 1.4 11 11 0 0 0 7.8-18.6Zm-8.3 17h-.1a9 9 0 0 1-4.6-1.3l-.3-.2-2.9.8.8-2.8-.2-.3a9 9 0 1 1 7.3 3.8Zm5-6.7c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4a8.6 8.6 0 0 1-1.6-2c-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3Z" />
+    </svg>
+  );
+}
+
+function MessengerIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M12 2.25C6.48 2.25 2.25 6.36 2.25 11.5c0 2.86 1.33 5.4 3.43 7.08V22l3.14-1.72c.84.23 1.73.36 2.66.36 5.52 0 9.75-4.11 9.75-9.25 0-5.14-4.23-9.14-9.23-9.14zm1.02 12.39l-2.52-2.69-4.87 2.69 5.37-5.7 2.57 2.69 4.8-2.69-5.35 5.7z" />
+    </svg>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
   );
 }
 

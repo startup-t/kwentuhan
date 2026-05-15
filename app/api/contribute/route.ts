@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
 import { createContributedQuestion } from "@/lib/kwento/postgresStore";
+import { bustQuestionsCache } from "@/lib/questionsServer";
+import {
+  getCommunityQuestionsWithSignals,
+  type CommunityQuestionSort,
+} from "@/lib/metrics";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -9,6 +15,29 @@ const HOOK_MIN = 8;
 const HOOK_MAX = 400;
 const DEEP_MAX = 400;
 const USERNAME_MAX = 32;
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Admin auth — shared with /api/metrics. Gated by METRICS_ADMIN_TOKEN env.
+   ────────────────────────────────────────────────────────────────────────── */
+
+function isAuthorized(req: Request): boolean {
+  const expected = process.env.METRICS_ADMIN_TOKEN;
+  if (!expected || expected.length < 16) return false;
+
+  let provided = "";
+  const auth = req.headers.get("authorization") ?? "";
+  if (auth.toLowerCase().startsWith("bearer ")) {
+    provided = auth.slice(7).trim();
+  } else {
+    provided = new URL(req.url).searchParams.get("token") ?? "";
+  }
+  if (!provided || provided.length !== expected.length) return false;
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
 
 /**
  * POST /api/contribute
@@ -74,15 +103,17 @@ export async function POST(req: Request) {
       isPublished: true,
     });
 
-    // Refresh any server-rendered routes that read the merged question pool.
-    // Cheap and idempotent — these targets are dynamic but the call also
-    // bumps the in-memory route cache for Edge/Node ISR consumers.
+    // Drop the in-process question cache so the new row appears in the very
+    // next /api/questions / /q/[id] read on this function instance.
+    bustQuestionsCache();
+
+    // Hint Next.js to invalidate any server-rendered routes that read the
+    // merged pool. Best-effort — never blocks the response.
     try {
       revalidatePath("/");
       revalidatePath("/q/[questionId]", "page");
       revalidatePath("/q/[questionId]/k/[kwentoId]", "page");
     } catch (e) {
-      // revalidatePath is a best-effort hint; never block the response on it.
       console.warn("[/api/contribute] revalidate hint failed:", e);
     }
 
@@ -90,5 +121,112 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[/api/contribute] failed:", err);
     return NextResponse.json({ error: "Failed to submit question" }, { status: 500 });
+  }
+}
+
+/**
+ * GET /api/contribute?sort=newest|best|worst&...
+ *
+ * Admin-only feed of community-contributed questions enriched with their
+ * per-question telemetry signals (shown/answered/reacted/shared/skipped +
+ * derived rates). This is the read surface for moat #2 — the quality-filter
+ * data that eventually powers community-question promotion / pruning.
+ *
+ * Auth: same `METRICS_ADMIN_TOKEN` env var as /api/metrics (it's the same
+ * class of analytical data — not public).
+ *
+ * Query params:
+ *   - sort        newest | best | worst   (default: newest)
+ *   - days        positive int or "all"   (default: 30 — telemetry window only;
+ *                                          the question list itself is not
+ *                                          windowed)
+ *   - mode        solo | group
+ *   - category    e.g. "barkada", "selfCheck"
+ *   - level       light | deep | wild
+ *   - min_shown   suppresses tiny-sample noise on best/worst sorts (default 5)
+ *   - limit       1..200                  (default 50)
+ *   - offset      >=0                     (default 0)
+ *
+ * Response: { windowDays, sort, total, limit, offset, questions: [...] }
+ */
+export async function GET(req: Request) {
+  if (!process.env.METRICS_ADMIN_TOKEN || process.env.METRICS_ADMIN_TOKEN.length < 16) {
+    return NextResponse.json(
+      {
+        error: "Contribute admin feed not configured.",
+        hint: "Set METRICS_ADMIN_TOKEN (>=16 chars) in the project env to enable.",
+      },
+      { status: 503 },
+    );
+  }
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const url = new URL(req.url);
+    const sortRaw = url.searchParams.get("sort") ?? "newest";
+    const sort: CommunityQuestionSort =
+      sortRaw === "best" || sortRaw === "worst" ? sortRaw : "newest";
+
+    const daysRaw = url.searchParams.get("days");
+    let windowDays: number | null;
+    if (daysRaw === null) {
+      windowDays = 30;
+    } else if (daysRaw === "all") {
+      windowDays = null;
+    } else {
+      const n = Number(daysRaw);
+      windowDays = Number.isFinite(n) && n >= 1 && n <= 3650 ? Math.floor(n) : 30;
+    }
+
+    const modeRaw = url.searchParams.get("mode");
+    const mode = modeRaw === "solo" || modeRaw === "group" ? modeRaw : undefined;
+
+    const category = url.searchParams.get("category") || undefined;
+
+    const levelRaw = url.searchParams.get("level");
+    const level =
+      levelRaw === "light" || levelRaw === "deep" || levelRaw === "wild"
+        ? levelRaw
+        : undefined;
+
+    // Note: check raw `null` rather than coercing — Number("") === 0, which
+    // would silently swallow the "no param" case and skip the per-sort default.
+    const minShownStr = url.searchParams.get("min_shown");
+    let minShown: number;
+    if (minShownStr === null) {
+      minShown = sort === "newest" ? 0 : 5; // default per sort
+    } else {
+      const n = Number(minShownStr);
+      minShown = Number.isFinite(n) && n >= 0 ? Math.floor(n) : 5;
+    }
+
+    const limitRaw = Number(url.searchParams.get("limit") ?? "");
+    const limit = Number.isFinite(limitRaw) && limitRaw >= 1 ? Math.floor(limitRaw) : 50;
+
+    const offsetRaw = Number(url.searchParams.get("offset") ?? "");
+    const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0 ? Math.floor(offsetRaw) : 0;
+
+    const result = await getCommunityQuestionsWithSignals({
+      sort,
+      windowDays,
+      mode,
+      category,
+      level,
+      minShown,
+      limit,
+      offset,
+    });
+
+    return NextResponse.json(result, {
+      headers: { "Cache-Control": "no-store, max-age=0" },
+    });
+  } catch (err) {
+    console.error("[GET /api/contribute] failed:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch community questions" },
+      { status: 500 },
+    );
   }
 }

@@ -52,6 +52,17 @@ export default function FollowUpQuestionCard({
     setStatus("loading");
     setText("");
 
+    // Hard timeout — if the AI gateway is hung or extremely slow, hide the
+    // card rather than leaving a permanent shimmer (visible-bug fix).
+    // 8 seconds is generous: a typical generation completes in 1–2s, and
+    // the user has long since moved on from a 5+ second wait.
+    const TIMEOUT_MS = 8_000;
+    let timedOut = false;
+    const timeoutId = window.setTimeout(() => {
+      timedOut = true;
+      ac.abort();
+    }, TIMEOUT_MS);
+
     try {
       const res = await fetch("/api/follow-up", {
         method: "POST",
@@ -78,9 +89,16 @@ export default function FollowUpQuestionCard({
       setStatus("ready");
       onGenerated?.(followUp);
     } catch (err) {
-      if ((err as Error)?.name === "AbortError") return;
+      if ((err as Error)?.name === "AbortError") {
+        // Distinguish a true unmount-abort from our own timeout-abort.
+        // On timeout, hide the card just like the 503 path — no error UI.
+        if (timedOut) setStatus("unavailable");
+        return;
+      }
       console.error("[FollowUpQuestionCard] generation failed:", err);
       setStatus("error");
+    } finally {
+      window.clearTimeout(timeoutId);
     }
   }, [hook, mode, category, onGenerated]);
 

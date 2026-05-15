@@ -7,6 +7,7 @@ import { getLastStyle, setLastStyle } from "@/lib/shareAnswer/persist";
 import { buildQuestionShareUrl } from "@/lib/qr";
 import { createAnswerRevealUrl } from "@/lib/shareAnswer/reveal";
 import { downloadCardFromNode } from "@/lib/shareCard";
+import { track } from "@/lib/telemetry";
 import StoryCard from "./StoryCard";
 import StyleChips from "./StyleChips";
 import TeaserToggle from "./TeaserToggle";
@@ -16,6 +17,32 @@ const PREVIEW_W = 270;
 const SCALE = PREVIEW_W / 1080;
 const PREVIEW_H = 1920 * SCALE;
 const SITE_URL = "https://kwentuhan.cards";
+
+/**
+ * Append UTM tags to a share URL so incoming sessions can be attributed.
+ *
+ *   utm_source   = always "kwentuhan"
+ *   utm_medium   = the share channel (qr | facebook | messenger | instagram)
+ *   utm_campaign = "share" (constant — refine later if we run named campaigns)
+ *
+ * Preserves any existing query string on the URL. Falls back to the input
+ * unchanged if the URL is malformed (defensive — never let a UTM bug break
+ * the share action).
+ */
+function withUtm(url: string, medium: string): string {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    u.searchParams.set("utm_source", "kwentuhan");
+    u.searchParams.set("utm_medium", medium);
+    if (!u.searchParams.has("utm_campaign")) {
+      u.searchParams.set("utm_campaign", "share");
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
 
 export interface KwentoExportPanelProps {
   /** The question this card shows. Carries level / category / cluster for the
@@ -133,15 +160,22 @@ export default function KwentoExportPanel({
     return () => { mounted = false; };
   }, [teaser, question.id, question.hook, answer, initialRevealUrl]);
 
-  const qrUrl = useMemo(() => (
+  // Base URL (without UTMs). This is what gets minted into the DB / passed
+  // to the QR generator. UTMs are applied at the point of use so they don't
+  // pollute the canonical reveal links and so each share surface gets its
+  // own attribution tag.
+  const baseQrUrl = useMemo(() => (
     teaser ? teaserUrl : buildQuestionShareUrl(Number(question.id))
   ), [teaser, teaserUrl, question.id]);
+
+  // The URL we actually encode into the QR on the rendered card. Anyone who
+  // scans the downloaded PNG arrives with `utm_medium=qr` so incoming
+  // sessions can be attributed to the QR-scan distribution channel.
+  const qrUrl = useMemo(() => withUtm(baseQrUrl, "qr"), [baseQrUrl]);
 
   const qrCacheKey = useMemo(() => (
     `${teaser ? "reveal" : "play"}-${question.id}`
   ), [teaser, question.id]);
-
-  const shareTarget = qrUrl || SITE_URL;
 
   const handleSave = useCallback(async () => {
     if (!cardRef.current) return;
@@ -149,6 +183,10 @@ export default function KwentoExportPanel({
     try {
       await downloadCardFromNode(cardRef.current, `kwentuhan-${question.id}.png`);
       setSaveHint("success");
+      // Telemetry: PNG download counts as a `shared` event — the user has
+      // captured the artifact and will distribute it manually (typically
+      // Instagram story / DM). Scans of the saved card carry utm_medium=qr.
+      track({ questionId: String(question.id), eventType: "shared" });
     } catch {
       setSaveHint("error");
     } finally {
@@ -157,12 +195,15 @@ export default function KwentoExportPanel({
   }, [question.id]);
 
   const handleFacebook = useCallback(() => {
-    const u = encodeURIComponent(shareTarget);
+    const target = withUtm(baseQrUrl || SITE_URL, "facebook");
+    const u = encodeURIComponent(target);
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, "_blank", "noopener,noreferrer");
-  }, [shareTarget]);
+    track({ questionId: String(question.id), eventType: "shared" });
+  }, [baseQrUrl, question.id]);
 
   const handleMessenger = useCallback(() => {
-    const u = encodeURIComponent(shareTarget);
+    const target = withUtm(baseQrUrl || SITE_URL, "messenger");
+    const u = encodeURIComponent(target);
     const deep = `fb-messenger://share?link=${u}`;
     const win = window.open(deep, "_blank", "noopener,noreferrer");
     window.setTimeout(() => {
@@ -173,13 +214,16 @@ export default function KwentoExportPanel({
         );
       }
     }, 450);
-  }, [shareTarget]);
+    track({ questionId: String(question.id), eventType: "shared" });
+  }, [baseQrUrl, question.id]);
 
   const handleInstagram = useCallback(async () => {
+    const target = withUtm(baseQrUrl || SITE_URL, "instagram");
     try {
-      await navigator.clipboard.writeText(`${question.hook}\n\n— kwentuhan\n${shareTarget}`);
+      await navigator.clipboard.writeText(`${question.hook}\n\n— kwentuhan\n${target}`);
     } catch { /* ignore */ }
-  }, [question.hook, shareTarget]);
+    track({ questionId: String(question.id), eventType: "shared" });
+  }, [baseQrUrl, question.id, question.hook]);
 
   const handleRetryTeaser = useCallback(() => {
     if (initialRevealUrl) {

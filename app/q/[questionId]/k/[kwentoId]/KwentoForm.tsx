@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Question } from "@/lib/types";
 import KwentoExportPanel from "@/components/share/KwentoExportPanel";
+import { track } from "@/lib/telemetry";
 
 type KwentoFormProps = {
   questionId: string;
@@ -39,6 +40,9 @@ export function KwentoForm({
   const [errorMsg, setErrorMsg] = useState("");
   const [revealUrl, setRevealUrl] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  // Capture mount-time for the `answered` event's dwell_ms calculation.
+  // Persisted in a ref so it survives re-renders without retriggering effects.
+  const mountedAtRef = useRef<number>(Date.now());
 
   // When the user lands here via the Answer button on the contribute success
   // screen (?answer=1), scroll the form into view and focus the textarea so
@@ -97,6 +101,18 @@ export function KwentoForm({
           setRevealUrl(data.revealUrl);
           setSubmittedAnswer(trimmed);
           setStage("success");
+
+          // Telemetry: log the answered event. `dwell_ms` measures time from
+          // the form mounting (which is roughly when the user landed on the
+          // page) to actual submission. `answer_length_chars` is the trimmed
+          // body length. Fire-and-forget — silent failure inside `track`.
+          track({
+            questionId,
+            eventType: "answered",
+            answerLengthChars: trimmed.length,
+            dwellMs: Date.now() - mountedAtRef.current,
+          });
+
           return;
         }
 
@@ -151,7 +167,10 @@ export function KwentoForm({
           question={effectiveQuestion}
           answer={submittedAnswer}
           initialRevealUrl={revealUrl}
-          initialTeaser={true}
+          /* Per the "fast party-friendly" UX: land on the preview in
+           * download-ready mode (no blur, no QR-to-reveal). Users can opt
+           * into the teaser/scan-to-reveal experience via the toggle. */
+          initialTeaser={false}
           footer={
             <button
               type="button"
@@ -168,24 +187,34 @@ export function KwentoForm({
   }
 
   // ── Idle / loading / error state ──────────────────────────────────────────
+  //
+  // Compact layout optimized for the Scan-to-Reveal flow: heading + textarea
+  // + submit button must all fit above the fold on a 375x812 mobile viewport.
+  // Trimmed compared to the standalone /q/[id] flow:
+  //   - p-5 instead of p-6 (slimmer card)
+  //   - gap-3 instead of gap-5 (tighter vertical rhythm)
+  //   - 3-row textarea instead of 5 (saves ~80px)
+  //   - char counter only appears past 60% used (less visual chatter)
+  //   - no "your kwento is unlisted" disclaimer (moved to /privacy if you
+  //     want it discoverable later)
   return (
-    <div className="w-full kw-card p-6 flex flex-col gap-5">
+    <div className="w-full kw-card p-5 flex flex-col gap-3">
       {/* Heading */}
       <div>
         <h3
-          className="text-[1.05rem] font-bold mb-1 flex items-center gap-2"
+          className="text-base font-bold flex items-center gap-2"
           style={{ fontFamily: "var(--font-playfair), serif", color: "var(--kw-text)" }}
         >
           <span>{heading}</span>
           <span aria-hidden>✍️</span>
         </h3>
-        <p className="text-sm" style={{ color: "var(--kw-subtext)" }}>
+        <p className="text-[0.8125rem] mt-0.5" style={{ color: "var(--kw-subtext)" }}>
           {subheading}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Textarea */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        {/* Textarea — 3 rows by default; users can drag-resize if needed */}
         <div className="relative">
           <textarea
             ref={textareaRef}
@@ -198,8 +227,8 @@ export function KwentoForm({
               if (stage === "error") setStage("idle");
             }}
             placeholder="Ikwento mo naman…"
-            rows={5}
-            className="w-full resize-none rounded-2xl px-4 py-3.5 text-[0.9375rem] leading-relaxed outline-none transition-shadow focus:ring-2"
+            rows={3}
+            className="w-full resize-none rounded-2xl px-4 py-3 text-[0.9375rem] leading-relaxed outline-none transition-shadow focus:ring-2"
             style={{
               fontFamily: "var(--font-kalam), cursive",
               background: "var(--kw-surface-alt)",
@@ -211,19 +240,21 @@ export function KwentoForm({
               "--tw-ring-color": "var(--kw-accent)",
             }}
           />
-          {/* Char counter */}
-          <span
-            className="absolute bottom-3 right-3 text-[0.6875rem] font-medium tabular-nums pointer-events-none"
-            style={{ color: charsLeft < 40 ? "var(--kw-wild)" : "var(--kw-muted)" }}
-          >
-            {charsLeft}
-          </span>
+          {/* Char counter — only appears once meaningfully used */}
+          {text.length > MAX_CHARS * 0.6 && (
+            <span
+              className="absolute bottom-2 right-3 text-[0.6875rem] font-medium tabular-nums pointer-events-none"
+              style={{ color: charsLeft < 40 ? "var(--kw-wild)" : "var(--kw-muted)" }}
+            >
+              {charsLeft}
+            </span>
+          )}
         </div>
 
         {/* Error message */}
         {stage === "error" && errorMsg && (
           <div
-            className="flex items-start gap-2 rounded-xl px-4 py-3 text-sm"
+            className="flex items-start gap-2 rounded-xl px-3 py-2 text-xs"
             style={{ background: "var(--kw-wild-soft)", color: "var(--kw-wild-text)" }}
           >
             <span className="shrink-0 mt-px">⚠️</span>
@@ -231,11 +262,11 @@ export function KwentoForm({
           </div>
         )}
 
-        {/* Submit button */}
+        {/* Submit — primary, always visible */}
         <button
           type="submit"
           disabled={!canSubmit}
-          className="btn-primary w-full py-4 text-[0.9375rem] flex items-center justify-center gap-2 transition-opacity"
+          className="btn-primary w-full py-[0.9375rem] text-[0.9375rem] flex items-center justify-center gap-2 transition-opacity"
           style={{ opacity: canSubmit ? 1 : 0.45, cursor: canSubmit ? "pointer" : "not-allowed" }}
         >
           {stage === "loading" ? (
@@ -251,11 +282,6 @@ export function KwentoForm({
           )}
         </button>
       </form>
-
-      {/* Fine print */}
-      <p className="text-[0.6875rem] text-center" style={{ color: "var(--kw-muted)" }}>
-        Your kwento is unlisted — only people you send the link to will see it.
-      </p>
     </div>
   );
 }

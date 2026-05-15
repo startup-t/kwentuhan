@@ -13,7 +13,17 @@
       "Bash(/Users/trishasalubre/.npm-global/bin/vercel env *)",
       "Bash(node /tmp/apply_fixes.js)",
       "Bash(xargs -I{} echo {})",
-      "Bash(curl -s -w '\\\\nHTTP %{http_code}\\\\n' -X POST http://localhost:3000/api/follow-up -H 'Content-Type: application/json' -d '{\"hook\":\"Who or what is your biggest multo?\",\"mode\":\"group\",\"category\":\"barkada\"}')"
+      "Bash(curl -s -w '\\\\nHTTP %{http_code}\\\\n' -X POST http://localhost:3000/api/follow-up -H 'Content-Type: application/json' -d '{\"hook\":\"Who or what is your biggest multo?\",\"mode\":\"group\",\"category\":\"barkada\"}')",
+      "Bash(/Users/trishasalubre/.npm-global/bin/vercel logs *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Add View + Answer action buttons on publish confirmation *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/session-event -H 'Content-Type: application/json' -d '{\"session_id\":\"sess_seed___TRACKED_VAR__\",\"question_id\":\"1\",\"event_type\":\"shown\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/session-event -H 'Content-Type: application/json' -d '{\"session_id\":\"sess_seed___TRACKED_VAR__\",\"question_id\":\"1\",\"event_type\":\"answered\",\"answer_length_chars\":80,\"dwell_ms\":15000}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/session-event -H 'Content-Type: application/json' -d '{\"session_id\":\"sess_seed___TRACKED_VAR__\",\"question_id\":\"__TRACKED_VAR__\",\"event_type\":\"shown\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/session-event -H 'Content-Type: application/json' -d '{\"session_id\":\"sess_seed___TRACKED_VAR__\",\"question_id\":\"__TRACKED_VAR__\",\"event_type\":\"answered\",\"answer_length_chars\":120,\"dwell_ms\":25000}')",
+      "Bash(curl -s -H 'Authorization: Bearer __TRACKED_VAR__' 'http://localhost:3000/api/metrics?days=1')",
+      "Bash(python3 -c ' *)",
+      "Bash(node -e ' *)"
     ]
   }
 }

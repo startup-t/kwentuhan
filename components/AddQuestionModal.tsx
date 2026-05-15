@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Level, Mode } from "@/lib/types";
 import { LEVEL_CONFIG } from "@/lib/types";
+import { clearQuestionCache } from "@/lib/questions";
 import categoriesData from "@/data/categories.json";
 import FollowUpQuestionCard from "./FollowUpQuestionCard";
 
@@ -24,6 +25,72 @@ const LEVELS: Level[] = ["light", "deep", "wild"];
 
 const STORAGE_KEY = "kw.lastContribution";
 
+/**
+ * Short helper line under each Vibe pill so first-time contributors know what
+ * "Wild" actually means. Keyed by Level — see lib/types.ts.
+ */
+const VIBE_HINTS: Record<Level, string> = {
+  light: "every day",
+  deep: "real talk",
+  wild: "edge it up",
+};
+
+/**
+ * Rotating placeholder examples — gives the user a sense of the RANGE of
+ * questions the deck accepts. Picked at random per mode on each modal mount.
+ * Keep these tight and on-brand: specific, story-prompting, never yes/no.
+ */
+const PLACEHOLDER_EXAMPLES: Record<Mode, string[]> = {
+  solo: [
+    "Anong moment recently na akala mo end of the world, pero ngayon tinatawanan mo na lang?",
+    "Sino yung version mo dati na nami-miss mo pa rin?",
+    "Kailan ka huling nag-iyak na hindi mo alam kung bakit?",
+    "Anong sikreto mong unhealthy habit na alam mong dapat itigil?",
+    "Ano yung tagal mo nang gusto sabihin sa pamilya mo pero hindi mo masabi?",
+  ],
+  group: [
+    "Anong pinaka-cringe na ginawa mo noong high school?",
+    "Sino sa atin yung pinaka-likely mag-viral sa wrong reason?",
+    "Anong sinabi mo while drunk na pinagsisihan mo kinabukasan?",
+    "Sa lahat ng barkada, sino yung pinaka-likely makasal una?",
+    "Anong nangyari sa first date mo na palaging naaalala ng kasama mo?",
+  ],
+};
+
+function pickPlaceholder(mode: Mode): string {
+  const pool = PLACEHOLDER_EXAMPLES[mode];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/**
+ * Lightweight content-quality check on the hook. Returns a nudge string when
+ * the question looks like it'll generate weak responses, or null when it's
+ * fine. Detection rules are intentionally simple — false positives are okay
+ * because the user can ignore the tip and submit anyway.
+ */
+function qualityNudge(hook: string): string | null {
+  const t = hook.trim().toLowerCase();
+  if (t.length < 8) return null; // too short to assess
+
+  // Yes/no triggers — questions starting with these tend to get one-word answers
+  if (/^(is|are|do you|did you|have you|will you|can you|should|would|could|was|were)\b/.test(t)) {
+    return "Try opening with “What”, “Anong”, “Sino”, or “Kailan” — yes/no questions rarely get stories.";
+  }
+
+  // Multiple questions in one (more than one "?" or " at " connector)
+  const questionMarks = (t.match(/\?/g) || []).length;
+  if (questionMarks > 1) {
+    return "Pick one question — combined prompts make players freeze on which part to answer.";
+  }
+
+  // Vague philosophical (matches "what is happiness", "ano ang totoong tagumpay", etc.)
+  if (/^(what is|what's|ano ang|ano yung)\s+(love|happiness|life|truth|success|peace|family|home|tagumpay|kaligayahan|buhay|tunay)/.test(t)) {
+    return "Try a specific moment instead — e.g. “Anong moment recently na…” — abstract prompts feel like essays.";
+  }
+
+  return null;
+}
+
 export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   const [hook, setHook] = useState("");
   const [deepDive, setDeepDive] = useState("");
@@ -33,6 +100,13 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   const [username, setUsername] = useState("");
   const [stage, setStage] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // Pick a single placeholder example on mount + when mode changes. Random
+  // selection from the per-mode pool gives users a sense of the deck's range
+  // without committing them to any single example.
+  const [placeholder, setPlaceholder] = useState<string>(() => pickPlaceholder("solo"));
+  useEffect(() => {
+    setPlaceholder(pickPlaceholder(mode));
+  }, [mode]);
   // Snapshot of the just-published question so the success state can render
   // even after the form fields are reset.
   const [published, setPublished] = useState<{
@@ -117,6 +191,10 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
           }));
         }
       } catch { /* private mode — ignore */ }
+
+      // Drop the client question cache so the new row appears in the very
+      // next getQuestions() call (e.g. landing screen's deck count).
+      clearQuestionCache();
 
       // Capture a snapshot for the success state. Don't auto-close —
       // the follow-up card needs time to render and be read.
@@ -216,14 +294,25 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
               </select>
             </Field>
 
-            {/* Level */}
+            {/* Level — labels include a tiny secondary hint so newcomers
+             *   actually know what "Wild" means before tapping it. */}
             <Field label="Vibe">
               <div className="grid grid-cols-3 gap-2">
                 {LEVELS.map((lv) => {
                   const cfg = LEVEL_CONFIG[lv];
                   return (
                     <Pill key={lv} active={level === lv} onClick={() => setLevel(lv)}>
-                      {cfg.emoji} {cfg.label}
+                      <span className="flex flex-col items-center leading-tight">
+                        <span>{cfg.emoji} {cfg.label}</span>
+                        <span
+                          className="text-[0.625rem] font-normal opacity-80 mt-0.5"
+                          style={{
+                            color: level === lv ? "rgba(255,255,255,0.85)" : "var(--kw-muted)",
+                          }}
+                        >
+                          {VIBE_HINTS[lv]}
+                        </span>
+                      </span>
                     </Pill>
                   );
                 })}
@@ -235,7 +324,7 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
               <textarea
                 value={hook}
                 onChange={(e) => setHook(e.target.value.slice(0, HOOK_MAX))}
-                placeholder="e.g. Anong pinakamalaking risk na ginawa mo para sa pag-ibig?"
+                placeholder={`e.g. ${placeholder}`}
                 autoFocus
                 rows={3}
                 className="w-full rounded-2xl px-4 py-3 text-[0.9375rem] leading-snug resize-none outline-none"
@@ -246,6 +335,22 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
                   minHeight: 86,
                 }}
               />
+              {/* Quality nudge — fires when the hook looks like it'll
+               *   generate weak (yes/no, multi-part, or vague) answers.
+               *   Non-blocking: it's a tip, not a validation. */}
+              {(() => {
+                const tip = qualityNudge(trimmedHook);
+                if (!tip) return null;
+                return (
+                  <p
+                    className="text-[0.6875rem] mt-1.5 flex items-start gap-1.5"
+                    style={{ color: "var(--kw-subtext)" }}
+                  >
+                    <span aria-hidden>💡</span>
+                    <span>{tip}</span>
+                  </p>
+                );
+              })()}
             </Field>
 
             {/* Deep dive */}

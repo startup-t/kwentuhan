@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { useSession } from "@/lib/useSession";
+import { track } from "@/lib/telemetry";
 import QuestionCard from "./QuestionCard";
 import ShareModal from "./ShareModal";
 import AddQuestionModal from "./AddQuestionModal";
@@ -15,7 +16,28 @@ export default function SessionScreen({ session, onEnd, onBack }: Props) {
   const [showShare, setShowShare] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
 
-  const handleNext = useCallback(() => next(), [next]);
+  // Telemetry: fire `shown` whenever a new question becomes the current card,
+  // and `skipped` when the user advances without going through the share
+  // flow first (the share flow logs its own `shared` event when the user
+  // actually downloads/shares the card).
+  const lastShownIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!current?.id) return;
+    const id = String(current.id);
+    if (lastShownIdRef.current === id) return;
+    lastShownIdRef.current = id;
+    track({ questionId: id, eventType: "shown" });
+  }, [current?.id]);
+
+  const handleNext = useCallback(() => {
+    // If a card is currently on screen and the user advances WITHOUT having
+    // opened the share modal for it, that's a skip in our model.
+    const id = current?.id;
+    if (id != null && !showShare) {
+      track({ questionId: String(id), eventType: "skipped" });
+    }
+    next();
+  }, [next, current?.id, showShare]);
   const handlePrevious = useCallback(() => previous(), [previous]);
 
   useEffect(() => {
