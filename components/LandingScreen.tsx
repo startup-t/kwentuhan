@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState, useEffect } from "react";
 import type { Mode } from "@/lib/types";
+import type { Question } from "@/lib/types";
 import { GROUP_CATEGORIES, SOLO_CATEGORIES, CLUSTER_COLOR } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
 import { getQuestionCount, getQuestions } from "@/lib/questions";
@@ -56,16 +57,18 @@ function hashString(str: string): number {
 }
 
 export default function LandingScreen({ onModeChosen }: Props) {
-  const [mode,  setMode]  = useState<Mode>("group");
+  const [mode, setMode] = useState<Mode>("group");
   const [topic, setTopic] = useState<string>("random");
   const [isMounted, setIsMounted] = useState(false);
+  const [questionCount, setQuestionCount] = useState(0);
+  const [previewQuestion, setPreviewQuestion] = useState<Question | null>(null);
 
   const topics = mode === "group" ? GROUP_TOPICS : SOLO_TOPICS;
 
-  const questionCount = useMemo(
-    () => getQuestionCount(mode, topic === "random" ? null : topic),
-    [mode, topic],
-  );
+  // Update question count when mode/topic changes
+  useEffect(() => {
+    getQuestionCount(mode, topic === "random" ? null : topic).then(setQuestionCount);
+  }, [mode, topic]);
 
   // FIX: Only compute preview question after client mount to avoid hydration mismatch
   // This prevents server/client render differences for the preview
@@ -75,13 +78,17 @@ export default function LandingScreen({ onModeChosen }: Props) {
 
   // Desktop-only: pick a stable deterministic preview question that updates when mode/topic changes
   // Only computed after client mount to avoid hydration mismatch
-  const previewQuestion = useMemo(() => {
-    if (!isMounted) return null;
-    const pool = getQuestions(mode, topic === "random" ? null : topic);
-    if (!pool.length) return null;
-    // Create stable seed from mode and topic for consistent but deterministic selection
-    const seed = hashString(`${mode}-${topic}`);
-    return pool[seed % pool.length];
+  useEffect(() => {
+    if (!isMounted) return;
+    getQuestions(mode, topic === "random" ? null : topic).then((pool) => {
+      if (!pool.length) {
+        setPreviewQuestion(null);
+        return;
+      }
+      // Create stable seed from mode and topic for consistent but deterministic selection
+      const seed = hashString(`${mode}-${topic}`);
+      setPreviewQuestion(pool[seed % pool.length]);
+    });
   }, [mode, topic, isMounted]);
 
   function switchMode(m: Mode) {
@@ -97,7 +104,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
   const modeInfo =
     mode === "group"
       ? { title: "Group Mode", desc: "Better conversations start with better questions.", icon: "👥" }
-      : { title: "Solo Mode",  desc: "Para sa sariling reflection + sharing.", icon: "👤" };
+      : { title: "Solo Mode", desc: "Para sa sariling reflection + sharing.", icon: "👤" };
 
   return (
     <div className="kw-bg flex flex-col min-h-dvh safe-top safe-bottom">

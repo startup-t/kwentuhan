@@ -37,18 +37,19 @@ async function waitForQrReady(node: HTMLElement): Promise<void> {
     const label = (qrLabel?.textContent ?? "").trim().toLowerCase();
 
     const codeVisible = qrCode && isVisible(qrCode);
+    const codeLoaded = qrCode?.getAttribute("data-qr-loaded") === "true";
     const labelVisible = qrLabel && isVisible(qrLabel);
     const labelValid = label === "scan to play" || label === "scan to reveal";
     const targetValid = hasAllowedQrTarget(qrValue);
 
-    if (codeVisible && labelVisible && labelValid && targetValid) {
+    if (codeVisible && codeLoaded && labelVisible && labelValid && targetValid) {
       console.debug("[shareCard] QR ready for export:", { mode: label, qrValue });
       return;
     }
 
     if (Date.now() - started < 500 || (Date.now() - started) % 1000 === 0) {
       console.debug("[shareCard] Waiting for QR readiness:", {
-        codeVisible, labelVisible, labelValid, targetValid,
+        codeVisible, codeLoaded, labelVisible, labelValid, targetValid,
         label, qrValue, elapsed: Date.now() - started,
       });
     }
@@ -66,16 +67,16 @@ export async function exportCardFromNode(node: HTMLElement): Promise<Blob> {
 
   console.debug("[shareCard] QR ready, capturing blob...");
   const blob = await toBlob(node, {
-    width:      CARD_W,
-    height:     CARD_H,
+    width: CARD_W,
+    height: CARD_H,
     pixelRatio: 2,
-    cacheBust:  true,
+    cacheBust: true,
     // Override any preview-side scale so the snapshot captures the full 1080×1920 layout.
     style: {
-      transform:       "none",
+      transform: "none",
       transformOrigin: "top left",
-      width:           `${CARD_W}px`,
-      height:          `${CARD_H}px`,
+      width: `${CARD_W}px`,
+      height: `${CARD_H}px`,
     },
   });
   if (!blob) {
@@ -112,8 +113,8 @@ export async function downloadCardFromNode(
 
     console.debug("[shareCard] Using browser download fallback");
     const url = URL.createObjectURL(blob);
-    const a   = document.createElement("a");
-    a.href     = url;
+    const a = document.createElement("a");
+    a.href = url;
     a.download = filename;
     document.body.appendChild(a);
     a.click();

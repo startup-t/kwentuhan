@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "MALLOC_STACK_LOGGING=0 next dev",
+    "build": "MALLOC_STACK_LOGGING=0 next build",
+    "start": "MALLOC_STACK_LOGGING=0 next start",
     "lint": "next lint"
   },
   "dependencies": {

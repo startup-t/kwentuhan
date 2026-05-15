@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 const DEFAULT_APP_URL = "https://kwentuhan.cards";
 const qrPromiseCache = new Map<string, Promise<string>>();
 
-export function buildQuestionShareUrl(questionId: number): string {
+export function buildQuestionShareUrl(questionId: string | number): string {
   const baseUrl =
     typeof window !== "undefined" && window.location?.origin
       ? window.location.origin

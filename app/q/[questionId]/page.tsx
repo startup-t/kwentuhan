@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getQuestionById } from "@/lib/questions";
+import { getQuestionById } from "@/lib/questionsServer";
 import { LEVEL_CONFIG } from "@/lib/types";
 import { KwentoForm } from "@/app/q/[questionId]/k/[kwentoId]/KwentoForm";
 import DeepLinkBridge from "@/components/DeepLinkBridge";
@@ -9,7 +9,7 @@ type Props = { params: Promise<{ questionId: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { questionId } = await params;
-  const question = getQuestionById(Number(questionId));
+  const question = await getQuestionById(questionId);
   const text = question?.hook ?? "A question worth answering.";
   return {
     title: `${text.slice(0, 60)}… — Kwentuhan`,
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ScanToPlayPage({ params }: Props) {
   const { questionId } = await params;
-  const question = getQuestionById(Number(questionId));
+  const question = await getQuestionById(questionId);
 
   if (!question) notFound();
 

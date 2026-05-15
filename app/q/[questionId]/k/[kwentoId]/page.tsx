@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getPersistedKwento } from "@/lib/kwento/postgresStore";
-import { getQuestionById } from "@/lib/questions";
+import { getQuestionById } from "@/lib/questionsServer";
 import { LEVEL_CONFIG } from "@/lib/types";
 import { KwentoForm } from "./KwentoForm";
 import RevealAnswer from "@/components/RevealAnswer";
@@ -40,7 +40,7 @@ export default async function ScanToRevealPage({ params }: Props) {
   const { questionId, kwentoId } = await params;
 
   const kwento = await safeGetKwento(kwentoId);
-  const question = getQuestionById(Number(questionId));
+  const question = await getQuestionById(questionId);
 
   const questionText = question?.hook ?? kwento?.questionText ?? "A question worth answering";
   const level = question ? LEVEL_CONFIG[question.level] : LEVEL_CONFIG.light;

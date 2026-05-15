@@ -3361,7 +3361,7 @@
   },
   {
     "id": 329,
-    "hook": "Kailan ka huling nag-survey sa sarili mo kung masaya ka talaga o hindi?",
+    "hook": "Kailan mo huling inisip kung naging masaya ka talaga ngayong taon?",
     "deepDive": "Anong specific moment ang unang pumunta sa isip mo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3376,7 +3376,7 @@
   },
   {
     "id": 330,
-    "hook": "Ano ang lagi mong sinasabi na sisimulan mo bukas pero di pa rin nagsisimula?",
+    "hook": "Anong bagay ang lagi mong sinasabi na gagawin mo pero di pa rin naaabot?",
     "deepDive": "Matagal mo na ba siyang iniisip o ngayon mo lang nag-realize?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3391,7 +3391,7 @@
   },
   {
     "id": 331,
-    "hook": "Kung babalikan mo ang sarili mo 5 taon na ang nakakaraan, ano ang unang mapapansin mo?",
+    "hook": "Kung titingnan mo ang sarili mo 5 taon na ang nakaraan, ano ang mapapansin mo agad?",
     "deepDive": "Ano sa pagbabagong yon ang pinaka-hindi mo inaasahan?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3406,7 +3406,7 @@
   },
   {
     "id": 332,
-    "hook": "Sa nakaraang taon, ano ang malinaw na pagbabago sa kung sino ka ngayon?",
+    "hook": "Anong uri ng tao ang naging ikaw sa nakalipas na isang taon?",
     "deepDive": "Okay ka ba sa nagiging version ka na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3421,7 +3421,7 @@
   },
   {
     "id": 333,
-    "hook": "May sandaling proud ka sa sarili mo nitong buwan na hindi mo sinabi kahit kanino?",
+    "hook": "May moment ka ba na proud ka sa sarili mo ngayong buwan pero wala kang sinabihan?",
     "deepDive": "Bakit hindi mo siya ibinahagi sa kahit isa?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3436,7 +3436,7 @@
   },
   {
     "id": 334,
-    "hook": "Anong sariling ugali ng parents mo ang napansin mong may dala ka rin?",
+    "hook": "Anong ugali o gawi ng mga magulang mo na nakikita mo na rin sa sarili mo?",
     "deepDive": "Gusto mo bang ituloy yun o baguhin?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3451,7 +3451,7 @@
   },
   {
     "id": 335,
-    "hook": "Ano ang pinaka-tamang desisyon na ginawa mo noong nakaraang taon?",
+    "hook": "Anong desisyon mo noong nakaraang taon ang masasabi mong tama pala?",
     "deepDive": "Ilang oras o araw ka pa nabalisa bago mo ginawa yun?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3466,7 +3466,7 @@
   },
   {
     "id": 336,
-    "hook": "Kung pwede mong baguhin ang isang bagay sa huling 6 na buwan, ano yun?",
+    "hook": "Kung may isang bagay kang babaguhin sa nakalipas na 6 na buwan, ano yun?",
     "deepDive": "Bakit yun ang pinili mo at hindi yung iba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3481,7 +3481,7 @@
   },
   {
     "id": 337,
-    "hook": "Ano ang ginawa mo kamakailan para pasayahin ang sarili mo nang walang approval ng iba?",
+    "hook": "Anong masaya kang ginawa para sa sarili mo recently na hindi nangangailangan ng approval ng iba?",
     "deepDive": "Gaano katagal bago ka nag-decide na gawin mo yun para sa sarili mo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3496,7 +3496,7 @@
   },
   {
     "id": 338,
-    "hook": "Alin sa pressure ng pamilya ang pinakakilala mong lagi mong nararamdaman?",
+    "hook": "Anong expectation ng pamilya mo sa'yo ang pinaka-nararamdaman mong pressure?",
     "deepDive": "Sinubukan mo na bang kausapin sila tungkol dun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3511,7 +3511,7 @@
   },
   {
     "id": 339,
-    "hook": "May bahagi ka ba ng sarili mo na hindi mo pinapakita sa lahat sa bahay?",
+    "hook": "May parte ba ng sarili mo na tinitago mo sa lahat ng tao sa bahay?",
     "deepDive": "Kung malalaman nila, ano sa tingin mo ang mangyayari?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3526,7 +3526,7 @@
   },
   {
     "id": 340,
-    "hook": "Ano ang pangako mo sa sarili na pinaka-mahirap tuparin?",
+    "hook": "Anong pangako sa sarili mo ang pinaka-nahirapan mong tuparin?",
     "deepDive": "Ano ang karaniwang dahilan na binabalewala mo siya?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3541,7 +3541,7 @@
   },
   {
     "id": 341,
-    "hook": "Kailan ka huling nag-iyak at ano ang tunay na dahilan?",
+    "hook": "Kailan ka huling nag-iyak at bakit — at okay ka na ba ngayon?",
     "deepDive": "Sinabing mo ba sa kahit isa yung nararamdaman mo that time?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3556,7 +3556,7 @@
   },
   {
     "id": 342,
-    "hook": "Ano ang pinakahirap mong pinagdadaanan ngayon na hindi pa alam ng best friend mo?",
+    "hook": "Anong bagay ang pinaka-pinagdadaanan mo ngayon na kahit best friend mo hindi ganap na nakakaalam?",
     "deepDive": "Bakit mas madali itago kaysa ibahagi?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3571,7 +3571,7 @@
   },
   {
     "id": 343,
-    "hook": "Sa tingin mo mas masaya ba ang ikaw ngayon o ang ikaw noon? Bakit?",
+    "hook": "Anong version ng sarili mo ang tingin mo ang mas masaya — ikaw noon o ikaw ngayon?",
     "deepDive": "Ano ang pinagkaiba nila na pinakamahalaga?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3586,7 +3586,7 @@
   },
   {
     "id": 344,
-    "hook": "Naka-sabi ka na ba ng oo kahit gusto mong sabihin ang hindi?",
+    "hook": "May pagkakataon ba na nagpaalam ka ng oo kahit gusto mong sabihing hindi?",
     "deepDive": "Kailan mo nag-realize na dapat pala sana hindi ka sumang-ayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3601,7 +3601,7 @@
   },
   {
     "id": 345,
-    "hook": "Ano ang decision ng pamilya mo na nararamdaman mo hanggang ngayon?",
+    "hook": "Anong desisyon ang ginawa ng pamilya mo para sa'yo na hanggang ngayon may epekto pa rin sa buhay mo?",
     "deepDive": "Nagtatampo ka pa ba, o naintindihan mo na rin sila?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3616,7 +3616,7 @@
   },
   {
     "id": 346,
-    "hook": "Ano ang bahagi ng sarili mo na ayaw mong aminin kahit sa sarili mo?",
+    "hook": "Anong bagay sa sarili mo ang pinaka-ayaw mong aminin kahit sa sarili mo?",
     "deepDive": "Ano ang mangyayari kung taos-pusong tanggapin mo na yun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3631,7 +3631,7 @@
   },
   {
     "id": 347,
-    "hook": "Ilang beses mo nang sinabi ang “last time na ito,” pero nagawa mo pa rin?",
+    "hook": "Ilang beses mo nang sinabi sa sarili mo na 'last time na ito' pero ulit-ulit mo pa rin?",
     "deepDive": "Ano ang ibig sabihin nun para sa'yo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3646,7 +3646,7 @@
   },
   {
     "id": 348,
-    "hook": "Anong ugali ang alam mong mali pero patuloy mo pa ring ginagawa?",
+    "hook": "Anong ugali mo ang alam mong mali pero patuloy mo pa ring ginagawa?",
     "deepDive": "Totoo bang gusto mong baguhin yun, o komportable ka na?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3661,7 +3661,7 @@
   },
   {
     "id": 349,
-    "hook": "Kailan ka huling gumawa ng bagay para sa sarili mo lang?",
+    "hook": "Kailan ka huling gumawa ng bagay para sa sarili mo lang — hindi para sa inaasahan ng iba?",
     "deepDive": "Paano mo naramdaman pagkatapos — guilty ba or liberated?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3676,7 +3676,7 @@
   },
   {
     "id": 350,
-    "hook": "Ano ang planong nilalakad mo na secretly gusto mong iwaksi?",
+    "hook": "Anong plano mo sa buhay ang secretly tinatalikuran mo na kahit hindi mo pa sinasabi sa iba?",
     "deepDive": "May takot ka bang harapin ang katotohanang yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3691,7 +3691,7 @@
   },
   {
     "id": 351,
-    "hook": "Kung hihingin mo ng honest feedback ang pinaka-totoo mong kaibigan, ano ang sasabihin niya sa'yo?",
+    "hook": "Kung tutulungan ka ng pinaka-honest mong kaibigan na mag-reflect, anong unang sasabihin niya sa'yo?",
     "deepDive": "Handa ka bang marinig yun ngayon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3706,7 +3706,7 @@
   },
   {
     "id": 352,
-    "hook": "Alin ang pinakmalayo mong sarili sa mga expectation ng pamilya mo?",
+    "hook": "Anong parte ng sarili mo ang pinakamalayo sa inaasahan ng pamilya mo para sa'yo?",
     "deepDive": "Nag-aalala ka ba sa pagkakaibang yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3721,7 +3721,7 @@
   },
   {
     "id": 353,
-    "hook": "Nagsinungaling ka na ba sa sarili mo nang matagal na halos naniniwala ka na?",
+    "hook": "Nagsinungaling ka na ba sa sarili mo tungkol sa isang bagay nang napakatagal na halos naniniwala ka na?",
     "deepDive": "Kailan mo nag-realize na pahinungalingan mo ang sarili mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3736,7 +3736,7 @@
   },
   {
     "id": 354,
-    "hook": "Ano ang itinatago mo sa social media pero parte ng buhay mo talaga?",
+    "hook": "Anong bagay ang tinatago mo sa social media na malaking parte ng tunay mong buhay?",
     "deepDive": "Bakit mas madali itago kaysa ipakita?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3751,7 +3751,7 @@
   },
   {
     "id": 355,
-    "hook": "Kung makikita ng younger you ang ginagawa mo ngayon, ano ang isipin niya?",
+    "hook": "Kung makikita ng nakalipas mong sarili ang ginagawa mo ngayon, masisiyahan ba siya?",
     "deepDive": "Kung hindi, anong bahagi ang pinaka-magbabago niya?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3766,7 +3766,7 @@
   },
   {
     "id": 356,
-    "hook": "Bakit mo tinatantya ang pag-iwas sa isang bagay kahit alam mong kailangan mo na?",
+    "hook": "Anong totoong rason kung bakit ayaw mo pang harapin ang isang bagay sa buhay mo?",
     "deepDive": "Kailan mo sa tingin mo kaya nang harapin ito nang buong-buo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -3781,7 +3781,7 @@
   },
   {
     "id": 357,
-    "hook": "Anong goal ngayong taon ang talagang gusto mong abutin bago mag-December?",
+    "hook": "Anong goal mo ngayong taon na talagang gusto mong makamit bago mag-December?",
     "deepDive": "Ano na ang ginawa mo para dun hanggang ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3796,7 +3796,7 @@
   },
   {
     "id": 358,
-    "hook": "Kung may isang finish line lang ka sa buwan na ito, ano yun?",
+    "hook": "Kung may isang bagay ka lang matatapos ngayong buwan, ano yun?",
     "deepDive": "Bakit yun ang pinili mo kaysa sa iba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3811,7 +3811,7 @@
   },
   {
     "id": 359,
-    "hook": "Anong pangarap mo noong bata ka na hindi mo gustong totally iwan?",
+    "hook": "Anong pangarap mo noong bata ka na hindi mo pa ganap na iniiwan?",
     "deepDive": "Posible pa ba siyang mangyari — o kailangan mo na siyang pakawalan?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3826,7 +3826,7 @@
   },
   {
     "id": 360,
-    "hook": "Ano ang trabaho o path na pakiramdam mo bagay sa’yo kahit hindi yun inaasahan ng pamilya?",
+    "hook": "Anong trabaho o career path ang tingin mong bagay sa'yo kahit hindi yon ang inaasahan ng pamilya mo?",
     "deepDive": "Ano ang pumipigil sa'yo na tahakin yun?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3841,7 +3841,7 @@
   },
   {
     "id": 361,
-    "hook": "Sa lahat ng gustong baguhin, saan ka talaga mas excited magsimula?",
+    "hook": "Sa lahat ng gusto mong mapabuti sa buhay mo, saan ka pinaka-motivated na magsimula?",
     "deepDive": "Bakit siya at hindi yung iba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3856,7 +3856,7 @@
   },
   {
     "id": 362,
-    "hook": "Anong skill ang gusto mong matutunan sa susunod na 6 na buwan?",
+    "hook": "Anong skill o kakayahan ang gusto mong matutunan sa susunod na 6 na buwan?",
     "deepDive": "Paano mo ito sisimulan — may plan ka na ba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3871,7 +3871,7 @@
   },
   {
     "id": 363,
-    "hook": "Kailan mo huling binigkas ang goal mo at sinimulang seryosohin?",
+    "hook": "Kailan mo huling sinulat o nabanggit ang isang goal mo at aktibo mong tinrabaho?",
     "deepDive": "Ano ang nangyari sa goal na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3886,7 +3886,7 @@
   },
   {
     "id": 364,
-    "hook": "Kung wala na ang pera at pera pressure, ano ang gusto mong gawin sa buhay?",
+    "hook": "Kung walang financial pressure, anong buhay ang gusto mong mabuhay?",
     "deepDive": "Gaano kalayo yun sa buhay na meron ka ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3901,7 +3901,7 @@
   },
   {
     "id": 365,
-    "hook": "Anong maliit na hakbang ang pwede mong gawin bukas para makalapit sa goal mo?",
+    "hook": "Anong maliit na hakbang ang magagawa mo bukas para sa pinakamalaking goal mo?",
     "deepDive": "Bakit hindi mo pa ito ginagawa kahit maliit lang?",
     "level": "light",
     "levelLabel": "Chill",
@@ -3916,7 +3916,7 @@
   },
   {
     "id": 366,
-    "hook": "Anong goal ang nahinto mo dahil sa pressure ng iba?",
+    "hook": "Anong goal ang sinimulan mo pero hininto dahil sa pressure ng ibang tao?",
     "deepDive": "Gusto mo pa bang ituloy yon — o talagang tapos na?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3931,7 +3931,7 @@
   },
   {
     "id": 367,
-    "hook": "Anong pangarap ang buong-buo mong iniingitan pero tahimik pa rin mong gusto?",
+    "hook": "Anong pangarap ang sinabi mong imposible pero sa loob-loob mo ay naniniwala ka pa rin?",
     "deepDive": "Ano ang pumipigil sa'yo maging totoo sa sarili mo tungkol dun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3946,7 +3946,7 @@
   },
   {
     "id": 368,
-    "hook": "Para sa’yo, ano ang ibig sabihin ng tagumpay na hindi pera o status?",
+    "hook": "Anong ibig sabihin ng 'matagumpay' para sa'yo — hindi para sa pamilya mo, para sa'yo?",
     "deepDive": "Naiiba ba ito sa sinasabi ng pamilya mo na tagumpay?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3961,7 +3961,7 @@
   },
   {
     "id": 369,
-    "hook": "Kailan mo narealize na ang goal na yan ay para talaga sa’yo?",
+    "hook": "Kailan mo naramdaman na ang isang goal ay para sa'yo — hindi dahil sa presyon ng labas?",
     "deepDive": "Anong naging kaibahan ng pakiramdam kapag sarili mong desisyon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3976,7 +3976,7 @@
   },
   {
     "id": 370,
-    "hook": "Anong secret dream ang kailangan mong itago dahil hindi pa handa ang ibang tao?",
+    "hook": "Anong pangarap mo ang pinalaki mong lagi mong ipinagtatago sa pamilya mo?",
     "deepDive": "Naniniwala ka ba na susuportahan ka nila kung malalaman nila?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -3991,7 +3991,7 @@
   },
   {
     "id": 371,
-    "hook": "Kailan ka huling nag-oofer ng sarili mong oras para goal ng iba kahit hindi yun gusto mo?",
+    "hook": "Kailan mo huling nagpaalam ng oo sa goal ng ibang tao kahit hindi yon ang gusto mo para sa sarili mo?",
     "deepDive": "Ano ang tingin mo ang magiging epekto nito sa buhay mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4006,7 +4006,7 @@
   },
   {
     "id": 372,
-    "hook": "Ano ang goal na dating “someday” pero parang hindi na mangyayari?",
+    "hook": "Anong goal mo ang sinabi mong 'someday' na ngayon ay natatakot ka na baka 'never' na pala?",
     "deepDive": "Bakit mas madaling sabihing 'someday' kaysa simulan ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4021,7 +4021,7 @@
   },
   {
     "id": 373,
-    "hook": "Anong pangarap o plano ang iniwan mo dahil natakot ka mabigo?",
+    "hook": "Anong pangarap o plano ang iniwan mo dahil nag-aalala ka na mabigo?",
     "deepDive": "Mas natatakot ka sa pagkabigo o sa pagsisi na hindi mo subukan?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4036,7 +4036,7 @@
   },
   {
     "id": 374,
-    "hook": "Kung maabot mo ang pinakamalaking goal mo bukas, ano ang unang gagawin mo?",
+    "hook": "Kung matatanggap ka ng pinaka-hirap mong marating na goal, ano ang unang gagawin mo?",
     "deepDive": "Gaano kamahalaga ang reaksyon ng pamilya mo sa sandaling yon para sa'yo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4066,7 +4066,7 @@
   },
   {
     "id": 376,
-    "hook": "Anong goal ang lagi mong sinasabi na gusto mo pero hindi ka pa talaga nagsisimula?",
+    "hook": "Anong goal mo ang alam mong ayaw mong makamit pero patuloy mong sinasabing gusto mo?",
     "deepDive": "Bakit mo pinapanatiling aktibo yung goal na yon kung hindi naman pala talagang gusto mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4081,7 +4081,7 @@
   },
   {
     "id": 377,
-    "hook": "Anong gusto mong makamit pero natatakot kang aminin nang malakas?",
+    "hook": "Anong bagay ang gusto mong makamit pero natatakot kang sabihin nang malakas dahil baka hindi mangyari?",
     "deepDive": "Paano ka makakaramdam kung wala kang sinubukan?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4096,7 +4096,7 @@
   },
   {
     "id": 378,
-    "hook": "Ano ang goal na malayo sa expectations ng iba pero totoo sa puso mo?",
+    "hook": "Anong goal sa buhay mo ang pinakamalayo sa inaasahan ng lahat sa'yo pero pinaka-totoong gusto mo?",
     "deepDive": "Paano ka mabubuhay nang hindi subukan ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4111,7 +4111,7 @@
   },
   {
     "id": 379,
-    "hook": "Kung babagin mo ang takot mo bukas at magsisimula ng bago, anong pipiliin mo?",
+    "hook": "Kung bukas ay pinakawalan mo lahat ng takot at simula ka ng isang bagong journey, anong pipiliin mo?",
     "deepDive": "Anong dahilan ang lagi mong ginagamit para wag gawin ito ngayon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4126,7 +4126,7 @@
   },
   {
     "id": 380,
-    "hook": "Anong goal ang hindi mo gustong malaman ng pamilya mo dahil takot ka sa reaksyon?",
+    "hook": "Anong goal mo ang sisirain mo kung matutuklasan ng pamilya mo?",
     "deepDive": "Totoong gusto mo ba ’to itago, o gusto mong mag-iba ang relasyon niyo para masabi mo na?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4141,7 +4141,7 @@
   },
   {
     "id": 381,
-    "hook": "Sa lahat ng gusto mong makamit, alin ang gagawin mo kahit walang sumusuporta?",
+    "hook": "Sa lahat ng gusto mong makamit, anong isa lang ang gagawin mo kahit walang sumusuporta?",
     "deepDive": "yon ba talaga ang pinakamahalagang goal mo — o may mas malaking takot ka dun?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4156,7 +4156,7 @@
   },
   {
     "id": 382,
-    "hook": "Ano ang pinaka-matagal na “hihintayin ko muna” na goal mo?",
+    "hook": "Anong bagay na gusto mong makamit ang hindi mo sinisimulan dahil 'hindi pa time' — pero ilang taon na ito?",
     "deepDive": "Kailan ang tamang time para sa'yo at paano mo malalaman?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4171,7 +4171,7 @@
   },
   {
     "id": 383,
-    "hook": "Kung may isang goal kang aalisin sa listahan dahil wala nang saysay, alin yun?",
+    "hook": "Kung may isang goal kang aalisin sa listahan mo ngayon dahil hindi ka talaga nito kuntento, ano yun?",
     "deepDive": "Paano ka mabubuhay ng mas masaya kapag wala na yung goal na yon sa listahan mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4186,7 +4186,7 @@
   },
   {
     "id": 384,
-    "hook": "Anong goal ang pinakahirapan mong bitawan kahit ilang beses ka nang nabigo?",
+    "hook": "Anong goal mo ang sinubukan mo na nang ilang beses na pero hindi pa rin naaabot — at kailan mo ibibigay up?",
     "deepDive": "Ang persistence mo dun — para sa sarili mo ba talaga o para hindi mapahiya?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4201,7 +4201,7 @@
   },
   {
     "id": 385,
-    "hook": "Anong nararamdaman mo nang madalas nitong linggo?",
+    "hook": "Anong emosyon ang madalas mong naramdaman ngayong linggo?",
     "deepDive": "May alam kang dahilan kung bakit or walang malinaw na rason?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4216,7 +4216,7 @@
   },
   {
     "id": 386,
-    "hook": "Kailan ka huling talagang masaya — hindi lang okay, but happy?",
+    "hook": "Kailan ka huling talagang masaya — hindi lang okay, talagang masaya?",
     "deepDive": "Anong ginagawa mo o kasama mo noong gayon ang pakiramdam mo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4231,7 +4231,7 @@
   },
   {
     "id": 387,
-    "hook": "Anong dati nagpapasaya sa’yo pero ngayon parang iba na ang effect?",
+    "hook": "Anong bagay ang dati ay nakakapagpasaya sa'yo pero ngayon ay parang iba na?",
     "deepDive": "Kailan mo unang naramdaman ang pagbabagong yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4246,7 +4246,7 @@
   },
   {
     "id": 388,
-    "hook": "Ano ang normal na mood mo ngayon: chill, drained, o pressure?",
+    "hook": "Anong uri ng araw ang pinaka-normal para sa'yo ngayon — masaya, walang dating, o stressed?",
     "deepDive": "Okay ka ba sa sagot mo sa tanong na iyan?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4261,7 +4261,7 @@
   },
   {
     "id": 389,
-    "hook": "Kailan ka huling nakaramdam ng tunay na pahinga — body and mind?",
+    "hook": "Kailan ka huling naramdaman ng tunay na pahinga — hindi lang physically pero mentally rin?",
     "deepDive": "Anong kondisyon ang kailangan mo para maramdaman yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4276,7 +4276,7 @@
   },
   {
     "id": 390,
-    "hook": "Anong maliit na bagay ang biglang nagpapasaya sayo kahit nagugulat ka?",
+    "hook": "Anong maliit na bagay ang nagpapasaya sa'yo na kahit ikaw nagtataka kung bakit?",
     "deepDive": "Nabanggit mo na ba ito sa kahit isa o sa'yo lang ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4291,7 +4291,7 @@
   },
   {
     "id": 391,
-    "hook": "Anong emosyon ang hirap mong ipaliwanag sa iba?",
+    "hook": "Anong emosyon ang pinaka-nahihirapan mong i-explain sa ibang tao?",
     "deepDive": "Subukan mo itong i-describe ngayon sa tatlong salita.",
     "level": "light",
     "levelLabel": "Chill",
@@ -4306,7 +4306,7 @@
   },
   {
     "id": 392,
-    "hook": "May iniisip ka bang tao kapag sobrang stressed ka at gusto mong kausapin?",
+    "hook": "May tao ka bang naiisip pag sobrang stressed ka na at gusto mong makausap?",
     "deepDive": "Kailan mo siya huling tinawagan o kinausap nang talagang seryoso?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4321,7 +4321,7 @@
   },
   {
     "id": 393,
-    "hook": "Anong kanta, meme, o movie ang dali mong binabalikan kapag wala ka sa mood?",
+    "hook": "Anong pelikula, kanta, o kwento ang lagi kang nagpapahinga kapag masama ang pakiramdam mo?",
     "deepDive": "Ano sa loob nito ang nakatutulong sa'yo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4336,7 +4336,7 @@
   },
   {
     "id": 394,
-    "hook": "Anong feeling ang itinago mo sa pamilya kahit ramdam nila?",
+    "hook": "Anong emosyon ang pinaka-madalas mong itinatago sa pamilya mo kahit ramdam nila?",
     "deepDive": "Bakit mas komportable kang itago kaysa ipakita?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4351,7 +4351,7 @@
   },
   {
     "id": 395,
-    "hook": "May saya ka ba na may halo ding guilt?",
+    "hook": "May bagay ba na nagpapasaya sa'yo pero nakakaramdam ka ng guilt na masaya dun?",
     "deepDive": "Saan galing yung pakiramdam na guilt na yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4366,7 +4366,7 @@
   },
   {
     "id": 396,
-    "hook": "Anong bagay ang pinakapagod emotional mo pero hindi mo nakikita ng iba?",
+    "hook": "Anong bagay ang pinaka-nakakapagod sa'yo emotionally na hindi naman visible sa labas?",
     "deepDive": "Gaano na katagal mo itong dinadala?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4381,7 +4381,7 @@
   },
   {
     "id": 397,
-    "hook": "Naramdaman mo na bang nag-aalala ka para sa lahat pero wala kang sumasalo?",
+    "hook": "Naramdaman mo na bang nag-aalala ka para sa lahat pero walang nag-aalala para sa'yo?",
     "deepDive": "Sinabi mo na ba ito kahit kanino o dala mo lang ito nang mag-isa?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4396,7 +4396,7 @@
   },
   {
     "id": 398,
-    "hook": "Ano ang madalas mong sentir tungkol sa pamilya na hindi mo sinasabi?",
+    "hook": "Anong emosyon ang madalas mong nararamdaman tungkol sa pamilya mo na hindi mo sinasabi sa kanila?",
     "deepDive": "Paano mo hinaharap ang emosyong yon kapag lumabas ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4411,7 +4411,7 @@
   },
   {
     "id": 399,
-    "hook": "Kailan ka huling nakaramdam ng sobrang lungkot nang walang rason?",
+    "hook": "Kailan ka naramdaman ng sobrang lungkot na kahit ang sarili mo ay hindi mo ma-explain kung bakit?",
     "deepDive": "Anong ginawa mo sa panahong yon — humingi ka ba ng tulong?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4426,7 +4426,7 @@
   },
   {
     "id": 400,
-    "hook": "Anong unforgettable moment na parehong nakatawa at nakaiyak kapag naaalala mo?",
+    "hook": "Anong masayang karanasan mula sa nakaraan ang kapag naaalaala mo ay parehong nakakaiyak at nakakatuwa?",
     "deepDive": "Anong bahagi nito ang nakakaapekto sa'yo nang pinaka-malalim?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4441,7 +4441,7 @@
   },
   {
     "id": 401,
-    "hook": "May pressure ka bang laging maging strong kahit gusto mo ring magpahinga?",
+    "hook": "May pakiramdam ka bang minsan na ikaw ang dapat laging maging malakas para sa lahat?",
     "deepDive": "Sino naman ang nagmamaalagang malakas para sa'yo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4456,7 +4456,7 @@
   },
   {
     "id": 402,
-    "hook": "Anong emosyon ang pinakahirap mong aminin kahit sa sarili mo?",
+    "hook": "Anong emosyon ang nahihirapan mong aminin sa sarili mo kahit nararamdaman mo ito?",
     "deepDive": "Paano mo naramdaman kapag tinatago mo ito nang matagal?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4471,7 +4471,7 @@
   },
   {
     "id": 403,
-    "hook": "Kailan ka huling nakaramdam ng galit talaga at bakit?",
+    "hook": "Kailan ka huling galit nang tunay — hindi lang inis, talagang galit — at bakit?",
     "deepDive": "Ano ang ginawa mo sa galit na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4486,7 +4486,7 @@
   },
   {
     "id": 404,
-    "hook": "May naiisip ka bang tao na agad nagbabago ang mood mo?",
+    "hook": "May tao ka bang kilala na kapag naiisip mo ay agad na nagbabago ang mood mo — kahit magkamukha pa kayo?",
     "deepDive": "Anong eksaktong naramdaman mo sa kanila na ganoon ang effect?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4501,7 +4501,7 @@
   },
   {
     "id": 405,
-    "hook": "Anong feeling ang hindi ka handa harapin ngayon kahit alam mong darating?",
+    "hook": "Anong emosyon ang pinaka-tinatago mo mula sa sarili mo dahil natatakot kang kilalanin ito?",
     "deepDive": "Kung tatanggapin mo na ang emosyong yon, ano sa tingin mo ang mangyayari?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4516,7 +4516,7 @@
   },
   {
     "id": 406,
-    "hook": "Naranasan mo na bang sabay mong mahal at inis ang isang tao?",
+    "hook": "Naranasan mo na bang maramdaman ang pagmamahal sa isang tao at galit sa kanila nang sabay?",
     "deepDive": "Paano mo pinamamahalaan ang dalawang emosyong yon nang magkasabay?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4531,7 +4531,7 @@
   },
   {
     "id": 407,
-    "hook": "Anong pinakagalit ka sa sarili mo na ayaw mong aminin?",
+    "hook": "Anong bagay ang pinaka-nakakapagpagalit sa'yo na kahit ikaw nahihiya kang aminin?",
     "deepDive": "Bakit mo nararamdaman na kailangan mong itago ang galit na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4546,7 +4546,7 @@
   },
   {
     "id": 408,
-    "hook": "Naramdaman mo na bang mainggit sa buhay ng iba at di mo alam paano sisihin?",
+    "hook": "Naramdaman mo na bang mainggit — hindi sa bagay kundi sa buhay ng ibang tao — at hindi ka makapag-stop?",
     "deepDive": "Anong eksaktong parte ng kanilang buhay ang pinaka-inainggitinan mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4561,7 +4561,7 @@
   },
   {
     "id": 409,
-    "hook": "Anong feeling ang hindi ka pa handa i-share sa social media kahit totoo naman?",
+    "hook": "Anong emosyon ang pinaka-nahihiyang i-post mo sa social media pero totoo sa buhay mo?",
     "deepDive": "Bakit mas madaling itago ito kaysa ibahagi?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4576,7 +4576,7 @@
   },
   {
     "id": 410,
-    "hook": "Kailan ka huling umiyak dahil pagod, hindi dahil sa lungkot?",
+    "hook": "Kailan mo huling umiyak dahil sa pagod — hindi sa lungkot, sa pagod lang talaga?",
     "deepDive": "May sinabi ka ba sa kahit isa, o dinala mo ito nang mag-isa?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4591,7 +4591,7 @@
   },
   {
     "id": 411,
-    "hook": "Anong damdamin ang gustong sa'yo ay mas mabigat pero pinipilit mong ngumiti?",
+    "hook": "Anong emosyon ang pakiramdam mong hindi ka pa ready harapin ngayon pero alam mong darating?",
     "deepDive": "Anong gagawin mo para handa ka pag dumating na ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4606,7 +4606,7 @@
   },
   {
     "id": 412,
-    "hook": "Ano ang emosyon na gusto mong harapin pero lagi mong pinipiliing lumayo?",
+    "hook": "Naranasan mo na bang maging masaya sa kabigo ng ibang tao — at pagkatapos nagtataka ka sa sarili mo?",
     "deepDive": "Anong sinasabi ng emosyong yon tungkol sa iyong relasyon sa taong yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4621,7 +4621,7 @@
   },
   {
     "id": 413,
-    "hook": "Anong pinaka-old school memory mo na malinaw pa rin sa isip mo?",
+    "hook": "Anong pinakamatandang memory mo na hanggang ngayon ay malinaw pa rin sa isip mo?",
     "deepDive": "Bakit sa tingin mo yun ang nanatili nang malinaw?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4636,7 +4636,7 @@
   },
   {
     "id": 414,
-    "hook": "Anong birthday ang hindi mo makakalimutan kasi sobra ang saya?",
+    "hook": "Anong pinaka-masayang birthday mo na naaalaala mo?",
     "deepDive": "Ano ang nagpaganda nito — yung tao, yung lugar, o yung pakiramdam?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4651,7 +4651,7 @@
   },
   {
     "id": 415,
-    "hook": "Anong moment sa school ang lagi mong sinasabi kapag may nagtanong about childhood?",
+    "hook": "Anong pangyayari sa elementary o high school mo ang lagi mong ikukwento kung may nag-aask?",
     "deepDive": "Anong naramdaman mo noong nangyari yun?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4666,7 +4666,7 @@
   },
   {
     "id": 416,
-    "hook": "Ano ang family tradition noong bata ka na gusto mong ulitin ngayon?",
+    "hook": "Anong family tradition o gawi noong bata ka na gusto mong muling gawin ngayon?",
     "deepDive": "Bakit hindi mo pa ito muling ginagawa o pinapanatili?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4681,7 +4681,7 @@
   },
   {
     "id": 417,
-    "hook": "Anong lugar sa Pinas ang feeling mo parang tunay na bahay mo?",
+    "hook": "Anong lugar sa Pilipinas ang kapag naaalaala mo ay nararamdaman mong tahanan?",
     "deepDive": "Kailan mo huling na-visit yun at gusto mo pa bang bumalik?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4696,7 +4696,7 @@
   },
   {
     "id": 418,
-    "hook": "Anong kanta o tunog ang biglang bumabalik sa isang nakaraan?",
+    "hook": "Anong kanta o tunog ang kapag naririnig mo ay biglang naibabalik ka sa isang partikular na panahon?",
     "deepDive": "Anong panahon ng buhay mo ang naibabalik nito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4711,7 +4711,7 @@
   },
   {
     "id": 419,
-    "hook": "Ano ang pinaka-meaningful na regalo na natanggap mo, kahit hindi mahal?",
+    "hook": "Anong regalo ang pinaka-naging meaningful sa'yo — hindi yung pinakamahal, yung pinaka-meaningful?",
     "deepDive": "Sino nagbigay nito at nandun pa ba sa'yo ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4726,7 +4726,7 @@
   },
   {
     "id": 420,
-    "hook": "Anong pagkain o amoy ang agad nagpapabalik ng childhood memory?",
+    "hook": "Anong pagkain o amoy ang agad na nagpapaalala sa'yo ng childhood?",
     "deepDive": "Anong karanasan ang nakatali dun?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4741,7 +4741,7 @@
   },
   {
     "id": 421,
-    "hook": "Ano ang pinaka-memorable mong Pasko o Noche Buena?",
+    "hook": "Anong pinaka-masayang Pasko o Noche Buena na naaalaala mo?",
     "deepDive": "Ano ang eksaktong nagpaganda nito kaysa sa iba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -4756,7 +4756,7 @@
   },
   {
     "id": 422,
-    "hook": "Anong dating desisyon na hindi ka sigurado noon pero ngayon okay ka na?",
+    "hook": "Anong desisyon mo sa nakaraan na hindi ka masiguro noon pero ngayon alam mong tama?",
     "deepDive": "Anong nagtulak sa'yo na gawin yun kahit hindi sigurado?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4771,7 +4771,7 @@
   },
   {
     "id": 423,
-    "hook": "Ano ang memory na gusto mong burahin pero palagi pa rin bumabalik?",
+    "hook": "Anong bagay mula sa nakaraan ang gustong gustong kalimutan mo pero lagi pa rin nagbabalik?",
     "deepDive": "Bakit sa tingin mo hindi pa ito tumitigil lumabas sa isip mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4786,7 +4786,7 @@
   },
   {
     "id": 424,
-    "hook": "Sino ang gustong-gusto mong makausap ulit kahit alam mong imposible na?",
+    "hook": "Anong tao mula sa nakaraan mo ang nais mong muling makausap kahit alam mong imposible na?",
     "deepDive": "Ano ang gusto mong sabihin o marinig sa kanya?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4801,7 +4801,7 @@
   },
   {
     "id": 425,
-    "hook": "Ano ang pagbabago sa pamilya mo noong bata ka na malaki ang badge sa’yo?",
+    "hook": "Anong pagbabago sa pamilya mo noong bata ka ang pinaka-nakaapekto sa kung sino ka ngayon?",
     "deepDive": "Positibo o negatibo yung epekto nito sa'yo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4816,7 +4816,7 @@
   },
   {
     "id": 426,
-    "hook": "May memory ka bang parang kahapon pa lang kahit matagal nang nangyari?",
+    "hook": "May memory ka bang sobrang malinaw na kahit ilang taon na ay parang kahapon lang?",
     "deepDive": "Bakit sa tingin mo ito ang nanatili nang ganoon kabuhay?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4831,7 +4831,7 @@
   },
   {
     "id": 427,
-    "hook": "Anong sakit o pagkabigo noon ang may lesson na dala mo pa?",
+    "hook": "Anong sakit o pagkabigo noong nakaraan ang pinaka-nagturo sa'yo ng isang mahalagang aral?",
     "deepDive": "Dala mo pa rin ba yung aral na yon ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4846,7 +4846,7 @@
   },
   {
     "id": 428,
-    "hook": "Maynaisip ka bang pagkakamali noon na ngayong napatawad mo na sarili mo?",
+    "hook": "May tao sa nakaraan mo na pinagpistahan mong talikuran pero ngayon ay naiisip mong baka mali ka?",
     "deepDive": "Ano ang pipiliin mo ngayon kung mayroon kang pagkakataon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4861,7 +4861,7 @@
   },
   {
     "id": 429,
-    "hook": "Anong summer o bakasyon noong bata ka ang gustong-gusto mong balik-balikan?",
+    "hook": "Anong summer o bakasyon noong kabataan ang kapag naaalaala mo ay parang gusto mong bumalik?",
     "deepDive": "Ano sa katotohanang yon ang pinaka-napalayo na sa buhay mo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4876,7 +4876,7 @@
   },
   {
     "id": 430,
-    "hook": "Anong school lesson ang talagang nagamit mo sa buhay mo ngayon?",
+    "hook": "Anong bagay na natutunan mo sa school ang pinaka-hindi mo ine-expect na magagamit sa totoong buhay?",
     "deepDive": "Kailan mo unang nag-realize na kapaki-pakinabang pala ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -4891,7 +4891,7 @@
   },
   {
     "id": 431,
-    "hook": "Ano ang memory mo na kung pwede mo balik-balikan, gagawin mo na mas maaga?",
+    "hook": "Anong memory mo ang kapag naibabalik mo ang oras ay gusto mong simulan nang maaga?",
     "deepDive": "Anong pagbabago ang gagawin mo kung may pagkakataon kang bumalik?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4906,7 +4906,7 @@
   },
   {
     "id": 432,
-    "hook": "May memory ka bang sobra ka-awkward noon pero ngayon tawa ka na lang?",
+    "hook": "May memory ka bang itinatago sa lahat dahil masyadong embarrassing pero ngayon ay nakatatawa ka na?",
     "deepDive": "Sino ang pinaka-ayaw mong malaman nito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4921,7 +4921,7 @@
   },
   {
     "id": 433,
-    "hook": "Anong noon ay malaking deal pero ngayon simple na lang ang tingin mo?",
+    "hook": "Anong bagay noong nakaraan ang sa tingin mo ay 'malaking deal' noon pero ngayon ay nakikita mong maliit lang?",
     "deepDive": "Anong nagbago sa pananaw mo para makita mo ito nang ganoon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4936,7 +4936,7 @@
   },
   {
     "id": 434,
-    "hook": "Mayroon bang memory na kahit may kasalanan, hindi mo pinagsisisihan?",
+    "hook": "May memory ka bang dapat kang pagsisihan pero hindi mo pa rin?",
     "deepDive": "Ano ang totoong pakiramdam mo tungkol dun ngayon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4951,7 +4951,7 @@
   },
   {
     "id": 435,
-    "hook": "Ano ang family secret o kwento na nagbago ng tingin mo sa kanila?",
+    "hook": "Anong family secret o kwentong pampamilya ang nalaman mo na binago ang pananaw mo sa kanila?",
     "deepDive": "Paano mo pinamamahalaan ang bagong kaalaman na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4966,7 +4966,7 @@
   },
   {
     "id": 436,
-    "hook": "Anong bahagi ng nakaraan ang ayaw ng pamilya mo na uulitin pero mahalaga sa’yo?",
+    "hook": "Anong bagay sa nakaraan mo ang ayaw mong alalahanin ng pamilya mo pero importante sa'yo?",
     "deepDive": "Bakit mahalaga sa'yo ang panatilihin ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4981,7 +4981,7 @@
   },
   {
     "id": 437,
-    "hook": "Kung mabubura mo ang isang memory, ano yun at bakit?",
+    "hook": "Kung mabubura mo ang isang memory, ano yun — at alam mo bang mas maganda ang buhay mo kung wala ito?",
     "deepDive": "O mas magiging masama pa ba kahit mabura mo ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -4996,7 +4996,7 @@
   },
   {
     "id": 438,
-    "hook": "Ano ang ginawa mo noon na noon ay mabait pero ngayon alam mong selfish pala?",
+    "hook": "Anong bagay ang ginawa mo noong nakaraan na sa tingin mo ay mabait pero ngayon ay napagtanto mong selfish pala?",
     "deepDive": "Pinatawad mo na ba ang sarili mo dun?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5011,7 +5011,7 @@
   },
   {
     "id": 439,
-    "hook": "Sino ang nawala sa buhay mo na pakiramdam mo ang naghulma sa’yo?",
+    "hook": "Anong tao mula sa nakaraan mo ang hindi mo na muling nakita pero malaking bahagi pa rin siya ng kung sino ka?",
     "deepDive": "Kung makikita mo siya bukas, anong unang sasabihin mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5026,7 +5026,7 @@
   },
   {
     "id": 440,
-    "hook": "Anong memory ang sabay nagpapasaya at nagpapasakit kapag naaalala mo?",
+    "hook": "Anong memory ang kapag naalala mo ay parehong nagpapasaya at nagpapasakit nang sabay?",
     "deepDive": "Paano mo pinamamahalaan ang dalawang emosyong yon sa iisang alaala?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5041,7 +5041,7 @@
   },
   {
     "id": 441,
-    "hook": "Ano ang tatlong bagay na hindi mo kailangang i-explain kung bakit mahalaga sa’yo?",
+    "hook": "Anong tatlong bagay ang pinaka-mahalaga sa'yo sa buhay ngayon?",
     "deepDive": "Naaayon ba ang iyong ginagawa araw-araw sa mga bagay na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5056,7 +5056,7 @@
   },
   {
     "id": 442,
-    "hook": "Ano ang gustong maging version mo ng personality — hindi ang trabaho, kundi ikaw?",
+    "hook": "Anong uri ng tao ang nais mong maging — hindi ang trabaho mo, kundi ikaw bilang tao?",
     "deepDive": "Gaano kalapit ka na sa taong yon ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5071,7 +5071,7 @@
   },
   {
     "id": 443,
-    "hook": "Ano ang isang bagay na hindi mo kayang gawin kahit may malaking kapalit?",
+    "hook": "Anong bagay ang hindi ka kayang gawin kahit ano pa ang kapalit — kahit pera, kahit koneksyon?",
     "deepDive": "Saan galing ang linya na yon para sa'yo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5086,7 +5086,7 @@
   },
   {
     "id": 444,
-    "hook": "Kung hinuhusgahan ka ngayon, ano ang unang ipagtatanggol mo sa sarili mo?",
+    "hook": "Kung may taong hinusga ka ngayon, anong bagay sa sarili mo ang pipiliin mong ipagtanggol?",
     "deepDive": "Bakit yon ang pinakamahalagang depensahan?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5101,7 +5101,7 @@
   },
   {
     "id": 445,
-    "hook": "Anong aral mula sa lolo o lola mo ang hindi mo nakakalimutan?",
+    "hook": "Anong aral mula sa lolo o lola mo ang nanatili sa'yo hanggang ngayon?",
     "deepDive": "Paano mo ito ginagamit sa buhay mo ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5116,7 +5116,7 @@
   },
   {
     "id": 446,
-    "hook": "Ano ang klase ng kaibigan na gusto mong maging?",
+    "hook": "Anong uri ng kaibigan ang gusto mong maging — para sa mga taong mahalaga sa'yo?",
     "deepDive": "Ginagawa mo na ba ito, o goal pa lang pa ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5131,7 +5131,7 @@
   },
   {
     "id": 447,
-    "hook": "Ano ang handa mong ipaglaban kahit wala kang kasama?",
+    "hook": "Anong bagay ang handang-handa kang ipagtanggol kahit walang sasama sa'yo?",
     "deepDive": "May nangyari na ba na kailangan mong gawin ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5146,7 +5146,7 @@
   },
   {
     "id": 448,
-    "hook": "Kung may mensahe ka sa future family mo, ano yun?",
+    "hook": "Kung may maiiwan kang mensahe sa susunod na henerasyon ng pamilya mo, ano yun?",
     "deepDive": "Ipinapamuhay mo na ba yun o gusto mo pa itong maabot?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5161,7 +5161,7 @@
   },
   {
     "id": 449,
-    "hook": "Ano ang mahalaga sa’yo ngayon na noon hindi mo pinahalagahan?",
+    "hook": "Anong mahalaga sa'yo ngayon na 10 taon na ang nakakaraan ay hindi mo pa pinapahalagahan?",
     "deepDive": "Anong nagbago sa'yo para mapahalagan mo ito ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5176,7 +5176,7 @@
   },
   {
     "id": 450,
-    "hook": "Anong value na itinuro sa’yo ng pamilya mo pero ngayon nagdududa ka na?",
+    "hook": "Anong value o prinsipyo ang nakikita mong pinalaki ka ng pamilya mo pero ngayon ay kinakatanungan mo na?",
     "deepDive": "Paano mo tinitimbang ang luma at bagong pananaw mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5191,7 +5191,7 @@
   },
   {
     "id": 451,
-    "hook": "Ano ang bagay na sabi mong mahalaga pero hindi naman nakikita sa buhay mo?",
+    "hook": "Anong bagay ang mabilis na sabihin mong mahalaga sa'yo pero kapag tinignan ang buhay mo ay hindi naman nakikita?",
     "deepDive": "Ano ang kaibihan ng sinasabi at ginagawa mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5206,7 +5206,7 @@
   },
   {
     "id": 452,
-    "hook": "Ano ang tradisyon ng pamilya mo na gusto mong baguhin para sa sarili mong future?",
+    "hook": "Anong bagay sa kultura o tradisyon ng pamilya mo ang gusto mong baguhin para sa sarili mong pamilya someday?",
     "deepDive": "Paano mo sasabihin ito sa kanila nang hindi sila masaktan?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5221,7 +5221,7 @@
   },
   {
     "id": 453,
-    "hook": "Ano ang life na talagang gusto mo, hindi ang life na inaakala mong dapat meron ka?",
+    "hook": "Anong uri ng buhay ang talagang gusto mo — hindi ang buhay na akala mo dapat meron ka?",
     "deepDive": "Gaano kamalayo ito sa buhay na sinisimula mo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5236,7 +5236,7 @@
   },
   {
     "id": 454,
-    "hook": "Ano ang pinakamahalagang maibigay mo sa anak mo someday?",
+    "hook": "Anong bagay ang pinakamahalagang maibigay mo sa iyong mga anak someday — kung magka-anak ka?",
     "deepDive": "Natanggap mo ba ito sa sarili mong magulang?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5251,7 +5251,7 @@
   },
   {
     "id": 455,
-    "hook": "May ginawa ka na ba na mali sa values mo dahil may pressure?",
+    "hook": "May oras ka bang nadamang mali yung desisyon mo dahil sumasalungat ito sa values mo?",
     "deepDive": "Ano ang ginawa mo — sinunod mo ang desisyon o binago mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5266,7 +5266,7 @@
   },
   {
     "id": 456,
-    "hook": "Anong relasyon ang iniwan mo dahil hindi na tugma sa kung sino ka ngayon?",
+    "hook": "Anong relasyon o kaibigan ang iniiwan mo dahil hindi na naaayon sa kung sino ka ngayon?",
     "deepDive": "Paano mo pinamamahalaan ang pagtatapos ng relasyong yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5281,7 +5281,7 @@
   },
   {
     "id": 457,
-    "hook": "Anong utang na loob ang nararamdaman mo at paano nito binabago ang choices mo?",
+    "hook": "Anong bagay ang pinakamalaking 'utang na loob' na nararamdaman mong mayroon ka — at paano ito nakakaapekto sa mga desisyon mo?",
     "deepDive": "Kailan mo mababayaran ito — o pakiramdam mo ay hindi mo ito mababayaran?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5296,7 +5296,7 @@
   },
   {
     "id": 458,
-    "hook": "Ano ang value na hindi mo matanggap kahit gaano pa nilang ipaliwanag?",
+    "hook": "Anong value o prinsipyo ang hindi mo matanggapin sa ibang tao kahit na subukan nilang i-explain?",
     "deepDive": "Maaari bang mayroong valid na dahilan na hindi mo pa nakikita?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5311,7 +5311,7 @@
   },
   {
     "id": 459,
-    "hook": "Naranasan mo na bang gumawa ng bagay na salungat sa values mo dahil sa pamilya?",
+    "hook": "Naranasan mo na bang gawin ang isang bagay na salungat sa values mo dahil sa presyon ng pamilya?",
     "deepDive": "Paano mo pinamamahalaan ang guilt o pagkalito pagkatapos?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5326,7 +5326,7 @@
   },
   {
     "id": 460,
-    "hook": "Ano ang value na mahirap sundin kapag test ang buhay?",
+    "hook": "Anong value ang sinasabi mong mahalaga sa'yo pero kapag nag-test ang buhay, nahihirapan kang sundin?",
     "deepDive": "Bakit mas mahirap ang aktual na pagsunod kaysa sa pagsasabi nito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5341,7 +5341,7 @@
   },
   {
     "id": 461,
-    "hook": "Kung malaman ng pamilya mo ang totoong beliefs mo tungkol sa faith, trabaho, o marriage, ano sa tingin mo mangyayari?",
+    "hook": "Kung malalaman ng pamilya mo ang totoo mong beliefs tungkol sa relihiyon, trabaho, o pag-aasawa — ano ang mangyayari?",
     "deepDive": "Mahalaga ba sa'yo ang kanilang approval — o kaya mo na itong harapin?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5356,7 +5356,7 @@
   },
   {
     "id": 462,
-    "hook": "Ano ang pinakakaibang value mo sa paligid mo?",
+    "hook": "Anong bagay ang pinaka-naiiba ang values mo sa karamihan ng tao sa paligid mo?",
     "deepDive": "Comfortable ka ba sa pagkakaibang yon — o nagtatago ka pa rin?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5371,7 +5371,7 @@
   },
   {
     "id": 463,
-    "hook": "Ano ang handa mong isakripisyo para sa pinapahalagahan mo?",
+    "hook": "Anong bagay ang handa kang mawalan para sa isang bagay na pinapahalagahan mo — pera, koneksyon, o pagiging popular?",
     "deepDive": "Nasubukan mo na bang mawalan ng ganoon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5386,7 +5386,7 @@
   },
   {
     "id": 464,
-    "hook": "Ano ang belief na pinalaki kang tanggapin pero hindi naman para sa’yo?",
+    "hook": "Anong belief ang pinalaki kang maniwala pero ngayon ay alam mong hindi para sa'yo?",
     "deepDive": "Kailan mo unang naramdaman ang pagdududa at paano mo ito pinigilan noon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5401,7 +5401,7 @@
   },
   {
     "id": 465,
-    "hook": "Naranasan mo na bang piliin ang sarili mo kaysa sa pamilya at maramdaman na mali ka?",
+    "hook": "Naranasan mo na bang piliin ang sarili mo kaysa ang pamilya at pakiramdam na ikaw ang masama?",
     "deepDive": "Tama ba ang desisyon mo — o nagtatampo ka pa rin sa sarili mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5416,7 +5416,7 @@
   },
   {
     "id": 466,
-    "hook": "Ano ang bahagi ng sarili mo na mahirap aminin dahil sumasalungat sa self-image mo?",
+    "hook": "Anong bagay ang mahirap mong aminin kahit sa sarili mo na sumasalungat sa kung paano mo inilalarawan ang sarili?",
     "deepDive": "Kailan mo maaaring harapin ang katotohanang yon nang buong-buo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5431,7 +5431,7 @@
   },
   {
     "id": 467,
-    "hook": "Kung pipiliin mo ang kaligayahan mo o inaasahan ng pamilya, ano ang mas pipiliin mo?",
+    "hook": "Kung kailangan mong pumili sa pagitan ng kaligayahan mo at ng inaasahan ng pamilya mo, ano ang pipiliin mo?",
     "deepDive": "Ano ang isinasagawa mo ngayon na nagpapakita ng sagot mo sa tanong na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5446,7 +5446,7 @@
   },
   {
     "id": 468,
-    "hook": "Ano ang kompromiso na ginawa mo sa values mo para manatili ang isang relasyon?",
+    "hook": "Anong bagay ang pinakamalaking kompromiso na ginawa mo sa values mo para mapanatili ang isang relasyon?",
     "deepDive": "Worth it pa ba yun ngayon — o hindi mo na mauulit?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5461,7 +5461,7 @@
   },
   {
     "id": 469,
-    "hook": "Ano ang pinakamalaking pagbabago mo nitong nakaraang isang taon?",
+    "hook": "Anong pinaka-malaking pagbabago sa sarili mo ang nangyari sa nakalipas na isang taon?",
     "deepDive": "Ikaw ba yung nag-initiate ng pagbabagong yon o pinilit ka ng sitwasyon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5476,7 +5476,7 @@
   },
   {
     "id": 470,
-    "hook": "Ano ang bagay na mas alam mo ngayon kaysa dati?",
+    "hook": "Anong bagay ang mas magaling ka na ngayon kaysa nung isang taon na ang nakakaraan?",
     "deepDive": "Paano mo natutunan ito — sa karanasan, sa pagkabigo, o sa isang tao?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5491,7 +5491,7 @@
   },
   {
     "id": 471,
-    "hook": "Ano ang oportunidad na kinuha mo recently na dati hindi mo kukunin?",
+    "hook": "Anong pagkakataon ang kinuha mo recently na dati ay hindi mo kukunin?",
     "deepDive": "Anong nagbago sa'yo para makuha mo na ang ganung pagkakataon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5506,7 +5506,7 @@
   },
   {
     "id": 472,
-    "hook": "Ano ang pinakamalaking lesson mo sa isang pagkabigo?",
+    "hook": "Anong bagay ang pinakamalaking natuto ka mula sa isang pagkabigo?",
     "deepDive": "Ginagamit mo ba yung aral na yon ngayon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5521,7 +5521,7 @@
   },
   {
     "id": 473,
-    "hook": "Ano ang mas naintindihan mo ngayon tungkol sa pamilya mo?",
+    "hook": "Anong bagay ang mas naiintindihan mo ngayon tungkol sa pamilya mo na dati ay hindi mo gets?",
     "deepDive": "Anong nagbago sa'yo para maintindihan mo ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5536,7 +5536,7 @@
   },
   {
     "id": 474,
-    "hook": "Anong friendship o relationship ang may natutuhang bagay tungkol sa sarili mo?",
+    "hook": "Anong relasyon o kaibigan ang pinaka-nagturo sa'yo ng isang bagay tungkol sa sarili mo?",
     "deepDive": "Anong eksaktong natutunan mo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5551,7 +5551,7 @@
   },
   {
     "id": 475,
-    "hook": "Sino ang nagbigay ng feedback na unang ayaw mong pakinggan pero totoo naman?",
+    "hook": "Anong tao ang nagbigay ng tamang feedback sa'yo na sa simula ay ayaw mong marinig?",
     "deepDive": "Kailan mo napagtanto na tama sila?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5566,7 +5566,7 @@
   },
   {
     "id": 476,
-    "hook": "Ano ang pinakainconvenient na ginawa mo pero thankful ka na ginawa mo?",
+    "hook": "Anong bagay ang pinaka-uncomfortable na ginawa mo pero nagpapasalamat ka na ginawa mo?",
     "deepDive": "Anong natutukan mo sa karanasang yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5581,7 +5581,7 @@
   },
   {
     "id": 477,
-    "hook": "Kailan mo huling sinabing “hindi ko na ito gagawin” at talagang hindi mo na ginawa?",
+    "hook": "Kailan mo huling sinabi sa sarili mo 'hindi ko na gagawin ulit ito' at talagang hindi mo na ginawa?",
     "deepDive": "Anong nagbago sa'yo para makamit mo ang pangakong yon sa sarili?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5596,7 +5596,7 @@
   },
   {
     "id": 478,
-    "hook": "Ano ang bahagi ng sarili mo na dati ay mahirap tanggapin pero ngayon ok na?",
+    "hook": "Anong bahagi ng sarili mo ang pinaka-nahirapan mong tanggapin ngunit ngayon ay napamahal mo na?",
     "deepDive": "Anong proseso ang dinaanan mo para mapagmahal ka sa bahaging yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5611,7 +5611,7 @@
   },
   {
     "id": 479,
-    "hook": "Ano ang experience na parang sinira ka pero sa huli ang nag-grow sa’yo?",
+    "hook": "Anong karanasan ang sa tingin mo ay nasira ka pero sa katunayan ay pinalago ka?",
     "deepDive": "Kailan mo unang naramdaman na lumalago ka pala mula dun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5626,7 +5626,7 @@
   },
   {
     "id": 480,
-    "hook": "Ano ang binago mo sa sarili mo pagkatapos ng masakit na nangyari?",
+    "hook": "Anong bagay sa sarili mo ang ginawa mong baguhin pagkatapos ng isang masakit na karanasan?",
     "deepDive": "Positibo ba yung pagbabago — o defensive response lang?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5641,7 +5641,7 @@
   },
   {
     "id": 481,
-    "hook": "Ano ang pinaka-malaking natutunan mo mula sa breakup o hiwalayan?",
+    "hook": "Anong aral mula sa isang broken relationship ang pinakamalaking nakatulong sa'yo after?",
     "deepDive": "Ginagamit mo ba ito sa mga relasyon mo ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5656,7 +5656,7 @@
   },
   {
     "id": 482,
-    "hook": "May tinanggap ka bang criticism na masakit pero bumuti ang resulta?",
+    "hook": "May pagkakataon ba na tinanggap mo ang isang criticism na tama — at nagpasalamat ka kahit masakit?",
     "deepDive": "Anong nagbago sa'yo pagkatapos na tanggapin mo yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5671,7 +5671,7 @@
   },
   {
     "id": 483,
-    "hook": "Ano ang pinakamahusay na natutunan mo nung nag-alaga ka ng mahal mo?",
+    "hook": "Anong bagay ang pinaka-natutunan mo sa pag-aaruga ng isang mahal mo sa buhay?",
     "deepDive": "Paano ito nag-shape ng kung sino ka bilang isang tao?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5686,7 +5686,7 @@
   },
   {
     "id": 484,
-    "hook": "Ano ang tinanggal mo sa buhay na nagbigay daan sa mas maganda?",
+    "hook": "Anong bagay ang tinanggal mo sa buhay mo — isang tao, isang gawi, isang ugali — na nagbukas ng pinto para sa mas magandang bagay?",
     "deepDive": "Madali ba ang pag-alis — o matagal mo pang pinag-isipan?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5701,7 +5701,7 @@
   },
   {
     "id": 485,
-    "hook": "Anong parte ng buhay mo ang pakiramdam mong iba na ngayon kaysa dati?",
+    "hook": "Anong bahagi mong buhay ang pinaka-malayo na ngayon sa kung sino ka noong 5 taon na ang nakakaraan?",
     "deepDive": "Saan ka mas masaya — dati o ngayon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5716,7 +5716,7 @@
   },
   {
     "id": 486,
-    "hook": "Anong trait ng parents mo ang tinanggap mo na hindi mo maiiwasang dalhin?",
+    "hook": "Anong bagay sa mga magulang mo ang tinanggap mong katangian nang puso at isip kahit dati ay ayaw mo?",
     "deepDive": "Kailan mo naramdaman ang pagtanggap na yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -5731,7 +5731,7 @@
   },
   {
     "id": 487,
-    "hook": "Anong bahagi ng sarili mo ang pinakamahirap baguhin kahit alam mong kailangan?",
+    "hook": "Anong parte ng sarili mo ang pinakamatagal na baguhin kahit alam mong kailangan mo?",
     "deepDive": "Ano ang talagang pumipigil sa pagbabago?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5746,7 +5746,7 @@
   },
   {
     "id": 488,
-    "hook": "Naranasan mo na bang magduda na overdue na ang chance mo mag-grow?",
+    "hook": "Naranasan mo na bang lumago dahil sa isang tao na ayaw mo — at ngayon ay nagpapasalamat ka sa kanila?",
     "deepDive": "Maaari mo bang sabihin ito sa kanila — o mas maayos na hindi?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5761,7 +5761,7 @@
   },
   {
     "id": 489,
-    "hook": "Ano ang pinakamali mong nagawa noon na naiintindihan mo na ngayon bakit mo ginawa?",
+    "hook": "Anong bagay sa sarili mo ang natuklasan mo lang sa sobrang daming pagkabigo?",
     "deepDive": "Paano mo ginagamit ang natuklasang yon ngayon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5776,7 +5776,7 @@
   },
   {
     "id": 490,
-    "hook": "Kung may lahat kang kailangan para mag-grow, ano ang unang babaguhin mo sa sarili?",
+    "hook": "Anong bahagi ng sarili mo ang sinisira mong sariling pag-iisip?",
     "deepDive": "Kailan mo plano harapin ang cycle na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5791,7 +5791,7 @@
   },
   {
     "id": 491,
-    "hook": "Ano ang bahagi ng sarili mo na ayaw mong ibahagi dahil natatakot kang husgahan?",
+    "hook": "Anong bagay ang pinaka-nakaka-uncomfortable mong harapin tungkol sa iyong sariling paglago?",
     "deepDive": "Bakit mas madaling umiwas dito kaysa harapin nang tuwid?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5806,7 +5806,7 @@
   },
   {
     "id": 492,
-    "hook": "Ano ang pinakamatagal mong pinigilang i-accept tungkol sa sarili mo?",
+    "hook": "Anong pattern sa buhay mo ang paulit-ulit na nangyayari dahil hindi mo pa ito fully tinutugunan?",
     "deepDive": "Anong unang hakbang ang kailangan mo para masira ang cycle na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5821,7 +5821,7 @@
   },
   {
     "id": 493,
-    "hook": "Ano ang natutunan mo sa sarili mo mula sa isang itinakwil na oportunidad?",
+    "hook": "Naranasan mo na bang pakiramdam mong lumagpas na sa'yo ang pagkakataong lumago dahil sa sarili mong takot?",
     "deepDive": "Ano ang gagawin mo ngayon para hindi maulit yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5836,7 +5836,7 @@
   },
   {
     "id": 494,
-    "hook": "Ano ang bagay na ayaw mo pa ring tanggapin sa sarili mo kahit gusto mong magbago?",
+    "hook": "Anong bagay ang pinaka-mali mong ginawa sa nakaraan na ngayon ay naiintindihan mo na bakit mo ginawa?",
     "deepDive": "Pinatawad mo na ba ang sarili mo — o may katwiran ka pa ring galit?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5851,7 +5851,7 @@
   },
   {
     "id": 495,
-    "hook": "Anong pattern ang paulit-ulit na nangyayari dahil hindi mo pa ito fully hinaharap?",
+    "hook": "Kung ibibigay sa'yo ang lahat ng bagay na kailangan mo para lumago — oras, pera, suporta — anong unang baguhin mo sa sarili?",
     "deepDive": "Bakit hindi mo pa ito ginagawa kahit wala pa ang lahat ng bagay na kailangan mo?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5866,7 +5866,7 @@
   },
   {
     "id": 496,
-    "hook": "Ano ang biggest setback mo na ngayon tingin mo may hawak ng growth?",
+    "hook": "Anong parte mong sarili ang ayaw mong ibahagi sa kahit sinong tao sa buhay mo ngayon dahil natatakot kang hindi tanggapin?",
     "deepDive": "Paano ka mabubuhay nang mas masaya kung tinanggap ito ng mga mahal mo sa buhay?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -5881,7 +5881,7 @@
   },
   {
     "id": 497,
-    "hook": "Anong routine sa umaga ang talagang nagse-set ng good day mo?",
+    "hook": "Anong gawi mo sa umaga ang pinaka-nakakatulong sa'yo para maging maganda ang araw?",
     "deepDive": "Kailan mo ito sinimulan at bakit nanatili ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5896,7 +5896,7 @@
   },
   {
     "id": 498,
-    "hook": "Anong ginagawa mo kapag may free time at wala kang planong gawin?",
+    "hook": "Anong bagay ang karaniwang ginagawa mo kapag may free time na wala kang plano?",
     "deepDive": "Masaya ka ba sa sagot mo dun?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5911,7 +5911,7 @@
   },
   {
     "id": 499,
-    "hook": "Ano ang habit na missed mo ng isang araw lang at agad ramdam ang difference?",
+    "hook": "Anong routine mo na kahit missed mo ng isang araw ay naramdaman mo agad ang kaibahan?",
     "deepDive": "Kailan mo natuklasan na mahalaga pala ito sa'yo?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5926,7 +5926,7 @@
   },
   {
     "id": 500,
-    "hook": "Ano ang laging ginagawa mo bago matulog?",
+    "hook": "Anong bagay ang laging ginagawa mo bago matulog?",
     "deepDive": "Nakakatulong ba ito sa'yo o nagpapabagal sa iyong pagtulog?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5941,7 +5941,7 @@
   },
   {
     "id": 501,
-    "hook": "Ano ang maliit na gawi na surprisingly nagpapasaya sayo?",
+    "hook": "Anong maliit na gawi ang kahit hindi namamalayan ay nagpapasaya sa'yo?",
     "deepDive": "Sino o ano ang nagturo sa'yo ng gawing yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5956,7 +5956,7 @@
   },
   {
     "id": 502,
-    "hook": "Ano ang habit na gusto mong simulan pero parang ayaw pa lang?",
+    "hook": "Anong bagay ang gusto mong maging habit mo ngayon na hindi mo pa masimulan?",
     "deepDive": "Ano ang palaging nangyayari sa tuwing susubok ka?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5971,7 +5971,7 @@
   },
   {
     "id": 503,
-    "hook": "Ano ang routine mo sa trabaho o school na paulit-ulit pero hindi effective?",
+    "hook": "Anong gawi mo sa trabaho o pag-aaral na lagi kang bumabalik kahit alam mong hindi epektibo?",
     "deepDive": "Bakit patuloy mo itong ginagawa kahit hindi gumagana?",
     "level": "light",
     "levelLabel": "Chill",
@@ -5986,7 +5986,7 @@
   },
   {
     "id": 504,
-    "hook": "Ano ang ginagawa mo kapag stressed ka para mag-relax?",
+    "hook": "Anong bagay ang madalas mong ginagawa kapag stressed ka na para mag-relax?",
     "deepDive": "Talagang nagre-relax ka ba dun o nagtatago lang?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6001,7 +6001,7 @@
   },
   {
     "id": 505,
-    "hook": "Ano ang gawi mo noon sa school o trabaho na gusto mong baguhin?",
+    "hook": "Anong gawi mo noong college o trabaho ang gusto mong baguhin pero hindi mo pa nagagawa?",
     "deepDive": "Anong pinakamaliit na bagay ang magagawa mo ngayon para magsimula?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6016,7 +6016,7 @@
   },
   {
     "id": 506,
-    "hook": "Ano ang habit na alam mong hindi healthy pero hindi mo pa rin natitigil?",
+    "hook": "Anong gawi mo ang alam mong nakakaapekto nang negatibo sa health mo pero patuloy mo pa rin?",
     "deepDive": "Nasubukan mo na bang itigil ito — at anong nangyari?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6031,7 +6031,7 @@
   },
   {
     "id": 507,
-    "hook": "Ano ang laging inuuna mo kahit hindi talaga ito importante?",
+    "hook": "Anong bagay ang lagi mong inuuna sa buhay na sa katunayan ay hindi talaga priority mo?",
     "deepDive": "Bakit patuloy mong pinriprioridad ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6046,7 +6046,7 @@
   },
   {
     "id": 508,
-    "hook": "Ano ang practice na sinimulan mo para ayusin ang isa pero naging problema na?",
+    "hook": "Anong gawi mo ang nagsimula bilang paraan para maayos ang isang bagay pero ngayon ay naging problema na rin?",
     "deepDive": "Kailan mo unang napagtanto na naging problema na ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6061,7 +6061,7 @@
   },
   {
     "id": 509,
-    "hook": "Ano ang laging sinasabi mong babaguhin mo pero paulit-ulit pa rin?",
+    "hook": "Anong bagay ang lagi mong sinasabi na kailangan mong baguhin pero wala kang aksyon?",
     "deepDive": "Saan mo gustong maging posible ang pagbabagong yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6076,7 +6076,7 @@
   },
   {
     "id": 510,
-    "hook": "Ano ang habit na ginagawa mo dahil sa expectations ng pamilya?",
+    "hook": "Anong gawi mo ang pakiramdam mo ay napupuwersahan ng expectations ng pamilya mo?",
     "deepDive": "Kung ikaw lang ang magpapasya, ano ang baguhin mo?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6091,7 +6091,7 @@
   },
   {
     "id": 511,
-    "hook": "Ano ang ginagawa mo para umiwas sa isang bagay pero nagpapapahirap lang?",
+    "hook": "Anong bagay ang lagi mong ginagawa para maiwasang harapin ang isang bagay sa buhay mo?",
     "deepDive": "Ilang buwan o taon mo na itong ginagawa?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6106,7 +6106,7 @@
   },
   {
     "id": 512,
-    "hook": "Ano ang habit na sa tingin mo nakasasama sa relasyon mo?",
+    "hook": "Anong gawi mo ang pinaka-nakakaapekto sa relasyon mo sa mga taong mahal mo?",
     "deepDive": "Sinabi na ba nila ito sa'yo o napapansin mo lang mag-isa?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6121,7 +6121,7 @@
   },
   {
     "id": 513,
-    "hook": "Ano ang sinisisi mo sa iba pero gawi mo pala ang ugat nito?",
+    "hook": "Anong bagay ang lagi mong sinisisi sa labas pero sa katunayan ay isang gawi mo ang ugat?",
     "deepDive": "Anong gagawin mo kapag tinanggap mo ang katotohanang yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6136,7 +6136,7 @@
   },
   {
     "id": 514,
-    "hook": "Ano ang habit na nagiging dahilan para palayasin ang mga taong gusto mong lapitan?",
+    "hook": "Anong gawi mo ang nagtutulak sa'yo na palayasin ang mga tao na gusto mong maging malapit?",
     "deepDive": "Napagtanto mo na ba ito — o ngayon mo lang nag-realize?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6151,7 +6151,7 @@
   },
   {
     "id": 515,
-    "hook": "Ilang oras ang nawala sa phone mo kahit alam mong hindi productive?",
+    "hook": "Ilang oras ka sa isang araw na nasa phone kahit alam mong masyadong marami?",
     "deepDive": "Anong lagi mong ginagawa dun na dapat ay ibang bagay na?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6166,7 +6166,7 @@
   },
   {
     "id": 516,
-    "hook": "Ano ang laging sinasabi mong “last time na ito” pero nagagawa mo ulit?",
+    "hook": "Anong bagay ang lagi mong sinasabi na 'last time na' pero naibabalik ka pa rin?",
     "deepDive": "Ilang beses na ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6181,7 +6181,7 @@
   },
   {
     "id": 517,
-    "hook": "Ano ang comfort habit mo na alam mong nakakasama pero hindi ka handa tigilan?",
+    "hook": "Anong ugali mo ang alam mong nakaka-sabotage ng sarili mo pero komportable ka na?",
     "deepDive": "Natatakot ka ba na baguhin ito — o wala ka na talagang pakialam?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6196,7 +6196,7 @@
   },
   {
     "id": 518,
-    "hook": "Ano ang ginagawa mo kapag sobrang pagod at laging nagsisisi ka pagkatapos?",
+    "hook": "Anong bagay ang ginagawa mo kapag sobrang pagod ka na — na lagi kang nagsisisi pagkatapos?",
     "deepDive": "Kailan mo itigil ang cycle na iyan?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6211,7 +6211,7 @@
   },
   {
     "id": 519,
-    "hook": "Ano ang habit na parte na ng identity mo kahit gusto mo nang baguhin?",
+    "hook": "Anong gawi mo ang pinakamahirap na isiping baguhin dahil bahagi na siya ng identity mo?",
     "deepDive": "Sino ka kapag wala na ang gawing yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6226,7 +6226,7 @@
   },
   {
     "id": 520,
-    "hook": "Ano ang isang habit na gustong tapusin mo pero parang safe pa rin hawakan?",
+    "hook": "Anong bagay ang alam mong makapagpapabuti ng buhay mo kung itigil mo pero ayaw mo pang tigilan?",
     "deepDive": "Bakit mas importante sa'yo ang patuloy dun kaysa ang baguhin?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6241,7 +6241,7 @@
   },
   {
     "id": 521,
-    "hook": "Ano ang communication habit mo na nagpapasarado ng ibang tao?",
+    "hook": "Anong gawi mo sa pakikipag-usap sa iba ang pinaka-nagpapasama ng relasyon mo pero hirap mong baguhin?",
     "deepDive": "Sino ang pinaka-naapektuhan nito at nakakaalam ba sila?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6256,7 +6256,7 @@
   },
   {
     "id": 522,
-    "hook": "Ano ang ginagawa mo pagkatapos ng fight o awkward moment na hindi nakakatulong?",
+    "hook": "Anong bagay ang lagi mong ipinagsisisi pagkatapos gawin pero hindi pa rin naiiwasan?",
     "deepDive": "Anong unang hakbang ang magagawa mo para masira ang loop na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6271,7 +6271,7 @@
   },
   {
     "id": 523,
-    "hook": "Ano ang habit na paulit-ulit na ginagawang mas mahirap ang mental health mo?",
+    "hook": "Anong gawi mo ang pinaka-nakakaapekto sa mentally health mo pero lagi mong inuuwi?",
     "deepDive": "Kailan mo ito sisimulan harapin nang seryoso?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6286,7 +6286,7 @@
   },
   {
     "id": 524,
-    "hook": "Kung isang habit lang ang babaguhin mo sa loob ng isang buwan, ano yun?",
+    "hook": "Kung matutulungan kang baguhin ng isang gawi sa loob ng isang buwan, alin ang pipiliin mo — at handa ka na ba?",
     "deepDive": "Ano ang gagawin mo bukas para sa unang araw ng pagbabagong yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6301,7 +6301,7 @@
   },
   {
     "id": 525,
-    "hook": "Ano ang naiisip mo kapag wala kang ginagawa at tahimik lang?",
+    "hook": "Anong naiisip mo karaniwang kapag hindi ka busy at tahimik lang?",
     "deepDive": "Masaya ka ba sa mga naiisip mo — o gusto mong palitan ito ng iba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6316,7 +6316,7 @@
   },
   {
     "id": 526,
-    "hook": "Anong tanong ang lagi mong tinatanong sa sarili pero di mo pa nasasagot?",
+    "hook": "Anong tanong ang lagi kang nagtatanong sa sarili mo pero hindi mo pa nasasagot?",
     "deepDive": "Naniniwala ka bang may kasagutan ito — o kasya na sa'yo ang hindi malaman?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6331,7 +6331,7 @@
   },
   {
     "id": 527,
-    "hook": "Ano ang laging pumapasok sa isip mo bago matulog?",
+    "hook": "Anong bagay ang lagi mong iniisip bago matulog?",
     "deepDive": "Nakakatulog ka ba nang maayos pagkatapos o ini-isip mo pa rin ito?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6346,7 +6346,7 @@
   },
   {
     "id": 528,
-    "hook": "Kapag nag-iisa ka sa commute, ano ang palaging tumatagos sa'yo?",
+    "hook": "Kapag nakasakay ka nang mag-isa at walang distraction, anong lagi mong naiisip?",
     "deepDive": "Okay ka ba sa inaaksaya ng utak mo sa mga iniisip na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6361,7 +6361,7 @@
   },
   {
     "id": 529,
-    "hook": "Anong iniisip mo tungkol sa future mo pero di mo masabi sa iba?",
+    "hook": "Anong bagay ang lagi mong naiisip tungkol sa hinaharap mo na hindi mo pa sinasabi sa iba?",
     "deepDive": "Saan galing ang takot na yon o pag-asa na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6376,7 +6376,7 @@
   },
   {
     "id": 530,
-    "hook": "Ano ang thought na palagi mong pinapalayas pero bumabalik pa rin?",
+    "hook": "Ano yung thought na lagi mong pinapalis sa isip mo pero lagi pa ring bumabalik?",
     "deepDive": "Ano sa tingin mo ang sinasabi nito tungkol sa isang bagay na hindi pa naresolba?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6391,7 +6391,7 @@
   },
   {
     "id": 531,
-    "hook": "Kung may isang oras ka na walang distraction, ano ang unang balak mong gawin?",
+    "hook": "Kung mayroon kang libreng isang oras na walang distraction, anong unang naiisip mong gawin?",
     "deepDive": "Bakit hindi mo ito mas madalas ginagawa?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6406,7 +6406,7 @@
   },
   {
     "id": 532,
-    "hook": "Ano ang naisip mo tungkol sa buhay na hindi naman malalim, pero totoo sayo?",
+    "hook": "Anong bagay ang lagi kang nagtataka sa buhay — hindi isang malaking pilosopiya, isang totoong tanong?",
     "deepDive": "May sinubukan ka na bang hanapin ang sagot sa tanong na yon?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6421,7 +6421,7 @@
   },
   {
     "id": 533,
-    "hook": "Ano ang gusto mong maalala ng mga tao tungkol sa’yo?",
+    "hook": "Kapag iniisip mo sarili mo sa habang panahon — ano ang gusto mong maalala ng mga tao sa'yo, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Ipinapamuhay mo na ba ang gusto mong maalala nila?",
     "level": "light",
     "levelLabel": "Chill",
@@ -6436,7 +6436,7 @@
   },
   {
     "id": 534,
-    "hook": "Ano ang pinakakaapekto sa pag-iisip mo ngayon mula sa mundo?",
+    "hook": "Anong bagay na nangyayari sa mundo ang pinaka-nakakaapekto sa kung paano ka nag-iisip ngayon?",
     "deepDive": "Paano ito nagbabago ng mga desisyon mo sa araw-araw?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6451,7 +6451,7 @@
   },
   {
     "id": 535,
-    "hook": "Ano ang hindi mo masabi sa pamilya mo pero madalas isipin mo?",
+    "hook": "Ano yung bagay tungkol sa pamilya mo na di mo masabi nang malakas?",
     "deepDive": "Bakit mas safe para sa'yo na iniisip mo na lang ito?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6466,7 +6466,7 @@
   },
   {
     "id": 536,
-    "hook": "Ano ang tanong na patuloy kang minamasyado kahit di mo pa nasasagot?",
+    "hook": "Ano yung tanong sa buhay mo na hanggang ngayon di mo pa masagot?",
     "deepDive": "Paano mo hinaharap ang uncertainty ng hindi mawaring sagot?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6481,7 +6481,7 @@
   },
   {
     "id": 537,
-    "hook": "Kung isipin mo ang resilience mo, ano ang unang pumapasok sa isip mo?",
+    "hook": "Kapag iniisip mo iyong sariling katatagan — kung nag-fail ang lahat, kaya mo ba, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Saan ka kukuha ng lakas kung mangyari yon?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6496,7 +6496,7 @@
   },
   {
     "id": 538,
-    "hook": "Sa faith o beliefs mo, ginagawa mo ba ito para sa sarili o para sa iba?",
+    "hook": "Kapag iniisip mo relasyon mo sa Diyos o sa pananampalataya — totoo ba ito para sa'yo o ginagawa mo para sa iba, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Kailan mo huling naramdaman ang tunay na koneksyon dun?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6511,7 +6511,7 @@
   },
   {
     "id": 539,
-    "hook": "Ano ang naisip mo tungkol sa kamatayan na hindi takot, kundi realism?",
+    "hook": "Anong bagay ang lagi mong naiisip tungkol sa kamatayan — hindi bilang takot, kundi bilang katotohanan?",
     "deepDive": "Paano nito nababago ang mga pinipili mo sa buhay?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6526,7 +6526,7 @@
   },
   {
     "id": 540,
-    "hook": "Paano ka magdesisyon kung saan mo gustong pumunta sa buhay mo?",
+    "hook": "Kapag iniisip mo kung saan mo gustong mapunta ang buhay mo — at gaano ka ka-sure, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Kung maling landas pala ang tinatahak mo, kailan mo malalaman?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6541,7 +6541,7 @@
   },
   {
     "id": 541,
-    "hook": "Kapag iniisip mo ang mga umalis sa buhay mo, ano ang unang sumagi sa isip mo?",
+    "hook": "Kapag iniisip mo mga taong umalis sa buhay mo — may galit ka pa ba o peace na, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Naayos mo na ba ito sa loob mo o pinapalayo mo pa rin?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6556,7 +6556,7 @@
   },
   {
     "id": 542,
-    "hook": "Ano ang nangyari na gusto mong ibang mangyari sa buhay mo?",
+    "hook": "Ano yung bagay na lagi mong iniisip na sana iba ang nangyari — at nakakaapekto pa ba ito sa'yo ngayon?",
     "deepDive": "Maaari mo bang hayaan ang sarili mong tanggapin ang katotohanang hindi mo na ito mabago?",
     "level": "deep",
     "levelLabel": "Deep",
@@ -6571,7 +6571,7 @@
   },
   {
     "id": 543,
-    "hook": "Ano ang thought na hindi mo kayang sabihin nang malakas kahit sa trusted person?",
+    "hook": "Ano yung thought na lagi mong hindi kayang sabihin nang malakas kahit sa pinaka-pinagkakatiwalaan mong tao?",
     "deepDive": "Ano ang mangyayari sa'yo kung masabi mo ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6586,7 +6586,7 @@
   },
   {
     "id": 544,
-    "hook": "Kapag iniisip mo ang mga mahal mo, laging ba may duda ka pa rin?",
+    "hook": "Kapag iniisip mo mga taong mahal mo na hindi ka sigurado kung mahal ka rin nila, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Anong gusto mong gawin sa kakulangan ng kasigurohang yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6601,7 +6601,7 @@
   },
   {
     "id": 545,
-    "hook": "Ano ang napagtanto mo tungkol sa sarili mo na sana hindi na lang nalaman?",
+    "hook": "Ano yung tungkol sa sarili mo na na-realize mo, pero sana di mo na lang nalaman?",
     "deepDive": "Mas gusto mo bang malaman ang katotohanang yon o mas komportable ang hindi alam?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6616,7 +6616,7 @@
   },
   {
     "id": 546,
-    "hook": "Ano ang naiisip mo kapag tahimik kayo ng pamilya mo?",
+    "hook": "Anong naiisip mo kapag nasa sala kayo ng pamilya mo at tahimik lang kayo?",
     "deepDive": "May gusto kang sabihin sa kanila na hindi mo pa sinasabi?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6631,7 +6631,7 @@
   },
   {
     "id": 547,
-    "hook": "Ano ang pinakakatakot mong marinig ng iba na iniisip mo?",
+    "hook": "Ano yung thought mo na pinaka-natatakot mong marinig ng iba — kahit ng pinaka-malapit mo?",
     "deepDive": "Anong mangyayari sa relasyon niyo kung marinig nila ito?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6646,7 +6646,7 @@
   },
   {
     "id": 548,
-    "hook": "Ano ang gustong mahalin ng iba sa’yo pero ayaw mong aminin?",
+    "hook": "Ano yung bagay na lagi mong iniisip na sana mahal ka ng iba nang ganoon — pero ayaw mong aminin?",
     "deepDive": "Bakit mas madaling isipin ito sa loob kaysa sabihin ito nang malakas?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6661,7 +6661,7 @@
   },
   {
     "id": 549,
-    "hook": "Kapag gabi ka at wala nang mauuna sa isip mo, ano ang lumalabas?",
+    "hook": "Kapag iniisip mo sarili mo sa gabi na parang hindi mo maitago kahit gusto mo, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Gaano katagal ka nang dala ng naiisip na yon?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6676,7 +6676,7 @@
   },
   {
     "id": 550,
-    "hook": "Anong naiisip mo kapag may conflict sa relasyon mo?",
+    "hook": "Kapag iniisip mo kaibigan o miyembro ng pamilya mo na sana ay mali ka, ano yung tumatakbo sa isip mo?",
     "deepDive": "Anong gagawin mo kung tama pala ikaw?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6691,7 +6691,7 @@
   },
   {
     "id": 551,
-    "hook": "Ano ang boses sa ulo mo na laging pinipigil ang actions mo?",
+    "hook": "Kapag iniisip mo sarili mong kakayahan na laging pinipigilan ng isang boses sa iyong ulo, ano yung unang pumapasok sa isip mo?",
     "deepDive": "Saan galing ang boses na yon — at kailan ito nagsimula?",
     "level": "wild",
     "levelLabel": "Wild",
@@ -6706,7 +6706,7 @@
   },
   {
     "id": 552,
-    "hook": "Ano ang problemang klaro na alam mo pero di mo pa rin inaaksyonan?",
+    "hook": "Ano yung problem na klaro sa'yo ngayon pero di mo pa inaaksyunan?",
     "deepDive": "Anong unang gagawin mo bukas para magsimulang tugunan ito?",
     "level": "wild",
     "levelLabel": "Wild",

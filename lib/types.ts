@@ -1,39 +1,42 @@
 // lib/types.ts — Kwentuhan shared types
 
 export type Level = "light" | "deep" | "wild";
-export type Mode  = "solo"  | "group";
+export type Mode = "solo" | "group";
 
 export interface Question {
-  id:            number;
-  hook:          string;
-  deepDive:      string;
-  level:         Level;
-  levelLabel:    string;
-  levelColor:    string;
-  category:      string;
+  id: string | number;
+  hook: string;
+  deepDive: string;
+  level: Level;
+  levelLabel: string;
+  levelColor: string;
+  category: string;
   categoryLabel: string;
   categoryEmoji: string;
-  mode:          Mode;
-  cluster:       string;
-  isPersonal:    boolean;
-  ageGated:      boolean;
+  mode: Mode;
+  cluster: string;
+  isPersonal: boolean;
+  ageGated: boolean;
+  contributor?: string;
+  language?: string;
+  isCommunity?: boolean;
 }
 
 export interface CategoryMeta {
-  label:     string;
-  emoji:     string;
-  mode:      Mode;
-  cluster:   string;
-  tagline:   string;
+  label: string;
+  emoji: string;
+  mode: Mode;
+  cluster: string;
+  tagline: string;
   ageGated?: boolean;
 }
 
 export interface SessionState {
-  mode:       Mode;
-  category:   string | null;
-  questions:  Question[];
+  mode: Mode;
+  category: string | null;
+  questions: Question[];
   currentIdx: number;
-  showDeep:   boolean;
+  showDeep: boolean;
   isFinished: boolean;
 }
 
@@ -50,14 +53,14 @@ export const SOLO_CATEGORIES = [
 ] as const;
 
 export type GroupCategory = typeof GROUP_CATEGORIES[number];
-export type SoloCategory  = typeof SOLO_CATEGORIES[number];
+export type SoloCategory = typeof SOLO_CATEGORIES[number];
 
 // iOS-matched level config with emoji prefix
 export const LEVEL_CONFIG: Record<Level, {
-  label:  string;
-  emoji:  string;
-  color:  string;
-  bg:     string;
+  label: string;
+  emoji: string;
+  color: string;
+  bg: string;
   border: string;
   cardBg: string;
   cardBorder: string;
@@ -84,10 +87,10 @@ export const LEVEL_CONFIG: Record<Level, {
 
 // Cluster accent + soft-bg palette
 export const CLUSTER_COLOR: Record<string, { accent: string; bg: string }> = {
-  social:   { accent:"#6C5CE7", bg:"#EDE9FF" },
-  love:     { accent:"#E8527A", bg:"#FFECF1" },
-  grind:    { accent:"#3B82F6", bg:"#EFF6FF" },
-  wildcard: { accent:"#F59E0B", bg:"#FFFBEB" },
-  solo:     { accent:"#10B981", bg:"#ECFDF5" },
-  other:    { accent:"#6C5CE7", bg:"#EDE9FF" },
+  social: { accent: "#6C5CE7", bg: "#EDE9FF" },
+  love: { accent: "#E8527A", bg: "#FFECF1" },
+  grind: { accent: "#3B82F6", bg: "#EFF6FF" },
+  wildcard: { accent: "#F59E0B", bg: "#FFFBEB" },
+  solo: { accent: "#10B981", bg: "#ECFDF5" },
+  other: { accent: "#6C5CE7", bg: "#EDE9FF" },
 };

@@ -18,8 +18,8 @@ export interface SessionState {
 export function useSession() {
   const [session, setSession] = useState<SessionState | null>(null);
 
-  const startSession = useCallback((mode: Mode, category: string | null) => {
-    const questions = buildSession(mode, category);
+  const startSession = useCallback(async (mode: Mode, category: string | null) => {
+    const questions = await buildSession(mode, category);
     setSession({
       mode, category, questions,
       currentIdx: 0, showDeep: false,
@@ -47,12 +47,18 @@ export function useSession() {
     setSession(prev => prev ? { ...prev, showDeep: !prev.showDeep } : prev);
   }, []);
 
-  const restart = useCallback(() => {
-    setSession(prev => prev
-      ? { ...prev, questions: buildSession(prev.mode, prev.category), currentIdx: 0, showDeep: false, isFinished: false }
-      : prev
-    );
-  }, []);
+  const restart = useCallback(async () => {
+    if (session) {
+      const questions = await buildSession(session.mode, session.category);
+      setSession({
+        ...session,
+        questions,
+        currentIdx: 0,
+        showDeep: false,
+        isFinished: false,
+      });
+    }
+  }, [session]);
 
   const reset = useCallback(() => setSession(null), []);
 

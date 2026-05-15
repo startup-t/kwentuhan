@@ -3,26 +3,31 @@
 import type { Question, Mode, Level } from "./types";
 import questionsData from "@/data/questions.json";
 
-const ALL: Question[] = questionsData as Question[];
+const ALL_STATIC: Question[] = questionsData as Question[];
 
-/** Fisher-Yates shuffle with a numeric seed */
-function seededShuffle<T>(arr: T[], seed: number): T[] {
-  const out = [...arr];
-  let s = seed;
-  for (let i = out.length - 1; i > 0; i--) {
-    s = (s * 9301 + 49297) % 233280;
-    const j = Math.floor((s / 233280) * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
-
-export function getQuestions(
+export async function getQuestions(
   mode: Mode,
   category: string | null,
   level?: Level,
-): Question[] {
-  let pool = ALL.filter(q => q.mode === mode);
+): Promise<Question[]> {
+  // In browser, call API to include contributed questions
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams();
+    params.set("mode", mode);
+    params.set("category", category ?? "null");
+    if (level) params.set("level", level);
+    const res = await fetch(`/api/questions?${params}`);
+    if (res.ok) {
+      const data = await res.json();
+      return data.questions;
+    }
+    // Fallback to static
+    console.warn("Failed to fetch questions from API, using static");
+  }
+
+  // Server-side: only static questions
+  let pool = [...ALL_STATIC];
+  pool = pool.filter(q => q.mode === mode);
 
   if (mode === "solo") {
     pool = pool.filter(q => q.isPersonal);
@@ -36,31 +41,32 @@ export function getQuestions(
   return pool;
 }
 
-export function buildSession(
+/** Fisher-Yates shuffle with a numeric seed */
+function seededShuffle<T>(arr: T[], seed: number): T[] {
+  const out = [...arr];
+  let s = seed;
+  for (let i = out.length - 1; i > 0; i--) {
+    s = (s * 9301 + 49297) % 233280;
+    const j = Math.floor((s / 233280) * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+export async function buildSession(
   mode: Mode,
   category: string | null,
   seed?: number,
-): Question[] {
-  const pool = getQuestions(mode, category);
+): Promise<Question[]> {
+  const pool = await getQuestions(mode, category);
   return seededShuffle(pool, seed ?? Date.now());
 }
 
-export function getQuestionCount(mode: Mode, category: string | null): number {
-  return getQuestions(mode, category).length;
+export async function getQuestionCount(mode: Mode, category: string | null): Promise<number> {
+  const pool = await getQuestions(mode, category);
+  return pool.length;
 }
 
 export function getQuestionById(id: number): Question | undefined {
-  return ALL.find(q => q.id === id);
-}
-
-export function getCategoryMeta(category: string) {
-  const q = ALL.find(q => q.category === category);
-  if (!q) return null;
-  return {
-    label:    q.categoryLabel,
-    emoji:    q.categoryEmoji,
-    mode:     q.mode,
-    cluster:  q.cluster,
-    ageGated: q.ageGated,
-  };
+  return ALL_STATIC.find(q => q.id === id);
 }

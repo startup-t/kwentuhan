@@ -34,6 +34,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
   const clr = CLUSTER_COLOR[question.cluster] ?? CLUSTER_COLOR.other;
 
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
+  const [qrLoaded, setQrLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     // Do not attempt QR generation with an empty URL — the QR library will
@@ -41,6 +42,7 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
     if (!qrUrl) {
       console.debug("[StoryCard] QR URL empty, clearing QR data:", { teaser, qrCacheKey });
       setQrDataUrl("");
+      setQrLoaded(false);
       return;
     }
     let mounted = true;
@@ -50,12 +52,14 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         if (mounted) {
           console.debug("[StoryCard] QR rendered successfully:", { teaser, qrCacheKey });
           setQrDataUrl(url);
+          // Don't set loaded yet, wait for img onLoad
         }
       })
       .catch((error) => {
         if (mounted) {
           console.error("[StoryCard] QR rendering failed:", { teaser, qrCacheKey, error: error instanceof Error ? error.message : String(error) });
           setQrDataUrl("");
+          setQrLoaded(false);
         }
       });
     return () => { mounted = false; };
@@ -196,6 +200,16 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
         }}>
           {question.hook}
         </p>
+        {question.contributor && (
+          <p style={{
+            fontSize: 18,
+            fontWeight: 500,
+            color: "var(--kw-subtext)",
+            margin: "8px 0 0 0",
+          }}>
+            Question by {question.contributor}
+          </p>
+        )}
       </div>
 
       {/* Answer — middle ~40% */}
@@ -278,11 +292,14 @@ const StoryCard = forwardRef<HTMLDivElement, Props>(function StoryCard(
           <img
             data-qr-role="code"
             data-qr-value={qrUrl}
+            data-qr-loaded={qrLoaded}
             src={qrDataUrl}
             alt=""
             width={220}
             height={220}
             style={{ display: "block", borderRadius: 8 }}
+            onLoad={() => setQrLoaded(true)}
+            onError={() => setQrLoaded(false)}
           />
         ) : (
           /* qrUrl empty = teaser link still being saved to server;

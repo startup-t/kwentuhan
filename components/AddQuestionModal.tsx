@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 interface Props {
-  onClose:  () => void;
+  onClose: () => void;
   onSubmit?: (text: string) => void;
 }
 
@@ -13,6 +13,7 @@ const STORAGE_KEY = "kw.pendingContributions";
 export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   const [text, setText] = useState("");
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -23,17 +24,46 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
   const trimmed = text.trim();
   const tooShort = trimmed.length < 8;
 
-  function handleSubmit() {
-    if (tooShort) return;
+  async function handleSubmit() {
+    if (tooShort || submitting) return;
+    setSubmitting(true);
     try {
+      const res = await fetch("/api/contribute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          hook: trimmed,
+          deepDive: "",
+          level: "light",
+          category: "selfCheck",
+          mode: "solo",
+          cluster: "solo",
+          contributorUsername: "Community Contributor",
+          language: "en",
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      // Still store locally as backup
       const raw = localStorage.getItem(STORAGE_KEY);
       const queue: string[] = raw ? JSON.parse(raw) : [];
       queue.push(trimmed);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(queue));
-    } catch { /* ignore */ }
-    onSubmit?.(trimmed);
-    setDone(true);
-    setTimeout(onClose, 1100);
+      onSubmit?.(trimmed);
+      setDone(true);
+      setTimeout(onClose, 1100);
+    } catch (error) {
+      console.error("Failed to submit question:", error);
+      // Fallback to localStorage only
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const queue: string[] = raw ? JSON.parse(raw) : [];
+      queue.push(trimmed);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(queue));
+      onSubmit?.(trimmed);
+      setDone(true);
+      setTimeout(onClose, 1100);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -92,11 +122,11 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
                 rows={4}
                 className="w-full rounded-2xl px-4 py-3 text-[0.9375rem] leading-snug resize-none outline-none transition-all duration-150"
                 style={{
-                  background:  "var(--kw-surface-alt)",
-                  border:      "1.5px solid var(--kw-border)",
-                  color:       "var(--kw-text)",
-                  fontFamily:  "var(--font-dm-sans), sans-serif",
-                  minHeight:   108,
+                  background: "var(--kw-surface-alt)",
+                  border: "1.5px solid var(--kw-border)",
+                  color: "var(--kw-text)",
+                  fontFamily: "var(--font-dm-sans), sans-serif",
+                  minHeight: 108,
                 }}
               />
               <div className="flex justify-end mt-1.5">
@@ -109,13 +139,26 @@ export default function AddQuestionModal({ onClose, onSubmit }: Props) {
             <div className="px-6 pb-6 pt-1 flex flex-col gap-2.5">
               <button
                 onClick={handleSubmit}
-                disabled={tooShort}
+                disabled={tooShort || submitting}
                 className="btn-primary w-full py-[1.0625rem] text-[0.9375rem] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                  <path d="M8 3v10M3 8h10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-                <span>Submit Question</span>
+                {submitting ? (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 16, height: 16,
+                      borderRadius: "50%",
+                      border: "2px solid white",
+                      borderTopColor: "transparent",
+                      animation: "spin 0.7s linear infinite",
+                    }}
+                  />
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path d="M8 3v10M3 8h10" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                )}
+                <span>{submitting ? "Submitting…" : "Submit Question"}</span>
               </button>
               <button
                 onClick={onClose}

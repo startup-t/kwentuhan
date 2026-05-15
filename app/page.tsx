@@ -53,8 +53,8 @@ export default function Home() {
     setPendingCat(null);
   }
 
-  function launchSession(cat: string | null) {
-    session.startSession(mode, cat);
+  async function launchSession(cat: string | null) {
+    await session.startSession(mode, cat);
     setScreen("session");
   }
 
