@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json.schemastore.org/design-tokens",
+  "$comment": "Source of truth for Kwentuhan design tokens. Consumed by both web (via CSS vars in app/globals.css) and native (via the Kotlin/Swift token files generated from this). Update HERE first; regenerate platform consumers downstream.",
+
+  "color": {
+    "$comment": "Hex + rgba values. Native: convert to Color() / UIColor literals. Web: already exposed as --kw-* CSS vars in app/globals.css.",
+    "bg":          { "value": "#EEEAF6", "cssVar": "--kw-bg",          "use": "Page background; the tinted lavender canvas." },
+    "surface":     { "value": "#FFFFFF", "cssVar": "--kw-surface",     "use": "Primary card / sheet background." },
+    "surfaceAlt":  { "value": "#F3F0FA", "cssVar": "--kw-surface-alt", "use": "Secondary surfaces (textarea bg, pills inactive)." },
+    "border":      { "value": "rgba(200,195,230,0.5)", "cssVar": "--kw-border",       "use": "Soft borders." },
+    "borderSolid": { "value": "#DAD4EA",               "cssVar": "--kw-border-solid", "use": "Solid borders where alpha doesn't read." },
+
+    "accent":      { "value": "#6C52E3", "cssVar": "--kw-accent",      "use": "Brand purple. Primary CTAs, accent text, links." },
+    "accentSoft":  { "value": "#EDE9FF", "cssVar": "--kw-accent-soft", "use": "Accent at 12-15% — pill backgrounds, highlight chips." },
+    "accentDeep":  { "value": "#5B3FD0", "cssVar": "--kw-accent-deep", "use": "Pressed / dark accent." },
+    "accent2":     { "value": "#7B5EE8", "cssVar": "--kw-accent-2",    "use": "Gradient pair with accentDeep." },
+
+    "text":        { "value": "#1A1730", "cssVar": "--kw-text",        "use": "Primary text on light surfaces." },
+    "subtext":     { "value": "#8B87A8", "cssVar": "--kw-subtext",     "use": "Secondary text, helper copy." },
+    "muted":       { "value": "#B0ABC8", "cssVar": "--kw-muted",       "use": "Quiet metadata, footers, char counters." },
+    "label":       { "value": "#9B97BB", "cssVar": "--kw-label",       "use": "Form labels (uppercase tracking widest)." },
+
+    "wild":        { "value": "#E8527A", "cssVar": "--kw-wild",        "use": "Wild-level accent / destructive warning." },
+    "wildSoft":    { "value": "#FFECE8", "cssVar": "--kw-wild-soft",   "use": "Wild bg tint, error chip bg." },
+    "wildText":    { "value": "#C94020", "cssVar": "--kw-wild-text",   "use": "Wild-level text, error chip text." },
+
+    "deep":        { "value": "#3B55C4", "cssVar": "--kw-deep",        "use": "Deep-level accent." },
+    "deepSoft":    { "value": "#EFF3FF", "cssVar": "--kw-deep-soft",   "use": "Deep bg tint." },
+
+    "chillSoft":   { "value": "#EDE9FF", "cssVar": "--kw-chill-soft",  "use": "Chill bg tint." },
+    "chillText":   { "value": "#5B3FD0", "cssVar": "--kw-chill-text",  "use": "Chill-level text." },
+
+    "success":     { "value": "#10B981", "cssVar": "--kw-success",     "use": "Success states (copied, saved)." },
+    "warn":        { "value": "#F59E0B", "cssVar": "--kw-warn",        "use": "Soft warnings, char-counter at threshold." },
+
+    "chatPeach":   { "value": "#FFEFE6", "cssVar": "--kw-chat-peach",  "use": "Chat-bubble answer style bg." },
+    "noteInk":     { "value": "#2A1810", "cssVar": "--kw-note-ink",    "use": "Handwritten Kalam text on light cards." }
+  },
+
+  "level": {
+    "$comment": "Per-level visual config. Native: encode as a sealed class / enum with these property bags. Source-of-truth in lib/types.ts LEVEL_CONFIG.",
+    "light": {
+      "label": "Chill",
+      "emoji": "☀️",
+      "vibeHint": "every day",
+      "color":      "#5B3FD0",
+      "bg":         "#EEEAFF",
+      "border":     "rgba(108,92,231,0.22)",
+      "cardBg":     "linear-gradient(160deg,#F8F6FF 0%,#FDFCFF 100%)",
+      "cardBorder": "rgba(108,92,231,0.2)"
+    },
+    "deep": {
+      "label": "Deep",
+      "emoji": "🌙",
+      "vibeHint": "real talk",
+      "color":      "#3B55C4",
+      "bg":         "#EEF2FF",
+      "border":     "rgba(59,85,196,0.22)",
+      "cardBg":     "linear-gradient(160deg,#F6F8FF 0%,#FAFAFF 100%)",
+      "cardBorder": "rgba(59,130,246,0.25)"
+    },
+    "wild": {
+      "label": "Wild",
+      "emoji": "🔥",
+      "vibeHint": "edge it up",
+      "color":      "#C94020",
+      "bg":         "#FFECE8",
+      "border":     "rgba(232,82,122,0.24)",
+      "cardBg":     "linear-gradient(160deg,#FFF8F6 0%,#FFFBFA 100%)",
+      "cardBorder": "rgba(232,82,122,0.25)"
+    }
+  },
+
+  "cluster": {
+    "$comment": "Category clusters → accent + soft-bg. Used by chips, badges, category cards. Source: lib/types.ts CLUSTER_COLOR.",
+    "social":   { "accent": "#6C5CE7", "bg": "#EDE9FF" },
+    "love":     { "accent": "#E8527A", "bg": "#FFECF1" },
+    "grind":    { "accent": "#3B82F6", "bg": "#EFF6FF" },
+    "wildcard": { "accent": "#F59E0B", "bg": "#FFFBEB" },
+    "solo":     { "accent": "#10B981", "bg": "#ECFDF5" },
+    "other":    { "accent": "#6C5CE7", "bg": "#EDE9FF" }
+  },
+
+  "categories": {
+    "$comment": "Category metadata. Source: data/categories.json. Native should reuse the same key strings — they ARE the API contract for filtering.",
+    "group": {
+      "barkada":        { "label": "Barkada",  "emoji": "👯", "cluster": "social",   "tagline": "Lahat sumasagot." },
+      "besties":        { "label": "Besties",  "emoji": "🫂", "cluster": "social",   "tagline": "For your ride-or-dies." },
+      "family":         { "label": "Pamilya",  "emoji": "🏠", "cluster": "social",   "tagline": "Pati mga lolo t lola." },
+      "loveLab":        { "label": "Couple",   "emoji": "💑", "cluster": "love",     "tagline": "Para sa inyong dalawa." },
+      "dating":         { "label": "Dating",   "emoji": "💌", "cluster": "love",     "tagline": "Talking stage questions." },
+      "work":           { "label": "Trabaho",  "emoji": "💼", "cluster": "grind",    "tagline": "Office truths only." },
+      "businessOwners": { "label": "Negosyo",  "emoji": "🧾", "cluster": "grind",    "tagline": "Totoong negosyo talk." },
+      "startup":        { "label": "Startup",  "emoji": "🚀", "cluster": "grind",    "tagline": "Founder-level honesty." },
+      "party":          { "label": "Party",    "emoji": "🎉", "cluster": "wildcard", "tagline": "18+ na walang filter.", "ageGated": true }
+    },
+    "solo": {
+      "selfCheck": { "label": "Self Check", "emoji": "🪞", "cluster": "solo", "tagline": "Pag-usapan ang sarili mo." },
+      "reflect":   { "label": "Reflect",    "emoji": "🔮", "cluster": "solo", "tagline": "Look back at who you have been." },
+      "goals":     { "label": "Goals",      "emoji": "🎯", "cluster": "solo", "tagline": "What you are working toward." },
+      "emotions":  { "label": "Emotions",   "emoji": "💭", "cluster": "solo", "tagline": "How you actually feel." },
+      "memories":  { "label": "Memories",   "emoji": "📷", "cluster": "solo", "tagline": "Moments that shaped you." },
+      "values":    { "label": "Values",     "emoji": "🌿", "cluster": "solo", "tagline": "What matters most to you." },
+      "growth":    { "label": "Growth",     "emoji": "🌱", "cluster": "solo", "tagline": "How you have changed." },
+      "habits":    { "label": "Habits",     "emoji": "🔄", "cluster": "solo", "tagline": "What you do without thinking." },
+      "thoughts":  { "label": "Thoughts",   "emoji": "🧠", "cluster": "solo", "tagline": "What is living in your head." }
+    }
+  },
+
+  "typography": {
+    "$comment": "Three families. Native: register the same fonts. Web: loaded via next/font in app/layout.tsx.",
+    "fonts": {
+      "playfair": {
+        "name": "Playfair Display",
+        "cssVar": "--font-playfair",
+        "use": "Brand wordmark, question hooks, headings. Serif, weights 700/900."
+      },
+      "dmSans": {
+        "name": "DM Sans",
+        "cssVar": "--font-dm-sans",
+        "use": "Default UI body. Sans-serif, weights 400/500/600/700."
+      },
+      "kalam": {
+        "name": "Kalam",
+        "cssVar": "--font-kalam",
+        "use": "Handwritten answer text. Cursive, weight 400. Renders revealed kwentos + textarea input."
+      }
+    },
+    "scale": {
+      "wordmark":      { "size": "20px",   "weight": 700, "font": "playfair", "letterSpacing": "-0.01em" },
+      "h1":            { "size": "36px",   "weight": 900, "font": "playfair", "letterSpacing": "-0.02em", "lineHeight": 1 },
+      "h2":            { "size": "24px",   "weight": 700, "font": "playfair", "lineHeight": 1.2 },
+      "questionHook":  { "size": "20.8px", "weight": 700, "font": "playfair", "lineHeight": 1.25 },
+      "body":          { "size": "15px",   "weight": 500, "font": "dmSans",   "lineHeight": 1.45 },
+      "answer":        { "size": "17px",   "weight": 400, "font": "kalam",    "lineHeight": 1.5 },
+      "small":         { "size": "13px",   "weight": 500, "font": "dmSans",   "lineHeight": 1.4 },
+      "caption":       { "size": "11px",   "weight": 600, "font": "dmSans",   "lineHeight": 1.2, "textTransform": "uppercase", "letterSpacing": "0.18em" },
+      "micro":         { "size": "10px",   "weight": 500, "font": "dmSans",   "lineHeight": 1.2 }
+    }
+  },
+
+  "spacing": {
+    "$comment": "Use these scale stops exclusively. Native: pixel-equivalent dp values.",
+    "0":  "0px",
+    "0_5": "2px",
+    "1":  "4px",
+    "1_5": "6px",
+    "2":  "8px",
+    "2_5": "10px",
+    "3":  "12px",
+    "4":  "16px",
+    "5":  "20px",
+    "6":  "24px",
+    "8":  "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px"
+  },
+
+  "radii": {
+    "card":     "24px",
+    "cardCss":  "var(--kw-r-card)",
+    "btn":      "20px",
+    "btnCss":   "var(--kw-r-btn)",
+    "pill":     "9999px",
+    "chip":     "16px",
+    "input":    "16px",
+    "questionCard": "28px"
+  },
+
+  "elevation": {
+    "$comment": "Web uses CSS box-shadow strings. Native: re-implement via elevation dp + ambient/key shadow colors.",
+    "card":       "0 4px 24px rgba(108,92,231,0.09), 0 1px 3px rgba(0,0,0,0.05)",
+    "cardHover":  "0 8px 40px rgba(108,92,231,0.14), 0 1px 4px rgba(0,0,0,0.07)",
+    "question":   "0 4px 32px rgba(108,92,231,0.10), 0 1px 4px rgba(0,0,0,0.05)",
+    "qr":         "0 8px 32px rgba(108,92,231,0.14)",
+    "primaryBtn": "0 6px 24px rgba(108,92,231,0.35)"
+  },
+
+  "motion": {
+    "$comment": "Reference values only — native should use platform-idiomatic spring physics, not these exact ms.",
+    "reveal":      { "duration": "550ms", "curve": "cubic-bezier(0.34,1.4,0.64,1)", "use": "Kwento reveal animation" },
+    "slideUp":     { "duration": "320ms", "curve": "cubic-bezier(0.34,1.4,0.64,1)", "use": "Sheet/modal entrance" },
+    "fadeIn":      { "duration": "300ms", "curve": "ease-out",                       "use": "Generic fade" },
+    "tap":         { "duration": "120ms", "curve": "ease",                           "use": "Button press scale" },
+    "spin":        { "duration": "700ms", "curve": "linear",                         "use": "Loading spinner" }
+  },
+
+  "exportCard": {
+    "$comment": "PNG share card dimensions. MUST match exactly across web (html-to-image) and native (canvas/Compose draw). Cross-platform users share these and they need to look identical.",
+    "width":  1080,
+    "height": 1920,
+    "safeTop": 250,
+    "safeBottom": 250,
+    "sidePadding": 80,
+    "qrSize": 220,
+    "format": "PNG",
+    "filenamePattern": "kwentuhan-{questionId}.png"
+  },
+
+  "reactions": {
+    "$comment": "The 5 emoji reactions on the reveal card. Order is intentional — joy → shock → death → love → fire. Don't reorder; users have muscle memory.",
+    "order": ["🤣", "😱", "💀", "❤️", "🔥"]
+  }
+}
