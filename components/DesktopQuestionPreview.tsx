@@ -48,22 +48,22 @@ export default function DesktopQuestionPreview({ question }: Props) {
           letterSpacing: "0.1em",
           textTransform: "uppercase",
           color: "#9B97BB",
-          marginBottom: 12,
+          marginBottom: 14,
         }}
       >
         Question Preview
       </p>
 
-      {/* Card */}
+      {/* Card — taller min-height fills the right column better at desktop widths */}
       <div
         style={{
           borderRadius: "1.75rem",
           background: level.cardBg,
           border: `1.5px solid ${level.cardBorder}`,
           boxShadow:
-            "0 8px 40px rgba(108,92,231,0.10), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)",
-          padding: "2.5rem",
-          minHeight: 340,
+            "0 12px 48px rgba(108,92,231,0.12), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)",
+          padding: "2.75rem 3rem",
+          minHeight: 420,
           display: "flex",
           flexDirection: "column",
         }}
@@ -75,8 +75,8 @@ export default function DesktopQuestionPreview({ question }: Props) {
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
-              height: 30,
-              padding: "0 12px",
+              height: 32,
+              padding: "0 14px",
               borderRadius: 100,
               fontSize: 12,
               fontWeight: 700,
@@ -87,7 +87,7 @@ export default function DesktopQuestionPreview({ question }: Props) {
               border: `1px solid ${level.border}`,
             }}
           >
-            <span style={{ fontSize: 13, lineHeight: 1 }}>{level.emoji}</span>
+            <span style={{ fontSize: 14, lineHeight: 1 }}>{level.emoji}</span>
             <span>{level.label}</span>
           </span>
 
@@ -96,8 +96,8 @@ export default function DesktopQuestionPreview({ question }: Props) {
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
-              height: 30,
-              padding: "0 12px",
+              height: 32,
+              padding: "0 14px",
               borderRadius: 100,
               fontSize: 13,
               fontWeight: 600,
@@ -105,30 +105,30 @@ export default function DesktopQuestionPreview({ question }: Props) {
               color: "#6B6890",
             }}
           >
-            <span style={{ fontSize: 13, lineHeight: 1 }}>{question.categoryEmoji}</span>
+            <span style={{ fontSize: 14, lineHeight: 1 }}>{question.categoryEmoji}</span>
             <span>{question.categoryLabel}</span>
           </span>
         </div>
 
-        {/* Question text */}
+        {/* Question text — larger for desktop readability */}
         <div
           style={{
             flex: 1,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: "2rem 0 1.5rem",
+            padding: "2.5rem 1rem 2rem",
           }}
         >
           <p
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
-              fontWeight: 700,
-              fontSize: "1.3rem",
+              fontWeight: 800,
+              fontSize: "1.55rem",
               lineHeight: 1.5,
               color: "#1A1730",
               textAlign: "center",
-              maxWidth: "34ch",
+              maxWidth: "30ch",
             }}
           >
             {question.hook}
@@ -142,9 +142,10 @@ export default function DesktopQuestionPreview({ question }: Props) {
             fontSize: 13,
             color: "#B0ABC8",
             fontFamily: "var(--font-dm-sans), sans-serif",
+            letterSpacing: "0.01em",
           }}
         >
-          Start a conversation to see your full deck
+          Start a conversation to see your full deck →
         </p>
       </div>
     </div>

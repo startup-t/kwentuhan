@@ -1,16 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { Mode } from "@/lib/types";
-import type { Question } from "@/lib/types";
 import { GROUP_CATEGORIES, SOLO_CATEGORIES, CLUSTER_COLOR } from "@/lib/types";
 import categoriesData from "@/data/categories.json";
-import { getQuestionCount, getQuestions } from "@/lib/questions";
+import { getQuestionCount } from "@/lib/questions";
 import CategoryChips from "./CategoryChips";
 import PlayModeToggle from "./PlayModeToggle";
 import PrimaryButton from "./PrimaryButton";
-import DesktopQuestionPreview from "./DesktopQuestionPreview";
+import DesktopLanding from "./DesktopLanding";
 
 interface Props {
   onModeChosen: (mode: Mode, category?: string | null) => void;
@@ -45,51 +44,17 @@ const SOLO_TOPICS: Topic[] = [
   })),
 ];
 
-// Stable hash function to create deterministic seed from string
-function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return Math.abs(hash);
-}
-
 export default function LandingScreen({ onModeChosen }: Props) {
   const [mode, setMode] = useState<Mode>("group");
   const [topic, setTopic] = useState<string>("random");
-  const [isMounted, setIsMounted] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
-  const [previewQuestion, setPreviewQuestion] = useState<Question | null>(null);
 
   const topics = mode === "group" ? GROUP_TOPICS : SOLO_TOPICS;
 
-  // Update question count when mode/topic changes
+  // Update question count when mode/topic changes (mobile/tablet only UI)
   useEffect(() => {
     getQuestionCount(mode, topic === "random" ? null : topic).then(setQuestionCount);
   }, [mode, topic]);
-
-  // FIX: Only compute preview question after client mount to avoid hydration mismatch
-  // This prevents server/client render differences for the preview
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Desktop-only: pick a stable deterministic preview question that updates when mode/topic changes
-  // Only computed after client mount to avoid hydration mismatch
-  useEffect(() => {
-    if (!isMounted) return;
-    getQuestions(mode, topic === "random" ? null : topic).then((pool) => {
-      if (!pool.length) {
-        setPreviewQuestion(null);
-        return;
-      }
-      // Create stable seed from mode and topic for consistent but deterministic selection
-      const seed = hashString(`${mode}-${topic}`);
-      setPreviewQuestion(pool[seed % pool.length]);
-    });
-  }, [mode, topic, isMounted]);
 
   function switchMode(m: Mode) {
     setMode(m);
@@ -108,7 +73,9 @@ export default function LandingScreen({ onModeChosen }: Props) {
 
   return (
     <div className="kw-bg flex flex-col min-h-dvh safe-top safe-bottom">
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 md:px-6 lg:px-8">
+      {/* ── Mobile + tablet (<1024px): existing single-column experience.
+           Hidden at lg; nothing below this breakpoint is modified. ── */}
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 md:px-6 lg:hidden">
 
         {/* ── Logo (centered) ── */}
         <div className="mt-[72px] flex flex-col items-center animate-slide-up md:mt-24">
@@ -122,7 +89,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
           />
 
           <h1
-            className="mt-5 text-4xl lg:text-5xl"
+            className="mt-5 text-4xl"
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 900,
@@ -134,7 +101,7 @@ export default function LandingScreen({ onModeChosen }: Props) {
             kwentuhan
           </h1>
           <p
-            className="mt-1.5 text-[15px] lg:text-[17px]"
+            className="mt-1.5 text-[15px]"
             style={{
               fontFamily: "var(--font-dm-sans), sans-serif",
               color: "#9B97BB",
@@ -144,18 +111,12 @@ export default function LandingScreen({ onModeChosen }: Props) {
           </p>
         </div>
 
-        {/* ── Desktop 2-col / Mobile single-col ──
-         *   - 23rem sidebar leaves room for category chips to wrap 3-per-row
-         *   - 8rem gap (was 12) tightens the central wasted whitespace
-         *   - Right column gets a max width so the preview card doesn't
-         *     stretch edge-to-edge on wide laptops / monitors. */}
-        <div className="mt-8 flex flex-1 flex-col gap-6 lg:mt-10 lg:grid lg:grid-cols-[23rem_minmax(0,40rem)] lg:items-start lg:justify-center lg:gap-x-12">
+        {/* Single-column flow. Desktop has its own dedicated component below. */}
+        <div className="mt-8 flex flex-1 flex-col gap-6">
 
-          {/* ── Left sidebar ── */}
-          <aside
-            className="animate-slide-up lg:sticky lg:top-10 lg:flex lg:flex-col lg:gap-5"
-            style={{ animationDelay: "0.07s" }}
-          >
+          {/* ── Controls ── */}
+          <aside className="animate-slide-up" style={{ animationDelay: "0.07s" }}>
+
             {/* Play Mode */}
             <div>
               <p
@@ -190,22 +151,11 @@ export default function LandingScreen({ onModeChosen }: Props) {
               </p>
               <CategoryChips topics={topics} selected={topic} onSelect={setTopic} />
             </div>
-
-            {/* Desktop-only: question count */}
-            <div className="hidden lg:flex items-center gap-1.5 text-[13px] text-[#B0ABC8]">
-              <span style={{ fontSize: 14 }}>📋</span>
-              <span>{questionCount} questions in deck</span>
-            </div>
-
-            {/* Desktop-only: CTA */}
-            <div className="hidden lg:block lg:pt-1">
-              <StartCTA onClick={handleCTA} />
-            </div>
           </aside>
 
-          {/* ── Main / right column ── */}
+          {/* ── Main column ── */}
           <main className="animate-slide-up" style={{ animationDelay: "0.12s" }}>
-            <div className="mx-auto flex w-full flex-col gap-3 md:gap-4 lg:max-w-none lg:gap-5">
+            <div className="mx-auto flex w-full flex-col gap-3 md:gap-4">
 
               {/* Mobile-only: question count */}
               <div className="flex items-center justify-center gap-1.5 text-[13px] text-[#B0ABC8] lg:hidden">
@@ -236,16 +186,21 @@ export default function LandingScreen({ onModeChosen }: Props) {
                 </div>
               </div>
 
-              {/* Desktop-only: live question preview */}
-              <DesktopQuestionPreview question={previewQuestion} />
-
-              {/* Mobile-only: CTA */}
-              <div className="mb-8 pt-2 md:pb-4 lg:hidden">
+              {/* CTA */}
+              <div className="mb-8 pt-2 md:pb-4">
                 <StartCTA onClick={handleCTA} className="mx-auto" />
               </div>
             </div>
           </main>
         </div>
+      </div>
+
+      {/* ── Desktop (≥1024px): hero-first redesign in an isolated, desktop-only
+           component. Mounted in the DOM but visually shown only at lg; all of
+           its side effects are additionally gated behind a 1024px matchMedia
+           check so mobile/tablet ship zero new behaviour. ── */}
+      <div className="hidden lg:block">
+        <DesktopLanding onStart={onModeChosen} />
       </div>
     </div>
   );

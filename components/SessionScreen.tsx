@@ -191,9 +191,26 @@ export default function SessionScreen({ session, onEnd, onBack }: Props) {
             <div
               className="mt-3 flex items-center justify-center gap-3 md:mt-4"
             >
-              <span style={{ fontSize: 13, color: "#B0ABC8" }}>
+              {/* Mobile/tablet: tap hint */}
+              <span className="lg:hidden" style={{ fontSize: 13, color: "#B0ABC8" }}>
                 <span style={{ marginRight: 4 }}>👆</span>
                 Tap card to deep dive
+              </span>
+              {/* Desktop: keyboard hint */}
+              <span className="hidden lg:inline-flex items-center gap-1.5" style={{ fontSize: 13, color: "#B0ABC8" }}>
+                <kbd style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: 22, height: 20, borderRadius: 5, fontSize: 11, fontWeight: 600,
+                  background: "#F0EEF8", border: "1px solid rgba(200,195,230,0.7)",
+                  color: "#8B87A8", lineHeight: 1,
+                }}>←</kbd>
+                <kbd style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: 22, height: 20, borderRadius: 5, fontSize: 11, fontWeight: 600,
+                  background: "#F0EEF8", border: "1px solid rgba(200,195,230,0.7)",
+                  color: "#8B87A8", lineHeight: 1,
+                }}>→</kbd>
+                <span>to navigate · click card to deep dive</span>
               </span>
               <span aria-hidden style={{ width: 3, height: 3, borderRadius: 3, background: "#D6D1E7" }} />
               <button
@@ -265,7 +282,7 @@ export default function SessionScreen({ session, onEnd, onBack }: Props) {
             </button>
           </div>
 
-          <p className="text-center text-[0.6875rem] mt-2.5" style={{ color: "var(--kw-muted)" }}>
+          <p className="text-center text-[0.6875rem] mt-2.5 lg:hidden" style={{ color: "var(--kw-muted)" }}>
             ← previous · → next · swipe or tap card for deep dive
           </p>
         </div>

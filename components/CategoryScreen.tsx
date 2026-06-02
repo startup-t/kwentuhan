@@ -108,85 +108,154 @@ function GroupBrowser({ onChosen }: { onChosen: (cat: string | null) => void }) 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
 
-      {/* Swipeable hero card */}
-      <div
-        className="flex-1 flex flex-col items-center justify-center px-5 py-2 md:px-6 md:py-4"
-        onTouchStart={e => { touchX.current = e.touches[0].clientX; }}
-        onTouchEnd={e => {
-          if (touchX.current === null) return;
-          const d = touchX.current - e.changedTouches[0].clientX;
-          if (d >  50 && idx < allKeys.length - 1) setIdx(i => i + 1);
-          if (d < -50 && idx > 0)                  setIdx(i => i - 1);
-          touchX.current = null;
-        }}
-      >
-        <div
-          key={idx}
-          className="kw-card card-enter flex w-full max-w-sm flex-col items-center gap-4 px-8 py-9 text-center md:max-w-md md:gap-6 md:px-10 md:py-10"
-        >
-          {/* Cluster / age badges */}
-          <div className="flex items-center gap-2 h-6">
-            {meta && (
-              <span className="text-[0.7rem] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
-                    style={{ color: clr.accent, background: clr.bg }}>
-                {meta.cluster}
-              </span>
-            )}
-            {meta?.ageGated && (
-              <span className="text-[0.7rem] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
-                    style={{ color:"#E8527A", background:"#FFECF1" }}>
-                18+
-              </span>
-            )}
-          </div>
+      {/* ── Desktop: category grid (lg+) ── */}
+      <div className="hidden lg:flex lg:flex-1 lg:flex-col lg:gap-6 lg:py-6">
+        <div className="grid grid-cols-3 gap-3">
+          {allKeys.map((key) => {
+            const m = key ? cats[key] : null;
+            const c = getQuestionCount("group", key);
+            const cl = m?.cluster ?? "other";
+            const clrItem = CLUSTER_COLOR[cl] ?? CLUSTER_COLOR.other;
+            return (
+              <button
+                key={key ?? "random"}
+                onClick={() => onChosen(key)}
+                className="kw-card kw-card-hover flex flex-col gap-3 p-5 text-left transition-all duration-200"
+              >
+                {/* Badges */}
+                <div className="flex items-center gap-2 min-h-[22px]">
+                  {m && (
+                    <span
+                      className="text-[0.65rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
+                      style={{ color: clrItem.accent, background: clrItem.bg }}
+                    >
+                      {m.cluster}
+                    </span>
+                  )}
+                  {m?.ageGated && (
+                    <span
+                      className="text-[0.65rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
+                      style={{ color: "#E8527A", background: "#FFECF1" }}
+                    >
+                      18+
+                    </span>
+                  )}
+                </div>
 
-          <span className="text-6xl leading-none select-none animate-slide-up-sm">
-            {catKey === null ? "🎲" : meta?.emoji}
-          </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl leading-none select-none">
+                    {key === null ? "🎲" : m?.emoji}
+                  </span>
+                  <div className="min-w-0">
+                    <p
+                      className="font-bold text-[1rem] leading-tight truncate"
+                      style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "var(--kw-text)" }}
+                    >
+                      {key === null ? "Random" : m?.label}
+                    </p>
+                    <p className="mt-0.5 text-xs leading-snug line-clamp-2" style={{ color: "var(--kw-subtext)" }}>
+                      {key === null ? "All categories, shuffled." : m?.tagline}
+                    </p>
+                  </div>
+                </div>
 
-          <div>
-            <h2 className="text-[1.875rem] font-black leading-tight md:text-[2.125rem]"
-                style={{ fontFamily:"var(--font-playfair), Georgia, serif", color:"var(--kw-text)" }}>
-              {catKey === null ? "Random" : meta?.label}
-            </h2>
-            <p className="mt-2 text-[0.9375rem] leading-relaxed md:text-base" style={{ color:"var(--kw-subtext)" }}>
-              {catKey === null ? "All categories, random order." : meta?.tagline}
-            </p>
-          </div>
-
-          <p className="text-sm font-medium" style={{ color:"var(--kw-muted)" }}>
-            📚 {count} questions
-          </p>
-
-          <button
-            onClick={() => onChosen(catKey)}
-            className="btn-primary w-full py-[0.9375rem] text-[0.9375rem] mt-1"
-            style={meta && !meta.ageGated ? {
-              background:`linear-gradient(135deg,${clr.accent}DD,${clr.accent}AA)`,
-              boxShadow:`0 4px 20px ${clr.accent}40`,
-            } : {}}
-          >
-            {catKey === null ? "✨  Start Random" : `Start — ${meta?.label}`}
-          </button>
+                <div className="flex items-center justify-between mt-auto pt-1">
+                  <span className="text-xs" style={{ color: "var(--kw-muted)" }}>📚 {c} questions</span>
+                  <span className="text-xs font-semibold flex items-center gap-1" style={{ color: "var(--kw-accent)" }}>
+                    Start
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6h8M6 3l3 3-3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Dot pager */}
-      <div className="flex justify-center gap-1.5 py-3">
-        {allKeys.map((_, i) => (
-          <button key={i} onClick={() => setIdx(i)}
-                  className="rounded-full transition-all duration-200"
-                  style={{
-                    width:  i === idx ? 20 : 6, height: 6,
-                    background: i === idx ? "var(--kw-accent)" : "var(--kw-border)",
-                  }} />
-        ))}
-      </div>
+      {/* ── Mobile/tablet: swipeable hero card (below lg) ── */}
+      <div className="lg:hidden flex-1 flex flex-col">
+        {/* Swipeable hero card */}
+        <div
+          className="flex-1 flex flex-col items-center justify-center px-5 py-2 md:px-6 md:py-4"
+          onTouchStart={e => { touchX.current = e.touches[0].clientX; }}
+          onTouchEnd={e => {
+            if (touchX.current === null) return;
+            const d = touchX.current - e.changedTouches[0].clientX;
+            if (d >  50 && idx < allKeys.length - 1) setIdx(i => i + 1);
+            if (d < -50 && idx > 0)                  setIdx(i => i - 1);
+            touchX.current = null;
+          }}
+        >
+          <div
+            key={idx}
+            className="kw-card card-enter flex w-full max-w-sm flex-col items-center gap-4 px-8 py-9 text-center md:max-w-md md:gap-6 md:px-10 md:py-10"
+          >
+            {/* Cluster / age badges */}
+            <div className="flex items-center gap-2 h-6">
+              {meta && (
+                <span className="text-[0.7rem] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                      style={{ color: clr.accent, background: clr.bg }}>
+                  {meta.cluster}
+                </span>
+              )}
+              {meta?.ageGated && (
+                <span className="text-[0.7rem] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                      style={{ color:"#E8527A", background:"#FFECF1" }}>
+                  18+
+                </span>
+              )}
+            </div>
 
-      <p className="text-center text-[0.7rem] pb-4 flex items-center justify-center gap-2"
-         style={{ color:"var(--kw-muted)" }}>
-        <span>←</span><span>swipe to browse</span><span>→</span>
-      </p>
+            <span className="text-6xl leading-none select-none animate-slide-up-sm">
+              {catKey === null ? "🎲" : meta?.emoji}
+            </span>
+
+            <div>
+              <h2 className="text-[1.875rem] font-black leading-tight md:text-[2.125rem]"
+                  style={{ fontFamily:"var(--font-playfair), Georgia, serif", color:"var(--kw-text)" }}>
+                {catKey === null ? "Random" : meta?.label}
+              </h2>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed md:text-base" style={{ color:"var(--kw-subtext)" }}>
+                {catKey === null ? "All categories, random order." : meta?.tagline}
+              </p>
+            </div>
+
+            <p className="text-sm font-medium" style={{ color:"var(--kw-muted)" }}>
+              📚 {count} questions
+            </p>
+
+            <button
+              onClick={() => onChosen(catKey)}
+              className="btn-primary w-full py-[0.9375rem] text-[0.9375rem] mt-1"
+              style={meta && !meta.ageGated ? {
+                background:`linear-gradient(135deg,${clr.accent}DD,${clr.accent}AA)`,
+                boxShadow:`0 4px 20px ${clr.accent}40`,
+              } : {}}
+            >
+              {catKey === null ? "✨  Start Random" : `Start — ${meta?.label}`}
+            </button>
+          </div>
+        </div>
+
+        {/* Dot pager */}
+        <div className="flex justify-center gap-1.5 py-3">
+          {allKeys.map((_, i) => (
+            <button key={i} onClick={() => setIdx(i)}
+                    className="rounded-full transition-all duration-200"
+                    style={{
+                      width:  i === idx ? 20 : 6, height: 6,
+                      background: i === idx ? "var(--kw-accent)" : "var(--kw-border)",
+                    }} />
+          ))}
+        </div>
+
+        <p className="text-center text-[0.7rem] pb-4 flex items-center justify-center gap-2"
+           style={{ color:"var(--kw-muted)" }}>
+          <span>←</span><span>swipe to browse</span><span>→</span>
+        </p>
+      </div>
     </div>
   );
 }

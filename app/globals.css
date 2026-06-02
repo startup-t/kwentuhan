@@ -394,6 +394,22 @@ body { min-height: 100dvh; overflow-x: hidden; }
 }
 
 /* ══════════════════════════════════════════════
+   DESKTOP LAYOUT — scoped to lg+
+══════════════════════════════════════════════ */
+
+/* Landing page 2-col grid: prevent flex-stretch and center vertically.
+   Applied only at desktop breakpoint so mobile is completely unaffected.
+   Using a named class instead of Tailwind JIT to guarantee CSS generation. */
+@media (min-width: 1024px) {
+  .kw-landing-grid {
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+}
+
+/* ══════════════════════════════════════════════
    DESKTOP ANIMATIONS — scoped to lg+
 ══════════════════════════════════════════════ */
 @media (min-width: 1024px) {
