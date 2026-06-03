@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * DesktopLanding — the ≥1024px "card player" landing experience.
+ * DesktopLanding — the ≥1024px "conversation game" landing experience.
  *
  * DESKTOP-ONLY and SELF-CONTAINED. Rendered inside a `hidden lg:block`
  * wrapper AND guards every side effect behind a `min-width:1024px` matchMedia
@@ -9,15 +9,15 @@
  * behavioural change. The mobile experience lives entirely in LandingScreen.
  *
  * Layout — one balanced "player" + a lean discovery rail:
- *   LEFT  — a single hero card that owns everything about the current
- *           question: metadata (type · mood · ~time) + favorite/share on top,
- *           the centered question with its category beneath, and a footer
- *           control bar (Previous · progress + counter · Next). One shortcut
- *           legend sits under the card.
- *   RIGHT — CTA, then Session (deck fact + Shuffle), Discover (mini cards),
- *           Categories (compact pills). Mode toggle lives in the top header.
+ *   LEFT  — a single hero card that owns the current question: metadata
+ *           (type · mood · ~time) + favorite/share on top, the centered
+ *           question with its category + a rotating conversation cue beneath,
+ *           and a footer control bar (Previous · progress + counter · Next).
+ *   RIGHT — context-aware CTA, then Session (live context), Discover (quieter
+ *           mini cards), Categories (compact pills). Mode toggle in header.
  *
- * All "trivia" is derived from REAL deck data only — no fabricated user stats.
+ * All "trivia"/cues are derived from REAL deck data only — no fabricated user
+ * stats, no streaks, points, or badges.
  */
 
 import Image from "next/image";
@@ -47,6 +47,14 @@ const LEVEL_META: Record<Level, { mood: string; minutes: string }> = {
   wild:  { mood: "Daring",     minutes: "~3 min" },
 };
 
+/** Conversation cues — one rotates in per question, derived from level/mode. */
+const CUES: Record<string, string[]> = {
+  light: ["🎉 Good icebreaker", "💭 Great for groups", "😄 Easy opener"],
+  deep:  ["🗣️ Take turns answering", "💭 Everyone answers before moving on", "🌙 Sparks reflection"],
+  wild:  ["😂 Expect funny stories", "🔥 Usually sparks debate", "🌶️ Story-sharing question"],
+  solo:  ["✍️ For self-reflection", "🪞 Just for you", "🌱 A quiet check-in"],
+};
+
 /** Curated, one-click conversation starters. Map to real (mode, category, level). */
 type Discover = { key: string; emoji: string; label: string; desc: string; mode: Mode; category: string | null; level?: Level };
 const DISCOVER: Discover[] = [
@@ -66,6 +74,14 @@ function shuffle<T>(arr: T[]): T[] {
   return out;
 }
 
+/** Deterministic pick so a cue is stable per question but varies across the deck. */
+function pick<T>(arr: T[], seed: string | number): T {
+  const s = String(seed);
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return arr[h % arr.length];
+}
+
 export default function DesktopLanding({ onStart }: Props) {
   const [isDesktop, setIsDesktop] = useState(false);
   const [mode, setMode] = useState<Mode>("group");
@@ -75,6 +91,7 @@ export default function DesktopLanding({ onStart }: Props) {
   const [deck, setDeck] = useState<Question[]>([]);
   const [idx, setIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
+  const [viewed, setViewed] = useState(0); // session browsing count (micro-delight + CTA context)
 
   const [favs, setFavs] = useState<Set<string>>(new Set());
   const [showMore, setShowMore] = useState(false);
@@ -110,21 +127,25 @@ export default function DesktopLanding({ onStart }: Props) {
   const pos = total ? (idx % total) + 1 : 0;
   const current = total ? deck[idx % total] : null;
   const pct = total ? Math.round((pos / total) * 100) : 0;
+  const remaining = total ? total - pos : 0;
 
   const next = useCallback(() => {
     setIdx((i) => (total ? (i + 1) % total : 0));
     setAnimKey((k) => k + 1);
+    setViewed((v) => v + 1);
   }, [total]);
 
   const prev = useCallback(() => {
     setIdx((i) => (total ? (i - 1 + total) % total : 0));
     setAnimKey((k) => k + 1);
+    setViewed((v) => v + 1);
   }, [total]);
 
   const randomPick = useCallback(() => {
     if (!total) return;
     setIdx(Math.floor(Math.random() * total));
     setAnimKey((k) => k + 1);
+    setViewed((v) => v + 1);
   }, [total]);
 
   /* ── Keyboard shortcuts (desktop only, paused while sharing) ──
@@ -174,37 +195,50 @@ export default function DesktopLanding({ onStart }: Props) {
   const meta = current ? (LEVEL_META[current.level] ?? LEVEL_META.light) : LEVEL_META.light;
   const isFav = current ? favs.has(String(current.id)) : false;
 
+  /* Rotating conversation cue for the current question (metadata-derived). */
+  const cue = useMemo(() => {
+    if (!current) return null;
+    const pool = mode === "solo" ? CUES.solo : (CUES[current.level] ?? CUES.light);
+    return pick(pool, current.id);
+  }, [current, mode]);
+
+  /* One subtle micro-delight line, only after the user starts browsing. */
+  const microMsg = useMemo(() => {
+    if (viewed < 1) return null;
+    if (viewed >= 6) return `🎉 You've explored ${viewed} questions`;
+    if (current && (current.level === "deep" || current.level === "wild")) return "🔥 Getting deeper";
+    return "💜 Keep the conversation going";
+  }, [viewed, current]);
+
   const activeDiscover = useMemo(
     () => DISCOVER.find((d) => d.mode === mode && d.category === category && d.level === level)?.key ?? null,
     [mode, category, level],
   );
 
-  /* Real, non-fabricated deck trivia derived from the loaded pool. */
-  const deckFact = useMemo(() => {
-    if (!total) return null;
-    const catCount = new Set(deck.map((q) => q.category)).size;
-    const wild = deck.filter((q) => q.level === "wild").length;
-    if (catCount > 1) return `📚 ${total} questions across ${catCount} categories`;
-    if (wild > 0) return `🔥 ${wild} bold prompts in this deck`;
-    return `💬 ${total} questions ready to go`;
-  }, [deck, total]);
+  const deckLabel = category
+    ? (cats[category]?.label ?? category)
+    : level
+      ? `${level[0].toUpperCase()}${level.slice(1)} mix`
+      : "Random · all categories";
+
+  const ctaLabel = viewed >= 1 ? "Start with This Deck" : "Start a Conversation";
 
   return (
-    <div className="flex min-h-dvh w-full justify-center px-10 py-6 2xl:px-16">
+    <div className="flex min-h-dvh w-full justify-center px-10 py-5 2xl:px-16">
       <div className="flex w-full flex-col" style={{ maxWidth: 1500 }}>
 
-        {/* ── Top header bar: brand (left) + mode toggle (right) ── */}
+        {/* ── Compact top header: brand (left) + mode toggle (right) ── */}
         <header className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Kwentuhan Logo" width={44} height={44} priority className="h-11 w-11" />
-            <div>
+          <div className="flex items-center gap-2.5">
+            <Image src="/logo.png" alt="Kwentuhan Logo" width={40} height={40} priority className="h-10 w-10" />
+            <div className="flex items-baseline gap-2.5">
               <h1
-                className="text-[1.6rem] leading-none"
+                className="text-[1.5rem] leading-none"
                 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontWeight: 900, color: "#1A1730", letterSpacing: "-0.02em" }}
               >
                 kwentuhan
               </h1>
-              <p className="mt-1 text-[13px]" style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#8B87A8" }}>
+              <p className="hidden text-[12.5px] xl:block" style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: "#8B87A8" }}>
                 usapang totoo, kasama mo.
               </p>
             </div>
@@ -225,7 +259,7 @@ export default function DesktopLanding({ onStart }: Props) {
                   role="tab"
                   aria-selected={active}
                   onClick={() => switchMode(m)}
-                  className="h-9 cursor-pointer rounded-full px-5 text-[13px] font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7B5EE8]"
+                  className="h-8 cursor-pointer rounded-full px-5 text-[13px] font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7B5EE8]"
                   style={
                     active
                       ? { background: "linear-gradient(135deg,#7B5EE8 0%,#5B3FD0 100%)", color: "#fff", boxShadow: "0 4px 14px rgba(108,92,231,0.32)" }
@@ -241,7 +275,7 @@ export default function DesktopLanding({ onStart }: Props) {
 
         {/* ── Two-column layout: hero player (left) + discovery rail (right) ── */}
         <div
-          className="mt-5 flex-1"
+          className="mt-4 flex-1"
           style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 360px", gap: 28, alignItems: "stretch" }}
         >
 
@@ -255,7 +289,7 @@ export default function DesktopLanding({ onStart }: Props) {
                 boxShadow: "0 20px 64px rgba(108,92,231,0.16), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)",
               }}
             >
-              <div className="flex w-full flex-col p-10" style={{ minHeight: "60vh" }}>
+              <div className="flex w-full flex-col p-10" style={{ minHeight: "58vh" }}>
 
                 {/* Top: metadata (left) + favorite / share (right) */}
                 <div className="flex items-center justify-between gap-4">
@@ -298,8 +332,8 @@ export default function DesktopLanding({ onStart }: Props) {
                   </div>
                 </div>
 
-                {/* Center: question (hero) + its category beneath */}
-                <div className="flex flex-1 flex-col items-center justify-center gap-5 py-8">
+                {/* Center: question (hero) + category + conversation cue beneath */}
+                <div className="flex flex-1 flex-col items-center justify-center gap-4 py-6">
                   {current ? (
                     <>
                       <p
@@ -316,13 +350,20 @@ export default function DesktopLanding({ onStart }: Props) {
                       >
                         {current.hook}
                       </p>
-                      <span
-                        className="inline-flex items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold"
-                        style={{ height: 30, background: "rgba(255,255,255,0.8)", color: "#6B6890", border: "1px solid rgba(200,195,230,0.5)" }}
-                      >
-                        <span style={{ fontSize: 14, lineHeight: 1 }}>{current.categoryEmoji}</span>
-                        <span>{current.categoryLabel}</span>
-                      </span>
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full px-3.5 text-[13px] font-semibold"
+                          style={{ height: 30, background: "rgba(255,255,255,0.8)", color: "#6B6890", border: "1px solid rgba(200,195,230,0.5)" }}
+                        >
+                          <span style={{ fontSize: 14, lineHeight: 1 }}>{current.categoryEmoji}</span>
+                          <span>{current.categoryLabel}</span>
+                        </span>
+                        {cue && (
+                          <span key={`cue-${current.id}`} className="animate-scale-in text-[13px]" style={{ color: "#9B97BB" }}>
+                            {cue}
+                          </span>
+                        )}
+                      </div>
                     </>
                   ) : (
                     <p className="text-center text-[15px]" style={{ color: "#8B87A8" }}>Shuffling your deck…</p>
@@ -334,7 +375,7 @@ export default function DesktopLanding({ onStart }: Props) {
                   <NavButton dir="prev" label="Previous" onClick={prev} disabled={!total} />
 
                   <div className="flex flex-1 flex-col items-center gap-2">
-                    <span className="text-[13px] font-semibold" style={{ color: "#6B6890" }}>
+                    <span className="text-[13.5px] font-bold" style={{ color: "#4A4668" }}>
                       {total ? `Question ${pos} of ${total}` : "Loading deck…"}
                     </span>
                     <div
@@ -343,7 +384,7 @@ export default function DesktopLanding({ onStart }: Props) {
                       aria-valuemin={0}
                       aria-valuemax={total}
                       className="w-full overflow-hidden rounded-full"
-                      style={{ height: 5, background: "rgba(108,92,231,0.14)" }}
+                      style={{ height: 8, background: "rgba(108,92,231,0.14)", boxShadow: "inset 0 1px 2px rgba(108,92,231,0.10)" }}
                     >
                       <div
                         style={{
@@ -351,7 +392,8 @@ export default function DesktopLanding({ onStart }: Props) {
                           width: `${pct}%`,
                           background: "linear-gradient(90deg,#7B5EE8 0%,#E8527A 100%)",
                           borderRadius: 999,
-                          transition: "width 0.4s cubic-bezier(0.34,1.2,0.64,1)",
+                          boxShadow: "0 1px 6px rgba(232,82,122,0.35)",
+                          transition: "width 0.45s cubic-bezier(0.34,1.2,0.64,1)",
                         }}
                       />
                     </div>
@@ -362,21 +404,31 @@ export default function DesktopLanding({ onStart }: Props) {
               </div>
             </div>
 
-            {/* Single shortcut legend */}
-            <p className="mt-3 text-center text-[12px]" style={{ color: "#9B97BB" }}>
-              <Kbd>←</Kbd> Previous · <Kbd>→</Kbd> Next · <Kbd>space</Kbd> Shuffle
-            </p>
+            {/* Shortcut legend + one subtle micro-delight line */}
+            <div className="mt-3 flex items-center justify-center gap-3 text-[12px]">
+              <span style={{ color: "#9B97BB" }}>
+                <Kbd>←</Kbd> Previous · <Kbd>→</Kbd> Next · <Kbd>space</Kbd> Shuffle
+              </span>
+              {microMsg && (
+                <>
+                  <Dot />
+                  <span key={`mm-${viewed}`} className="animate-scale-in font-medium" style={{ color: "#A78BD9" }}>
+                    {microMsg}
+                  </span>
+                </>
+              )}
+            </div>
           </section>
 
           {/* ── RIGHT: discovery rail ── */}
-          <aside className="flex flex-col gap-4">
+          <aside className="flex flex-col gap-3.5">
 
-            {/* Primary CTA — dominant, clearly labelled */}
+            {/* Context-aware primary CTA */}
             <button
               onClick={() => onStart(mode, category)}
-              aria-label="Start a Conversation with this deck"
+              aria-label={`${ctaLabel} — ${deckLabel}, ${mode === "group" ? "Group" : "Solo"} mode`}
               className="group inline-flex w-full cursor-pointer flex-col items-center justify-center gap-0.5 rounded-2xl px-6 text-white transition-all duration-200 active:scale-[0.98] lg:hover:-translate-y-0.5 lg:hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B3FD0]"
-              style={{ height: 66, background: "linear-gradient(135deg,#7B5EE8 0%,#5B3FD0 100%)", boxShadow: "0 12px 32px rgba(108,92,231,0.42)" }}
+              style={{ height: 64, background: "linear-gradient(135deg,#7B5EE8 0%,#5B3FD0 100%)", boxShadow: "0 12px 32px rgba(108,92,231,0.42)" }}
             >
               <span className="inline-flex items-center gap-2 text-[1.0625rem] font-semibold">
                 <svg width="19" height="19" viewBox="0 0 20 20" fill="none">
@@ -385,23 +437,26 @@ export default function DesktopLanding({ onStart }: Props) {
                   <path d="M2.5 14.5h2.75c2 0 3.5-2 5-4.5s3-4.5 5-4.5h2.25" stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M15.5 3.5l2 2-2 2M15.5 12.5l2 2-2 2" stroke="white" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span>Start a Conversation</span>
+                <span>{ctaLabel}</span>
               </span>
               <span className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.85)" }}>
-                Shuffles {total || "the"} {total ? "questions" : "deck"} · {mode === "group" ? "Group" : "Solo"} mode
+                {mode === "group" ? "Group" : "Solo"} mode · {total || "the"} {total ? "questions" : "deck"}
               </span>
             </button>
 
-            {/* ── Session panel — deck fact + shuffle (progress lives in the card) ── */}
+            {/* ── Session panel — live conversation context ── */}
             <Panel>
-              <PanelLabel>Session</PanelLabel>
-              {deckFact && (
-                <p className="text-[12.5px]" style={{ color: "#8B87A8" }}>{deckFact}</p>
-              )}
+              <PanelLabel>Current Session</PanelLabel>
+              <div className="flex flex-col gap-1.5">
+                <Stat label="Mode" value={mode === "group" ? "👥 Group Mode" : "👤 Solo Mode"} />
+                <Stat label="Question" value={total ? `${pos} of ${total}` : "…"} />
+                <Stat label="Current deck" value={deckLabel} />
+                <Stat label="Remaining" value={total ? `${remaining} ${remaining === 1 ? "question" : "questions"}` : "…"} />
+              </div>
               <button
                 onClick={randomPick}
                 disabled={!total}
-                className={`inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl text-[14px] font-semibold transition-all duration-200 ${total ? "cursor-pointer lg:hover:-translate-y-0.5" : "cursor-not-allowed opacity-50"}`}
+                className={`inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl text-[13.5px] font-semibold transition-all duration-200 ${total ? "cursor-pointer lg:hover:-translate-y-0.5" : "cursor-not-allowed opacity-50"}`}
                 style={{ background: "rgba(108,92,231,0.10)", color: "#5B3FD0", border: "1.5px solid rgba(108,92,231,0.22)" }}
               >
                 <span style={{ fontSize: 15 }}>🎲</span>
@@ -410,10 +465,10 @@ export default function DesktopLanding({ onStart }: Props) {
               </button>
             </Panel>
 
-            {/* ── Discover panel — visual mini cards ── */}
-            <Panel>
+            {/* ── Discover panel — quieter; the question stays the hero ── */}
+            <Panel muted>
               <PanelLabel>✨ Discover</PanelLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
                 {DISCOVER.map((d) => {
                   const active = activeDiscover === d.key;
                   return (
@@ -421,18 +476,18 @@ export default function DesktopLanding({ onStart }: Props) {
                       key={d.key}
                       onClick={() => applyDiscover(d)}
                       aria-pressed={active}
-                      className="flex cursor-pointer flex-col gap-1 rounded-2xl p-3 text-left transition-all duration-200 lg:hover:-translate-y-0.5"
+                      className="flex cursor-pointer flex-col gap-0.5 rounded-xl p-2.5 text-left transition-all duration-200 lg:hover:-translate-y-0.5"
                       style={
                         active
-                          ? { background: "linear-gradient(135deg,rgba(123,94,232,0.14),rgba(232,82,122,0.12))", border: "1.5px solid rgba(123,94,232,0.45)" }
-                          : { background: "#FFFFFF", border: "1.5px solid rgba(200,195,230,0.5)" }
+                          ? { background: "linear-gradient(135deg,rgba(123,94,232,0.13),rgba(232,82,122,0.11))", border: "1.5px solid rgba(123,94,232,0.4)" }
+                          : { background: "rgba(255,255,255,0.85)", border: "1px solid rgba(200,195,230,0.45)" }
                       }
                     >
-                      <span style={{ fontSize: 19, lineHeight: 1 }}>{d.emoji}</span>
-                      <span className="text-[13px] font-bold leading-tight" style={{ color: active ? "#5B3FD0" : "#3A3658" }}>
+                      <span style={{ fontSize: 16, lineHeight: 1.1 }}>{d.emoji}</span>
+                      <span className="text-[12.5px] font-bold leading-tight" style={{ color: active ? "#5B3FD0" : "#4A4668" }}>
                         {d.label}
                       </span>
-                      <span className="text-[11.5px] leading-snug" style={{ color: "#8B87A8" }}>{d.desc}</span>
+                      <span className="text-[11px] leading-snug" style={{ color: "#9B97BB" }}>{d.desc}</span>
                     </button>
                   );
                 })}
@@ -529,11 +584,24 @@ function Kbd({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Panel({ children }: { children: React.ReactNode }) {
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3 text-[13px]">
+      <span style={{ color: "#9B97BB" }}>{label}</span>
+      <span className="truncate text-right font-semibold" style={{ color: "#4A4668" }}>{value}</span>
+    </div>
+  );
+}
+
+function Panel({ children, muted }: { children: React.ReactNode; muted?: boolean }) {
   return (
     <div
       className="flex flex-col gap-3 rounded-3xl p-4"
-      style={{ background: "rgba(255,255,255,0.72)", border: "1.5px solid rgba(200,195,230,0.5)", boxShadow: "0 4px 22px rgba(108,92,231,0.06)" }}
+      style={{
+        background: muted ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.72)",
+        border: "1.5px solid rgba(200,195,230,0.5)",
+        boxShadow: muted ? "0 2px 14px rgba(108,92,231,0.04)" : "0 4px 22px rgba(108,92,231,0.06)",
+      }}
     >
       {children}
     </div>
